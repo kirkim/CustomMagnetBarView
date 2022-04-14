@@ -19,6 +19,16 @@
 		FE49395A28057F9E0035820F /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE49395928057F9E0035820F /* CustomTitleView.swift */; };
 		FE49395C280583C30035820F /* MagnetBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE49395B280583C30035820F /* MagnetBarView.swift */; };
 		FE49395F280585610035820F /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = FE49395E280585610035820F /* RxDataSources */; };
+		FE5231F82807AC4600200F02 /* PresentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231F72807AC4600200F02 /* PresentHelper.swift */; };
+		FE5231FB2807CBD900200F02 /* MagnetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231FA2807CBD900200F02 /* MagnetHeaderView.swift */; };
+		FE5231FD2807CE1100200F02 /* MagnetHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */; };
+		FE5232002807CE4F00200F02 /* MagnetBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231FF2807CE4F00200F02 /* MagnetBarViewModel.swift */; };
+		FE5232022807D48500200F02 /* MagnetNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5232012807D48500200F02 /* MagnetNavigationBar.swift */; };
+		FE5232042807D4CB00200F02 /* MagnetNavigationBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5232032807D4CB00200F02 /* MagnetNavigationBarViewModel.swift */; };
+		FE7077BD2806FB73006F7980 /* TestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7077BC2806FB73006F7980 /* TestCell.swift */; };
+		FE7077BF2806FF02006F7980 /* RxStaticSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7077BE2806FF02006F7980 /* RxStaticSectionData.swift */; };
+		FE7077C22806FF99006F7980 /* Reusable in Frameworks */ = {isa = PBXBuildFile; productRef = FE7077C12806FF99006F7980 /* Reusable */; };
+		FE7077C6280702AB006F7980 /* SimpleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7077C5280702AB006F7980 /* SimpleTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +41,15 @@
 		FE493949280564EC0035820F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE49395928057F9E0035820F /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		FE49395B280583C30035820F /* MagnetBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetBarView.swift; sourceTree = "<group>"; };
+		FE5231F72807AC4600200F02 /* PresentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentHelper.swift; sourceTree = "<group>"; };
+		FE5231FA2807CBD900200F02 /* MagnetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetHeaderView.swift; sourceTree = "<group>"; };
+		FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetHeaderViewModel.swift; sourceTree = "<group>"; };
+		FE5231FF2807CE4F00200F02 /* MagnetBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetBarViewModel.swift; sourceTree = "<group>"; };
+		FE5232012807D48500200F02 /* MagnetNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetNavigationBar.swift; sourceTree = "<group>"; };
+		FE5232032807D4CB00200F02 /* MagnetNavigationBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetNavigationBarViewModel.swift; sourceTree = "<group>"; };
+		FE7077BC2806FB73006F7980 /* TestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCell.swift; sourceTree = "<group>"; };
+		FE7077BE2806FF02006F7980 /* RxStaticSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxStaticSectionData.swift; sourceTree = "<group>"; };
+		FE7077C5280702AB006F7980 /* SimpleTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +62,7 @@
 				FE493953280565370035820F /* RxRelay in Frameworks */,
 				FE49395F280585610035820F /* RxDataSources in Frameworks */,
 				FE493951280565370035820F /* RxCocoa in Frameworks */,
+				FE7077C22806FF99006F7980 /* Reusable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +88,7 @@
 		FE49393A280564EB0035820F /* MagnetBarView */ = {
 			isa = PBXGroup;
 			children = (
+				FE7077C4280702A1006F7980 /* TestZone */,
 				FE49393B280564EB0035820F /* AppDelegate.swift */,
 				FE49393D280564EB0035820F /* SceneDelegate.swift */,
 				FE49393F280564EB0035820F /* ViewController.swift */,
@@ -75,9 +96,65 @@
 				FE493946280564EC0035820F /* LaunchScreen.storyboard */,
 				FE493949280564EC0035820F /* Info.plist */,
 				FE49395928057F9E0035820F /* CustomTitleView.swift */,
-				FE49395B280583C30035820F /* MagnetBarView.swift */,
+				FE7077C32807028E006F7980 /* MagnetBarView */,
+				FE5231F72807AC4600200F02 /* PresentHelper.swift */,
 			);
 			path = MagnetBarView;
+			sourceTree = "<group>";
+		};
+		FE5231F92807CBBE00200F02 /* SubComponent */ = {
+			isa = PBXGroup;
+			children = (
+				FE5232062807E10C00200F02 /* MainHeader */,
+				FE5232052807E0FA00200F02 /* NavigationBar */,
+			);
+			path = SubComponent;
+			sourceTree = "<group>";
+		};
+		FE5231FE2807CE4000200F02 /* Present */ = {
+			isa = PBXGroup;
+			children = (
+				FE49395B280583C30035820F /* MagnetBarView.swift */,
+				FE5231FF2807CE4F00200F02 /* MagnetBarViewModel.swift */,
+				FE5231F92807CBBE00200F02 /* SubComponent */,
+			);
+			path = Present;
+			sourceTree = "<group>";
+		};
+		FE5232052807E0FA00200F02 /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				FE5232012807D48500200F02 /* MagnetNavigationBar.swift */,
+				FE5232032807D4CB00200F02 /* MagnetNavigationBarViewModel.swift */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		FE5232062807E10C00200F02 /* MainHeader */ = {
+			isa = PBXGroup;
+			children = (
+				FE5231FA2807CBD900200F02 /* MagnetHeaderView.swift */,
+				FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */,
+			);
+			path = MainHeader;
+			sourceTree = "<group>";
+		};
+		FE7077C32807028E006F7980 /* MagnetBarView */ = {
+			isa = PBXGroup;
+			children = (
+				FE5231FE2807CE4000200F02 /* Present */,
+				FE7077BC2806FB73006F7980 /* TestCell.swift */,
+				FE7077BE2806FF02006F7980 /* RxStaticSectionData.swift */,
+			);
+			path = MagnetBarView;
+			sourceTree = "<group>";
+		};
+		FE7077C4280702A1006F7980 /* TestZone */ = {
+			isa = PBXGroup;
+			children = (
+				FE7077C5280702AB006F7980 /* SimpleTableView.swift */,
+			);
+			path = TestZone;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,6 +179,7 @@
 				FE493954280565370035820F /* RxSwift */,
 				FE4939572805654D0035820F /* SnapKit */,
 				FE49395E280585610035820F /* RxDataSources */,
+				FE7077C12806FF99006F7980 /* Reusable */,
 			);
 			productName = MagnetBarView;
 			productReference = FE493938280564EB0035820F /* MagnetBarView.app */;
@@ -135,6 +213,7 @@
 				FE49394F280565370035820F /* XCRemoteSwiftPackageReference "RxSwift" */,
 				FE4939562805654D0035820F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				FE49395D280585610035820F /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				FE7077C02806FF99006F7980 /* XCRemoteSwiftPackageReference "Reusable" */,
 			);
 			productRefGroup = FE493939280564EB0035820F /* Products */;
 			projectDirPath = "";
@@ -162,9 +241,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE5231FB2807CBD900200F02 /* MagnetHeaderView.swift in Sources */,
+				FE7077BF2806FF02006F7980 /* RxStaticSectionData.swift in Sources */,
 				FE493940280564EB0035820F /* ViewController.swift in Sources */,
+				FE7077BD2806FB73006F7980 /* TestCell.swift in Sources */,
+				FE5232002807CE4F00200F02 /* MagnetBarViewModel.swift in Sources */,
+				FE5232022807D48500200F02 /* MagnetNavigationBar.swift in Sources */,
 				FE49395C280583C30035820F /* MagnetBarView.swift in Sources */,
+				FE5231FD2807CE1100200F02 /* MagnetHeaderViewModel.swift in Sources */,
+				FE5231F82807AC4600200F02 /* PresentHelper.swift in Sources */,
 				FE49393C280564EB0035820F /* AppDelegate.swift in Sources */,
+				FE5232042807D4CB00200F02 /* MagnetNavigationBarViewModel.swift in Sources */,
+				FE7077C6280702AB006F7980 /* SimpleTableView.swift in Sources */,
 				FE49395A28057F9E0035820F /* CustomTitleView.swift in Sources */,
 				FE49393E280564EB0035820F /* SceneDelegate.swift in Sources */,
 			);
@@ -400,6 +488,14 @@
 				kind = branch;
 			};
 		};
+		FE7077C02806FF99006F7980 /* XCRemoteSwiftPackageReference "Reusable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AliSoftware/Reusable";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -427,6 +523,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE49395D280585610035820F /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		FE7077C12806FF99006F7980 /* Reusable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE7077C02806FF99006F7980 /* XCRemoteSwiftPackageReference "Reusable" */;
+			productName = Reusable;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
