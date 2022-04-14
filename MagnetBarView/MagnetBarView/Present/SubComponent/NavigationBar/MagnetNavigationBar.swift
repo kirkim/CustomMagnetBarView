@@ -12,7 +12,6 @@ import SnapKit
 
 class MagnetNavigationBar: UIView {
     private let disposeBag = DisposeBag()
-    let headerViewValue:CGFloat = 400
     let backButton = UIButton()
     let titleLabel = UILabel()
     let shareButton = UIButton()
@@ -31,12 +30,12 @@ class MagnetNavigationBar: UIView {
     func bind(_ viewModel: MagnetNavigationBarViewModel) {
         viewModel.transItem
             .emit { value in
-                let alpha = -value / self.headerViewValue
+                let alpha = -value / MagnetBarView.headerViewValue
                 self.titleLabel.textColor = .black.withAlphaComponent(alpha)
                 self.backButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.shareButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.likeButton.tintColor = UIColor(red: 1 + alpha, green: 1 - alpha, blue: 1 - alpha, alpha: 1)
-                
+                self.backgroundColor = UIColor(white: 1, alpha: alpha)
                 
             }
             .disposed(by: disposeBag)
@@ -64,22 +63,22 @@ class MagnetNavigationBar: UIView {
         }
         
         backButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.bottom.equalToSuperview().inset(10)
             $0.leading.equalToSuperview().offset(20)
         }
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(backButton.snp.trailing).offset(20)
-            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.bottom.equalToSuperview().inset(10)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         shareButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.bottom.equalToSuperview().inset(10)
             $0.trailing.equalTo(likeButton.snp.leading).inset(-20)
         }
     }

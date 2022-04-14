@@ -17,9 +17,8 @@ class MagnetHeaderView: UIView {
     var titleLabelX: CGFloat = 0
     var titleLabelY: CGFloat = 0
     var titleLabelXValue: CGFloat = 0
-    let titleLabelBottom: CGFloat = 80
+    let titleLabelBottom: CGFloat = 50
     let titleLabelLeading: CGFloat = 50
-    let headerViewValue:CGFloat = 400
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,20 +37,20 @@ class MagnetHeaderView: UIView {
 
         viewModel.movingItem
             .emit { value in
-                self.titleLabel.frame.origin.x = value <= 0 ? self.titleLabelX + value * self.titleLabelXValue/self.headerViewValue : self.titleLabelX
-                self.titleLabel.frame.origin.y = value <= 0 ? self.titleLabelY - value * self.titleLabelBottom/self.headerViewValue : self.titleLabelY
-                self.titleView.backgroundColor = .purple.withAlphaComponent(value / self.headerViewValue + 1)
-                self.titleLabel.textColor = .white.withAlphaComponent(value / self.headerViewValue + 1)
+                self.titleLabel.frame.origin.x = value <= 0 ? self.titleLabelX + value * self.titleLabelXValue/MagnetBarView.headerViewValue : self.titleLabelX
+                self.titleLabel.frame.origin.y = value <= 0 ? self.titleLabelY - value * self.titleLabelBottom/MagnetBarView.headerViewValue : self.titleLabelY
+                self.titleView.backgroundColor = .purple.withAlphaComponent(value / MagnetBarView.headerViewValue + 1)
+                self.titleLabel.textColor = .white.withAlphaComponent(value / MagnetBarView.headerViewValue + 1)
             }
             .disposed(by: disposeBag)
     }
     
     private func attribute() {
         titleLabel.text = "hello"
-        titleLabel.font = .systemFont(ofSize: 50)
+        titleLabel.font = .systemFont(ofSize: 40)
         titleLabel.textColor = .white
         
-        self.backgroundColor = .green
+        self.backgroundColor = .clear
         titleView.backgroundColor = .purple
     }
     
@@ -66,10 +65,12 @@ class MagnetHeaderView: UIView {
         }
         
         titleView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview().offset(30)
+            $0.trailing.equalToSuperview().inset(30)
             $0.bottom.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.top).inset(-20)
         }
+        
+//        banner.moveButtonLayout(bottom: 50, trailing: 30)
     }
 }

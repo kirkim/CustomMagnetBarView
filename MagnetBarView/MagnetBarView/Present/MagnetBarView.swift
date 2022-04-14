@@ -13,13 +13,13 @@ import RxDataSources
 import Reusable
 
 class MagnetBarView: UIViewController {
+    static let headerViewHeight:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth! * 8/13 + 70
+    static let headerViewValue: CGFloat = MagnetBarView.headerViewHeight - 100
     private let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     private let disposeBag = DisposeBag()
     private let mainHeaderView = MagnetHeaderView()
     private let mainNavigationBar = MagnetNavigationBar()
     private let headerBackgroundView = UIView()
-    private let headerViewHeight:CGFloat = 500
-    private var headerViewValue: CGFloat = 0
     let viewModel = MagnetBarViewModel()
     
     init() {
@@ -35,14 +35,7 @@ class MagnetBarView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        headerViewValue = headerViewHeight - 100
         self.navigationController?.navigationBar.isHidden = true
-//        let navigationBarAppearace = UINavigationBarAppearance()
-//        navigationBarAppearace.configureWithOpaqueBackground()
-//        navigationBarAppearace.backgroundColor = .clear
-//        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearace
-//        self.navigationController?.navigationBar.standardAppearance = navigationBarAppearace
-//        self.navigationController?.navigationBar.compactAppearance = navigationBarAppearace
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +54,7 @@ class MagnetBarView: UIViewController {
         let scrollEvent = self.tableView.rx.didScroll
             .map { _ -> CGFloat in
                 let originY = self.tableView.contentOffset.y
-                let value = originY <= self.headerViewValue ? -originY : -self.headerViewValue
+                let value = originY <= MagnetBarView.headerViewValue ? -originY : -MagnetBarView.headerViewValue
                 self.mainHeaderView.frame.origin.y = value
                 return value
             }
@@ -78,9 +71,11 @@ class MagnetBarView: UIViewController {
     }
     
     private func attribute() {
+        tableView.contentInsetAdjustmentBehavior = .never
         self.tableView.delegate = self
         self.tableView.backgroundColor = .gray
         self.tableView.register(cellType: TestCell.self)
+        self.tableView.register(cellType: BannerCell.self)
     }
     
     private func layout() {
@@ -91,27 +86,30 @@ class MagnetBarView: UIViewController {
         mainHeaderView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(headerViewHeight)
+            $0.height.equalTo(MagnetBarView.headerViewHeight)
         }
         
         tableView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
         
         mainNavigationBar.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(80)
         }
     }
     
     func dataSource() -> RxTableViewSectionedReloadDataSource<RxStaticSectionData> {
         return RxTableViewSectionedReloadDataSource<RxStaticSectionData>(
             configureCell: { dataSource, tableView, indexPath, item in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestCell
-                cell.setData(data: item)
-                return cell
+                if indexPath.section == 0 {
+                    let cell = tableView.dequeueReusableCell(for: indexPath, cellType: BannerCell.self)
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(for: indexPath, cellType: TestCell.self)
+                    cell.setData(data: item)
+                    return cell
+                }
             })
     }
 }
@@ -119,17 +117,32 @@ class MagnetBarView: UIViewController {
 extension MagnetBarView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section != 0) {
-            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
+            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0))
             header.backgroundColor = .orange
             return header
         } else {
-            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 500))
+            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0))
             header.backgroundColor = .green
-            return header
+            return nil
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return MagnetBarView.headerViewHeight - 70
+        }
         return 150
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return .leastNormalMagnitude
+        }
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude
+    }
 }
+
