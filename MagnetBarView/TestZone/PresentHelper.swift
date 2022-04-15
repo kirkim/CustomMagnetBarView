@@ -10,7 +10,7 @@ import UIKit
 class PresentHelper: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let vc = TestVC()
+        let vc = MagnetBarView()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

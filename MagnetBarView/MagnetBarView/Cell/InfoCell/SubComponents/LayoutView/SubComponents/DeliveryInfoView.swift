@@ -35,7 +35,7 @@ class DelieveryInfoView: UIView {
         self.section2.text = "최소주문"
         
         [section1, section2, deliveryPriceLabel, minPriceLabel].forEach {
-            $0.font = .systemFont(ofSize: 17, weight: .light)
+            $0.font = .systemFont(ofSize: 16, weight: .light)
             $0.textColor = .black
         }
     }

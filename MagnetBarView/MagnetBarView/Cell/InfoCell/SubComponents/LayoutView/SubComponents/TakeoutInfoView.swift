@@ -34,7 +34,7 @@ class TakeoutInfoView: UIView {
         self.section1.text = "매장주소"
         
         [section1, addressLabel, distanceLabel].forEach {
-            $0.font = .systemFont(ofSize: 17, weight: .light)
+            $0.font = .systemFont(ofSize: 16, weight: .light)
             $0.textColor = .black
         }
     }

@@ -17,13 +17,10 @@ class MagnetInfoNavBar: UIView {
     let takeoutButton = MagnetInfoButton(title: "포장 12-22분")
     let bottomSlide = UIView()
     
-    let viewModel = MagnetInfoNavBarViewModel()
-    
     init() {
         super.init(frame: CGRect.zero)
         attribute()
         layout()
-        bind(viewModel)
     }
     
     required init?(coder: NSCoder) {
@@ -32,11 +29,13 @@ class MagnetInfoNavBar: UIView {
     
     func bind(_ viewModel: MagnetInfoNavBarViewModel) {
         deliveryButton.rx.tapGesture()
+            .when(.recognized)
             .map { _ in MagnetInfoType.delivery }
             .bind(to: viewModel.tappedButton)
             .disposed(by: disposeBag)
         
         takeoutButton.rx.tapGesture()
+            .when(.recognized)
             .map { _ in MagnetInfoType.takeout }
             .bind(to: viewModel.tappedButton)
             .disposed(by: disposeBag)

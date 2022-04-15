@@ -7,15 +7,16 @@
 
 import UIKit
 import SnapKit
+import RxCocoa
+import RxSwift
 
 class TestVC: UIViewController {
-    let testView = MagnetInfoNavBar()
-    let testView2 = DelieveryInfoView()
-    let testView3 = TakeoutInfoView()
+    let testView = MagnetInfoView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setUI()
+//        testView.bind()
     }
     
     required init?(coder: NSCoder) {
@@ -25,23 +26,14 @@ class TestVC: UIViewController {
     private func setUI() {
         self.view.backgroundColor = .white
         
-        [testView, testView2, testView3].forEach {
+        [testView].forEach {
             self.view.addSubview($0)
         }
         
         testView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(50)
-            $0.leading.trailing.equalToSuperview()
-        }
-        
-        testView2.snp.makeConstraints {
-            $0.top.equalTo(self.testView.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview()
-        }
-        
-        testView3.snp.makeConstraints {
-            $0.top.equalTo(self.testView2.snp.bottom).offset(30)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
     }
 }
