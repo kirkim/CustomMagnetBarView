@@ -17,7 +17,7 @@ class MagnetHeaderView: UIView {
     var titleLabelX: CGFloat = 0
     var titleLabelY: CGFloat = 0
     var titleLabelXValue: CGFloat = 0
-    let titleLabelBottom: CGFloat = 50
+    let titleLabelBottom: CGFloat = 45
     let titleLabelLeading: CGFloat = 50
     
     override init(frame: CGRect) {
@@ -36,22 +36,24 @@ class MagnetHeaderView: UIView {
         titleLabelXValue = titleLabelX - titleLabelLeading
 
         viewModel.movingItem
-            .emit { value in
-                self.titleLabel.frame.origin.x = value <= 0 ? self.titleLabelX + value * self.titleLabelXValue/MagnetBarView.headerViewValue : self.titleLabelX
-                self.titleLabel.frame.origin.y = value <= 0 ? self.titleLabelY - value * self.titleLabelBottom/MagnetBarView.headerViewValue : self.titleLabelY
-                self.titleView.backgroundColor = .purple.withAlphaComponent(value / MagnetBarView.headerViewValue + 1)
-                self.titleLabel.textColor = .white.withAlphaComponent(value / MagnetBarView.headerViewValue + 1)
+            .emit { offset in
+                let headerDistance = MagnetBarView.headerMovingDistance
+                
+                self.titleLabel.frame.origin.x = offset <= 0 ? self.titleLabelX + offset * self.titleLabelXValue/headerDistance : self.titleLabelX
+                self.titleLabel.frame.origin.y = offset <= 0 ? self.titleLabelY - offset * self.titleLabelBottom/headerDistance : self.titleLabelY
+                self.titleView.backgroundColor = .white.withAlphaComponent(offset / headerDistance + 1)
+                self.titleLabel.textColor = .black.withAlphaComponent(offset / headerDistance + 1)
             }
             .disposed(by: disposeBag)
     }
     
     private func attribute() {
         titleLabel.text = "hello"
-        titleLabel.font = .systemFont(ofSize: 40)
-        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 35)
+        titleLabel.textColor = .black
         
         self.backgroundColor = .clear
-        titleView.backgroundColor = .purple
+        titleView.backgroundColor = .white
     }
     
     private func layout() {
@@ -70,7 +72,5 @@ class MagnetHeaderView: UIView {
             $0.bottom.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.top).inset(-20)
         }
-        
-//        banner.moveButtonLayout(bottom: 50, trailing: 30)
     }
 }

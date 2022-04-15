@@ -5,33 +5,29 @@
 //  Created by 김기림 on 2022/04/14.
 //
 
-import Foundation
+import UIKit
 import RxCocoa
+import RxSwift
 
 struct MagnetBarViewModel {
+    private let disposeBag = DisposeBag()
     let mainHeaderViewModel = MagnetHeaderViewModel()
     let mainNavigationBarViewModel = MagnetNavigationBarViewModel()
-    let data = [
-        RxStaticSectionData(header: "hello", items: [Sample(title: "hi1", description: "des1")]),
-        RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
-        ]),
-        RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
-        ]),
-        RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
-        ]),
-        RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
-        ])
-    ]
+    let mainListViewModel = MagnetListViewModel()
+    
+    // ChildViewModel -> ViewModel
+    let scrolled: Signal<CGFloat>
+    
+    init() {
+        mainListViewModel.scrollEvent
+            .bind(to: mainHeaderViewModel.scrolled)
+            .disposed(by: disposeBag)
+        
+        mainListViewModel.scrollEvent
+            .bind(to: mainNavigationBarViewModel.scrolled)
+            .disposed(by: disposeBag)
+        
+        scrolled = mainListViewModel.scrollEvent.asSignal()
+    }
+    
 }

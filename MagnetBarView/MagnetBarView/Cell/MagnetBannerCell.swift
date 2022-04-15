@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 import Reusable
 
-class BannerCell: UITableViewCell, Reusable {
+class MagnetBannerCell: UITableViewCell, Reusable {
     private let banner = BeminBannerView(
         data: BannerSources(
             bannerType: .basic,

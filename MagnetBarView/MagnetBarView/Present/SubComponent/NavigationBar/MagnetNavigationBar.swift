@@ -30,7 +30,7 @@ class MagnetNavigationBar: UIView {
     func bind(_ viewModel: MagnetNavigationBarViewModel) {
         viewModel.transItem
             .emit { value in
-                let alpha = -value / MagnetBarView.headerViewValue
+                let alpha = -value / MagnetBarView.headerMovingDistance
                 self.titleLabel.textColor = .black.withAlphaComponent(alpha)
                 self.backButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.shareButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
