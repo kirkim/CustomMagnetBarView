@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 import Reusable
 
-class TestCell: UICollectionViewCell, Reusable {
+class MagnetMenuCell: UICollectionViewCell, Reusable {
     private let titleLabel = UILabel()
     private let descriptionLabel1 = UILabel()
     private let descriptionLabel2 = UILabel()

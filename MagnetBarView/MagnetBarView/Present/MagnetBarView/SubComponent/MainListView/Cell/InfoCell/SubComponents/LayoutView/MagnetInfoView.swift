@@ -16,11 +16,10 @@ class MagnetInfoView: UIView {
     let infoContainer = UIView()
     let deliveryInfo = DelieveryInfoView()
     let takeoutInfo = TakeoutInfoView()
-    
+
     let reviewCollectionView = MagnetInfoCollectionView()
     
-    let navViewModel = MagnetInfoNavBarViewModel()
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     let windowWidth:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
     let leftMargin:CGFloat = 20
@@ -29,15 +28,19 @@ class MagnetInfoView: UIView {
         super.init(frame: CGRect.zero)
         attribute()
         layout()
-        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind() {
+    func bind(_ viewModel: MagnetInfoViewModel) {
+        let navViewModel = viewModel.navViewModel
+        let collectionViewModel = viewModel.infoCollectionViewModel
+        
         nav.bind(navViewModel)
+        reviewCollectionView.bind(collectionViewModel)
+        
         navViewModel.buttonChanged
             .emit { type in
                 switch type {
@@ -86,7 +89,8 @@ class MagnetInfoView: UIView {
         
         reviewCollectionView.snp.makeConstraints {
             $0.top.equalTo(infoContainer.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().offset(leftMargin)
+            $0.leading.equalToSuperview().offset(leftMargin)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(100)
         }
         

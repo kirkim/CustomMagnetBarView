@@ -15,22 +15,24 @@ struct MagnetBarViewModel {
     let mainNavigationBarViewModel: MagnetNavigationBarViewModel
     let mainListViewModel: MagnetListViewModel
     
-    // ChildViewModel -> ViewModel
-//    let scrolled: Signal<(CGFloat, CGFloat)>
+    // viewModel -> View
+    let presentVC = PublishRelay<UIViewController>()
     
     init() {
         self.mainNavigationBarViewModel = MagnetNavigationBarViewModel(mainTitle: "aaaaa")
         self.mainListViewModel = MagnetListViewModel(mainTitle: "aaaaa")
         
         mainListViewModel.scrollEvent
-            .bind(to: mainListViewModel.mainHeaderViewModel.scrolled)
+            .bind(to: mainListViewModel.bannerCellViewModel.scrolled)
             .disposed(by: disposeBag)
         
         mainListViewModel.scrollEvent
             .bind(to: mainNavigationBarViewModel.scrolled)
             .disposed(by: disposeBag)
         
-//        scrolled = mainListViewModel.scrollEvent.asSignal()
+        mainListViewModel.presentVC
+            .emit(to: presentVC)
+            .disposed(by: disposeBag)
     }
     
 }

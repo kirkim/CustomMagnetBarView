@@ -18,7 +18,7 @@ class MagnetHeaderView: UIView {
     var titleLabelX: CGFloat = 0
     var titleLabelY: CGFloat = 0
     let titleLabelBottom: CGFloat = 45
-    let titleLabelLeading: CGFloat = 55 // MagnetNavigationBar의 타이틀 라벨의 leading값보다 약간 여유 있게 둔다 (5 정도)
+    let titleLabelLeading: CGFloat = 55
     
     override init(frame: CGRect) {
         super.init(frame: frame)

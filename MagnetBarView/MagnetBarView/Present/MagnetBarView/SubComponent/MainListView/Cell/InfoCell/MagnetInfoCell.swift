@@ -22,6 +22,10 @@ class MagnetInfoCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func bind(_ viewModel: MagnetInfoViewModel) {
+        self.infoView.bind(viewModel)
+    }
+    
     private func attribute() {
         
     }

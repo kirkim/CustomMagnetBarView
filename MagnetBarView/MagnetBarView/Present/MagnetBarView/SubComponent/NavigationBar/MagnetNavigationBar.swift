@@ -35,7 +35,7 @@ class MagnetNavigationBar: UIView {
                 self.backButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.shareButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.likeButton.tintColor = UIColor(red: 1 + alpha, green: 1 - alpha, blue: 1 - alpha, alpha: 1)
-                if (-value >= maxValue-10) {
+                if (-value >= maxValue-3) {
                     self.titleLabel.textColor = .black
                     self.backgroundColor = .white
                 } else {

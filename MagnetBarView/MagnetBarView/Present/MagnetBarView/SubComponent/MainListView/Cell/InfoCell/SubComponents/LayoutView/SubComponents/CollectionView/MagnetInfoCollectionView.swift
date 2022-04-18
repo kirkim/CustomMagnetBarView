@@ -12,26 +12,22 @@ import Reusable
 
 class MagnetInfoCollectionView: UICollectionView {
     private let disposeBag = DisposeBag()
-    let viewModel = MagnetInfoCollectionViewModel()
+    private let viewModel = MagnetInfoCollectionViewModel()
+    private let model = MagnetInfoCollectionModel()
     
     init() {
         super.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         attribute()
         layout()
-        bind(viewModel)
+        setData()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(_ viewModel: MagnetInfoCollectionViewModel) {
-        Driver.just([
-            InfoCollectionCellData(thumbnail: "review1.jpeg", review: "친구 추천으로 주문했는데, 진짜 홀딱 반했어요!!친구 추천으로 주문했는데, 진짜 홀딱 반했어요!!", rating: 5),
-            InfoCollectionCellData(thumbnail: "review1.jpeg", review: "친구 추천으로 주문했는데, 진짜 홀딱 반했어요!!", rating: 5),
-            InfoCollectionCellData(thumbnail: "review1.jpeg", review: "친구 추천으로 주문했는데, 진짜 홀딱 반했어요!!", rating: 5),
-            InfoCollectionCellData(thumbnail: "", review: "", rating: 0)
-        ])
+    func setData() {
+        Driver.just(model.data)
             .drive(self.rx.items) { collectionView, row, data in
                 if (row == 3) {
                     let cell = collectionView.dequeueReusableCell(for: IndexPath(row: row, section: 0), cellType: MagnetInfoMoreButtonCell.self)
@@ -42,6 +38,12 @@ class MagnetInfoCollectionView: UICollectionView {
                     return cell
                 }
             }
+            .disposed(by: disposeBag)
+    }
+    
+    func bind(_ viewModel: MagnetInfoCollectionViewModel) {
+        self.rx.itemSelected
+            .bind(to: viewModel.cellClicked)
             .disposed(by: disposeBag)
     }
     
@@ -56,6 +58,7 @@ class MagnetInfoCollectionView: UICollectionView {
         if let layout = self.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20
+            layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 20)
         }
     }
 }

@@ -13,7 +13,6 @@ import RxDataSources
 import Reusable
 
 class MagnetListView: UICollectionView {
-    
     private let disposeBag = DisposeBag()
     
     init() {
@@ -27,7 +26,6 @@ class MagnetListView: UICollectionView {
     }
     
     func bind(_ viewModel: MagnetListViewModel, maxValue: CGFloat) {
-        
         let dataSource = viewModel.dataSource()
 
         Observable.just(viewModel.data)
@@ -47,16 +45,17 @@ class MagnetListView: UICollectionView {
     
     private func attribute() {
         self.contentInsetAdjustmentBehavior = .never
-        self.backgroundColor = .gray
-        self.register(cellType: TestCell.self)
+        self.backgroundColor = .systemGray5
+        self.register(cellType: MagnetMenuCell.self)
         self.register(cellType: MagnetInfoCell.self)
         self.register(cellType: MagnetBannerCell.self)
+        self.register(supplementaryViewType: MagnetMenuHeaderCell.self, ofKind: UICollectionView.elementKindSectionHeader)
     }
     
     private func layout() {
         self.collectionViewLayout = createLayout()
     }
-    
+        
     func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
             switch sectionNumber {
@@ -91,8 +90,20 @@ class MagnetListView: UICollectionView {
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.3)), subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
+        // header
+        let globalHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
+        let globalHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: globalHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        globalHeader.pinToVisibleBounds = true
+        section.boundarySupplementaryItems = [globalHeader]
         return section
     }
 
 }
 
+struct Constants {
+    struct HeaderKind {
+        static let space = "SpaceCollectionReusableView"
+        static let globalSegmentedControl = "segmentedControlHeader"
+    }
+}

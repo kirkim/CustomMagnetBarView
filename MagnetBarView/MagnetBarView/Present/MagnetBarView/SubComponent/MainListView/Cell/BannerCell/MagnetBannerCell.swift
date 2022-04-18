@@ -22,7 +22,7 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
             ]
         )
     )
-    let headerView = MagnetHeaderView()
+    private let headerView = MagnetHeaderView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,6 +46,10 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
         self.headerView.setTitle(title: title)
     }
     
+    func bind(_ viewModel: MagnetBannerCellViewModel) {
+        self.headerView.bind(viewModel.mainHeaderViewModel)
+    }
+    
     func layout() {
         [banner, headerView].forEach {
             self.addSubview($0)
@@ -57,7 +61,7 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
         }
         
         headerView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-4)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(MagnetBannerCell.headerViewHeight)
