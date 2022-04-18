@@ -10,42 +10,55 @@ import RxCocoa
 import RxDataSources
 
 struct MagnetListViewModel {
-    
+    let mainHeaderViewModel = MagnetHeaderViewModel()
     // View -> ViewModel
-    let scrollEvent = PublishRelay<CGFloat>()
+    let scrollEvent = PublishRelay<(CGFloat, CGFloat)>()
     
     let data = [
-        RxStaticSectionData(header: "hello", items: [Sample(title: "hi1", description: "des1")]),
+        RxStaticSectionData(header: "hello", items: [Sample()]),
+        RxStaticSectionData(header: "hello", items: [Sample()]),
         RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
+            Sample(title: "콥샐러드", description1: "계란, 베이컨, 옥수수, 올리브, 병아리콩, 토마토", description2: "추천 드레싱: 갈릭", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "아보치킨샐러드", description1: "아보카도, 치킨, 견과류, 그리노파다노, 토마토", description2: "추천 드레싱: 갈릭", price: 9500, thumbnail: "review1.jpeg"),
+            Sample(title: "리코타샐러드", description1: "리코타치즈, 올리브, 견과류, 방울토마토",description2: "추천 드레싱: 발사믹", price: 8000, thumbnail: "review1.jpeg")
         ]),
         RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
+            Sample(title: "hi1", description1: "des1", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "22222", description1: "des1asdsadsadsadsad", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "3333", description1: "dessadsadsadsadsa1", price: 8500, thumbnail: "review1.jpeg")
         ]),
         RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
+            Sample(title: "hi1", description1: "des1", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "22222", description1: "des1asdsadsadsadsad", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "3333", description1: "dessadsadsadsadsa1", price: 8500, thumbnail: "review1.jpeg")
         ]),
         RxStaticSectionData(header: "dsfdsfsfs", items: [
-            Sample(title: "hi1", description: "des1"),
-            Sample(title: "hi2", description: "des2"),
-            Sample(title: "hi3", description: "des3")
+            Sample(title: "hi1", description1: "des1", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "22222", description1: "des1asdsadsadsadsad", price: 8500, thumbnail: "review1.jpeg"),
+            Sample(title: "3333", description1: "dessadsadsadsadsa1", price: 8500, thumbnail: "review1.jpeg")
         ])
     ]
     
-    func dataSource() -> RxTableViewSectionedReloadDataSource<RxStaticSectionData> {
-        return RxTableViewSectionedReloadDataSource<RxStaticSectionData>(
-            configureCell: { dataSource, tableView, indexPath, item in
+    private let mainTitle: String
+    
+    init(mainTitle: String) {
+        self.mainTitle = mainTitle
+    }
+    
+    func dataSource() -> RxCollectionViewSectionedReloadDataSource<RxStaticSectionData> {
+        return RxCollectionViewSectionedReloadDataSource<RxStaticSectionData>(
+            configureCell: { dataSource, collectionView, indexPath, item in
                 if indexPath.section == 0 {
-                    let cell = tableView.dequeueReusableCell(for: indexPath, cellType: MagnetBannerCell.self)
+                    let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetBannerCell.self)
+                    cell.setData(title: mainTitle)
+                    cell.layout()
+                    cell.headerView.bind(mainHeaderViewModel)
+                    return cell
+                } else if indexPath.section == 1 {
+                    let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetInfoCell.self)
                     return cell
                 } else {
-                    let cell = tableView.dequeueReusableCell(for: indexPath, cellType: TestCell.self)
+                    let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: TestCell.self)
                     cell.setData(data: item)
                     return cell
                 }

@@ -11,6 +11,7 @@ import RxCocoa
 import SnapKit
 
 class MagnetNavigationBar: UIView {
+    static let titleFontSize:CGFloat = 30
     private let disposeBag = DisposeBag()
     let backButton = UIButton()
     let titleLabel = UILabel()
@@ -29,17 +30,22 @@ class MagnetNavigationBar: UIView {
     
     func bind(_ viewModel: MagnetNavigationBarViewModel) {
         viewModel.transItem
-            .emit { value in
-                let alpha = -value / MagnetBarView.headerMovingDistance
-                self.titleLabel.textColor = .black.withAlphaComponent(alpha)
+            .emit { value, maxValue in
+                let alpha = -value / maxValue
                 self.backButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.shareButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.likeButton.tintColor = UIColor(red: 1 + alpha, green: 1 - alpha, blue: 1 - alpha, alpha: 1)
-                self.backgroundColor = UIColor(white: 1, alpha: alpha)
+                if (-value >= maxValue-10) {
+                    self.titleLabel.textColor = .black
+                    self.backgroundColor = .white
+                } else {
+                    self.titleLabel.textColor = .black.withAlphaComponent(0)
+                    self.backgroundColor = UIColor(white: 1, alpha: 0)
+                }
                 
             }
             .disposed(by: disposeBag)
-
+        self.titleLabel.text = viewModel.mainTitle
     }
     
     private func attribute() {
@@ -53,8 +59,7 @@ class MagnetNavigationBar: UIView {
         likeButton.tintColor = .white
         
         titleLabel.textColor = .white.withAlphaComponent(0)
-        titleLabel.text = "hello"
-        titleLabel.font = .systemFont(ofSize: 30)
+        titleLabel.font = .systemFont(ofSize: MagnetNavigationBar.titleFontSize)
     }
     
     private func layout() {
@@ -68,7 +73,7 @@ class MagnetNavigationBar: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(backButton.snp.trailing).offset(20)
+            $0.leading.equalToSuperview().offset(50)
             $0.bottom.equalToSuperview()
         }
         

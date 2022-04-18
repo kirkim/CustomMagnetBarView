@@ -10,10 +10,10 @@ import RxCocoa
 
 struct MagnetHeaderViewModel {
     // ParentView -> ViewModel
-    let scrolled = PublishRelay<CGFloat>()
+    let scrolled = PublishRelay<(CGFloat, CGFloat)>()
     
     // ViewModel -> View
-    let movingItem: Signal<CGFloat>
+    let movingItem: Signal<(CGFloat, CGFloat)>
     
     init() {
         movingItem = scrolled.asSignal()

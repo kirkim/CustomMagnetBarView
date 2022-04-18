@@ -9,11 +9,11 @@ import SnapKit
 import UIKit
 import Reusable
 
-class MagnetInfoCell: UITableViewCell, Reusable {
+class MagnetInfoCell: UICollectionViewCell, Reusable {
     let infoView = MagnetInfoView()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         attribute()
         layout()
     }

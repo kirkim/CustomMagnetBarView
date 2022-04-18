@@ -12,12 +12,12 @@ import RxCocoa
 import RxDataSources
 import Reusable
 
-class MagnetListView: UITableView {
-    private let bannerHeight = MagnetBarView.headerViewHeight - 70
+class MagnetListView: UICollectionView {
+    
     private let disposeBag = DisposeBag()
     
     init() {
-        super.init(frame: CGRect.zero, style: .grouped)
+        super.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         attribute()
         layout()
     }
@@ -26,7 +26,8 @@ class MagnetListView: UITableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(_ viewModel: MagnetListViewModel) {
+    func bind(_ viewModel: MagnetListViewModel, maxValue: CGFloat) {
+        
         let dataSource = viewModel.dataSource()
 
         Observable.just(viewModel.data)
@@ -34,12 +35,11 @@ class MagnetListView: UITableView {
             .disposed(by: disposeBag)
         
         self.rx.didScroll
-            .map { _ -> CGFloat in
+            .map { _ -> (CGFloat, CGFloat) in
                 let originY = self.contentOffset.y
-                let value = originY <= MagnetBarView.headerMovingDistance ? -originY : -MagnetBarView.headerMovingDistance
-                return value
+                let value = originY <= maxValue ? -originY : -maxValue
+                return (value, maxValue)
             }
-            .distinctUntilChanged()
             .share()
             .bind(to: viewModel.scrollEvent)
             .disposed(by: disposeBag)
@@ -47,44 +47,52 @@ class MagnetListView: UITableView {
     
     private func attribute() {
         self.contentInsetAdjustmentBehavior = .never
-        self.delegate = self
         self.backgroundColor = .gray
         self.register(cellType: TestCell.self)
+        self.register(cellType: MagnetInfoCell.self)
         self.register(cellType: MagnetBannerCell.self)
     }
     
     private func layout() {
-    }
-}
-
-extension MagnetListView: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if (section != 0) {
-            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0))
-            header.backgroundColor = .orange
-            return header
-        } else {
-            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 0))
-            header.backgroundColor = .green
-            return nil
-        }
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return bannerHeight
-        }
-        return 150
+        self.collectionViewLayout = createLayout()
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return .leastNormalMagnitude
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
+            switch sectionNumber {
+            case 0:
+                return self.bannerSection()
+            case 1:
+                return self.infoSecion()
+            default:
+                return self.menuSection()
+            }
         }
-        return 100
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return .leastNormalMagnitude
+    private func bannerSection() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(10/13)), subitem: item, count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        return section
     }
+    
+    private func infoSecion() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(8/13)), subitem: item, count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        return section
+    }
+
+    private func menuSection() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.3)), subitem: item, count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        return section
+    }
+
 }
+

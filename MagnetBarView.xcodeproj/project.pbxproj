@@ -217,7 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				FE7077BC2806FB73006F7980 /* TestCell.swift */,
-				FE1A73FB28081D71006C24C3 /* MagnetBannerCell.swift */,
+				FE6A20CE280CFF1300AEC9DF /* BannerCell */,
 				FE300BD72808FA9B00952AA8 /* InfoCell */,
 			);
 			path = Cell;
@@ -341,7 +341,6 @@
 		FE5231F92807CBBE00200F02 /* SubComponent */ = {
 			isa = PBXGroup;
 			children = (
-				FE5232062807E10C00200F02 /* MainHeader */,
 				FE5232052807E0FA00200F02 /* NavigationBar */,
 				FE300BCF2808EFC100952AA8 /* MainListView */,
 			);
@@ -374,6 +373,15 @@
 				FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */,
 			);
 			path = MainHeader;
+			sourceTree = "<group>";
+		};
+		FE6A20CE280CFF1300AEC9DF /* BannerCell */ = {
+			isa = PBXGroup;
+			children = (
+				FE1A73FB28081D71006C24C3 /* MagnetBannerCell.swift */,
+				FE5232062807E10C00200F02 /* MainHeader */,
+			);
+			path = BannerCell;
 			sourceTree = "<group>";
 		};
 		FE7077C32807028E006F7980 /* MagnetBarView */ = {

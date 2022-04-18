@@ -12,21 +12,25 @@ import RxCocoa
 import RxDataSources
 import Reusable
 
+
 class MagnetBarView: UIViewController {
     private let disposeBag = DisposeBag()
     private let mainListView = MagnetListView()
-    private let mainHeaderView = MagnetHeaderView()
     private let mainNavigationBar = MagnetNavigationBar()
     let viewModel = MagnetBarViewModel()
     
-    static let navigationHeight:CGFloat = 80
-    static let headerViewHeight:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth! * 8/13 + MagnetBarView.navigationHeight
-    static let headerMovingDistance:CGFloat = MagnetBarView.headerViewHeight - 100
+    private let navigationHeight:CGFloat = 80
+    private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
+    
+    private var bannerViewHeight: CGFloat = 0
+    private var offsetStandard:CGFloat = 0
     
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
+        setNumber()
         layout()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -40,34 +44,27 @@ class MagnetBarView: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        bind()
+        
+    }
+    
+    private func setNumber() {
+        bannerViewHeight = self.windowWidth * 10/13
+        offsetStandard = bannerViewHeight - navigationHeight
     }
     
     private func bind() {
-        mainHeaderView.bind(viewModel.mainHeaderViewModel)
         mainNavigationBar.bind(viewModel.mainNavigationBarViewModel)
-        mainListView.bind(viewModel.mainListViewModel)
-        
-        viewModel.scrolled
-            .emit { offset in
-                self.mainHeaderView.frame.origin.y = offset
-            }
-            .disposed(by: disposeBag)
+        mainListView.bind(viewModel.mainListViewModel, maxValue: self.offsetStandard)
     }
+    
     
     private func attribute() {
 
     }
     
     private func layout() {
-        [mainListView, mainHeaderView, mainNavigationBar].forEach {
+        [mainListView, mainNavigationBar].forEach {
             self.view.addSubview($0)
-        }
-        
-        mainHeaderView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(MagnetBarView.headerViewHeight)
         }
         
         mainListView.snp.makeConstraints {
@@ -76,7 +73,7 @@ class MagnetBarView: UIViewController {
         
         mainNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(MagnetBarView.navigationHeight)
+            $0.height.equalTo(self.navigationHeight)
         }
     }
 }

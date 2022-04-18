@@ -9,7 +9,10 @@ import RxDataSources
 
 struct Sample {
     var title: String?
-    var description: String?
+    var description1: String?
+    var description2: String?
+    var price: Int?
+    var thumbnail: String?
 }
 
 // RxDataSources용 타입

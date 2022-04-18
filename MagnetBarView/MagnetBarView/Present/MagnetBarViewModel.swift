@@ -11,23 +11,26 @@ import RxSwift
 
 struct MagnetBarViewModel {
     private let disposeBag = DisposeBag()
-    let mainHeaderViewModel = MagnetHeaderViewModel()
-    let mainNavigationBarViewModel = MagnetNavigationBarViewModel()
-    let mainListViewModel = MagnetListViewModel()
+//    let mainHeaderViewModel = MagnetHeaderViewModel()
+    let mainNavigationBarViewModel: MagnetNavigationBarViewModel
+    let mainListViewModel: MagnetListViewModel
     
     // ChildViewModel -> ViewModel
-    let scrolled: Signal<CGFloat>
+//    let scrolled: Signal<(CGFloat, CGFloat)>
     
     init() {
+        self.mainNavigationBarViewModel = MagnetNavigationBarViewModel(mainTitle: "aaaaa")
+        self.mainListViewModel = MagnetListViewModel(mainTitle: "aaaaa")
+        
         mainListViewModel.scrollEvent
-            .bind(to: mainHeaderViewModel.scrolled)
+            .bind(to: mainListViewModel.mainHeaderViewModel.scrolled)
             .disposed(by: disposeBag)
         
         mainListViewModel.scrollEvent
             .bind(to: mainNavigationBarViewModel.scrolled)
             .disposed(by: disposeBag)
         
-        scrolled = mainListViewModel.scrollEvent.asSignal()
+//        scrolled = mainListViewModel.scrollEvent.asSignal()
     }
     
 }

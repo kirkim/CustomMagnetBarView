@@ -10,12 +10,15 @@ import RxCocoa
 
 struct MagnetNavigationBarViewModel {
     // ParentView -> ViewModel
-    let scrolled = PublishRelay<CGFloat>()
+    let scrolled = PublishRelay<(CGFloat, CGFloat)>()
     
     // ViewModel -> View
-    let transItem: Signal<CGFloat>
+    let transItem: Signal<(CGFloat, CGFloat)>
     
-    init() {
+    let mainTitle:String
+    
+    init(mainTitle: String) {
+        self.mainTitle = mainTitle
         transItem = scrolled.asSignal()
         
     }
