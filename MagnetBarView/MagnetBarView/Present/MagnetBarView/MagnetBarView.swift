@@ -12,18 +12,20 @@ import RxCocoa
 import RxDataSources
 import Reusable
 
-
 class MagnetBarView: UIViewController {
     private let disposeBag = DisposeBag()
     private let mainListView = MagnetListView()
     private let mainNavigationBar = MagnetNavigationBar()
     let viewModel = MagnetBarViewModel()
     
-    private let navigationHeight:CGFloat = 80
+    static let navigationHeight:CGFloat = 80
     private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
     
     private var bannerViewHeight: CGFloat = 0
     private var offsetStandard:CGFloat = 0
+    
+    let stickyHeader = RemoteMainListBar()
+    
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -49,19 +51,31 @@ class MagnetBarView: UIViewController {
     
     private func setNumber() {
         bannerViewHeight = self.windowWidth * 10/13
-        offsetStandard = bannerViewHeight - navigationHeight
+        offsetStandard = bannerViewHeight - MagnetBarView.navigationHeight
     }
     
     private func bind() {
         mainNavigationBar.bind(viewModel.mainNavigationBarViewModel)
         mainListView.bind(viewModel.mainListViewModel, maxValue: self.offsetStandard)
+        stickyHeader.bind(viewModel.stickyHeaderViewModel)
         viewModel.presentVC
             .subscribe(onNext: { vc in
                 self.present(vc, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.stickyHeaderOn
+            .emit { isOn in
+                if (isOn == true){
+                    self.stickyHeader.isUserInteractionEnabled = true
+                    self.stickyHeader.alpha = 1
+                } else {
+                    self.stickyHeader.isUserInteractionEnabled = false
+                    self.stickyHeader.alpha = 0
+                }
+            }
+            .disposed(by: disposeBag)
     }
-    
     
     private func attribute() {
         mainNavigationBar.layer.shadowColor = UIColor.black.cgColor // 색깔
@@ -82,7 +96,17 @@ class MagnetBarView: UIViewController {
         
         mainNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(self.navigationHeight)
+            $0.height.equalTo(MagnetBarView.navigationHeight)
         }
+        
+        self.view.addSubview(stickyHeader)
+//        stickyHeader.backgroundColor = .red
+        stickyHeader.snp.makeConstraints {
+            $0.top.equalTo(mainNavigationBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(80)
+        }
+        self.stickyHeader.isUserInteractionEnabled = false
+        self.stickyHeader.alpha = 0
     }
 }

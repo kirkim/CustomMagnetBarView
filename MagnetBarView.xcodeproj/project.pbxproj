@@ -64,6 +64,13 @@
 		FE9884C32809695000A0BD1A /* MagnetInfoReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9884C22809695000A0BD1A /* MagnetInfoReviewCell.swift */; };
 		FE9884C628099D6200A0BD1A /* MagnetInfoMoreButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9884C528099D6200A0BD1A /* MagnetInfoMoreButtonCell.swift */; };
 		FE9884C92809AE1D00A0BD1A /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9884C82809AE1D00A0BD1A /* TestView.swift */; };
+		FE9DF4D5280E412000FC24CF /* CustomCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4D4280E412000FC24CF /* CustomCollectionViewFlowLayout.swift */; };
+		FE9DF4D7280E452800FC24CF /* TestCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4D6280E452800FC24CF /* TestCollectionVC.swift */; };
+		FE9DF4D9280E504D00FC24CF /* MagnetStickyHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4D8280E504D00FC24CF /* MagnetStickyHeaderCell.swift */; };
+		FE9DF4DC280E5E9000FC24CF /* RemoteMainListBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4DB280E5E9000FC24CF /* RemoteMainListBar.swift */; };
+		FE9DF4DE280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4DD280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift */; };
+		FE9DF4E0280E5F5100FC24CF /* RemoteMainListBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4DF280E5F5100FC24CF /* RemoteMainListBarCell.swift */; };
+		FE9DF4E2280E75FB00FC24CF /* MagnetListSectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4E1280E75FB00FC24CF /* MagnetListSectionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +126,13 @@
 		FE9884C22809695000A0BD1A /* MagnetInfoReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetInfoReviewCell.swift; sourceTree = "<group>"; };
 		FE9884C528099D6200A0BD1A /* MagnetInfoMoreButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetInfoMoreButtonCell.swift; sourceTree = "<group>"; };
 		FE9884C82809AE1D00A0BD1A /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		FE9DF4D4280E412000FC24CF /* CustomCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		FE9DF4D6280E452800FC24CF /* TestCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionVC.swift; sourceTree = "<group>"; };
+		FE9DF4D8280E504D00FC24CF /* MagnetStickyHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetStickyHeaderCell.swift; sourceTree = "<group>"; };
+		FE9DF4DB280E5E9000FC24CF /* RemoteMainListBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMainListBar.swift; sourceTree = "<group>"; };
+		FE9DF4DD280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMainListBarViewModel.swift; sourceTree = "<group>"; };
+		FE9DF4DF280E5F5100FC24CF /* RemoteMainListBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMainListBarCell.swift; sourceTree = "<group>"; };
+		FE9DF4E1280E75FB00FC24CF /* MagnetListSectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetListSectionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +250,8 @@
 			children = (
 				FE300BCB2808EFAE00952AA8 /* MagnetListView.swift */,
 				FE300BCD2808EFBA00952AA8 /* MagnetListViewModel.swift */,
+				FE9DF4E1280E75FB00FC24CF /* MagnetListSectionManager.swift */,
+				FE9DF4D4280E412000FC24CF /* CustomCollectionViewFlowLayout.swift */,
 				FE1A73FD28082470006C24C3 /* Cell */,
 				FE300BDB2808FC3500952AA8 /* SectionData */,
 			);
@@ -351,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				FE5232052807E0FA00200F02 /* NavigationBar */,
+				FE9DF4DA280E5E3100FC24CF /* RemoteMainListBar */,
 				FE300BCF2808EFC100952AA8 /* MainListView */,
 			);
 			path = SubComponent;
@@ -427,6 +444,7 @@
 				FE300BDC2808FC6000952AA8 /* TestVC.swift */,
 				FE5231F72807AC4600200F02 /* PresentHelper.swift */,
 				FE9884C82809AE1D00A0BD1A /* TestView.swift */,
+				FE9DF4D6280E452800FC24CF /* TestCollectionVC.swift */,
 			);
 			path = TestZone;
 			sourceTree = "<group>";
@@ -445,6 +463,7 @@
 			children = (
 				FE7077BC2806FB73006F7980 /* MagnetMenuCell.swift */,
 				FE6A20D1280D304100AEC9DF /* MagnetMenuHeaderCell.swift */,
+				FE9DF4D8280E504D00FC24CF /* MagnetStickyHeaderCell.swift */,
 			);
 			path = MenuCell;
 			sourceTree = "<group>";
@@ -467,6 +486,16 @@
 				FE9884C528099D6200A0BD1A /* MagnetInfoMoreButtonCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		FE9DF4DA280E5E3100FC24CF /* RemoteMainListBar */ = {
+			isa = PBXGroup;
+			children = (
+				FE9DF4DB280E5E9000FC24CF /* RemoteMainListBar.swift */,
+				FE9DF4DD280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift */,
+				FE9DF4DF280E5F5100FC24CF /* RemoteMainListBarCell.swift */,
+			);
+			path = RemoteMainListBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -567,18 +596,23 @@
 				FE300BEB28090A2400952AA8 /* DeliveryInfoView.swift in Sources */,
 				FE9884C12809679600A0BD1A /* MagnetInfoCollectionViewModel.swift in Sources */,
 				FE300BE3280908A300952AA8 /* MagnetInfoView.swift in Sources */,
+				FE9DF4DE280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift in Sources */,
 				FE1A73F9280817DD006C24C3 /* BeminBannerListView.swift in Sources */,
+				FE9DF4E0280E5F5100FC24CF /* RemoteMainListBarCell.swift in Sources */,
 				FE7077BF2806FF02006F7980 /* RxStaticSectionData.swift in Sources */,
 				FE493940280564EB0035820F /* ViewController.swift in Sources */,
+				FE9DF4E2280E75FB00FC24CF /* MagnetListSectionManager.swift in Sources */,
 				FE76FB92280D5F59008BAA17 /* MagnetInfoCollectionModel.swift in Sources */,
 				FE300BF0280911DE00952AA8 /* TakeoutInfoView.swift in Sources */,
 				FE300BD32808F90100952AA8 /* MagnetInfoNavBar.swift in Sources */,
 				FE7077BD2806FB73006F7980 /* MagnetMenuCell.swift in Sources */,
+				FE9DF4D9280E504D00FC24CF /* MagnetStickyHeaderCell.swift in Sources */,
 				FE1A73F2280817DD006C24C3 /* BeminBannerButtonViewModel.swift in Sources */,
 				FE1A73FA280817DD006C24C3 /* BannerSources.swift in Sources */,
 				FE5232002807CE4F00200F02 /* MagnetBarViewModel.swift in Sources */,
 				FE300BEE28090BF700952AA8 /* Int+extension.swift in Sources */,
 				FE300BDF2809025E00952AA8 /* MagnetInfoNavBarViewModel.swift in Sources */,
+				FE9DF4D7280E452800FC24CF /* TestCollectionVC.swift in Sources */,
 				FE5232022807D48500200F02 /* MagnetNavigationBar.swift in Sources */,
 				FE9884C32809695000A0BD1A /* MagnetInfoReviewCell.swift in Sources */,
 				FE9884C92809AE1D00A0BD1A /* TestView.swift in Sources */,
@@ -589,6 +623,7 @@
 				FE300BE8280909B800952AA8 /* MagnetInfoType.swift in Sources */,
 				FE5231F82807AC4600200F02 /* PresentHelper.swift in Sources */,
 				FE49393C280564EB0035820F /* AppDelegate.swift in Sources */,
+				FE9DF4DC280E5E9000FC24CF /* RemoteMainListBar.swift in Sources */,
 				FE6A20D2280D304100AEC9DF /* MagnetMenuHeaderCell.swift in Sources */,
 				FE9884C628099D6200A0BD1A /* MagnetInfoMoreButtonCell.swift in Sources */,
 				FE5232042807D4CB00200F02 /* MagnetNavigationBarViewModel.swift in Sources */,
@@ -599,6 +634,7 @@
 				FE1A73F3280817DD006C24C3 /* BeminBannerButton.swift in Sources */,
 				FE1A73F1280817DD006C24C3 /* BeminBannerView.swift in Sources */,
 				FE300BCE2808EFBA00952AA8 /* MagnetListViewModel.swift in Sources */,
+				FE9DF4D5280E412000FC24CF /* CustomCollectionViewFlowLayout.swift in Sources */,
 				FE49395A28057F9E0035820F /* CustomTitleView.swift in Sources */,
 				FE300BD12808F7F700952AA8 /* MagnetInfoCell.swift in Sources */,
 				FE1A73F0280817DD006C24C3 /* BeminBannerViewModel.swift in Sources */,
@@ -746,6 +782,7 @@
 				INFOPLIST_FILE = MagnetBarView/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -773,6 +810,7 @@
 				INFOPLIST_FILE = MagnetBarView/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

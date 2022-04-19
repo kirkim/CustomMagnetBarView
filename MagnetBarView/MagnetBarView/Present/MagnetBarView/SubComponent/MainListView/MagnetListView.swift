@@ -14,6 +14,8 @@ import Reusable
 
 class MagnetListView: UICollectionView {
     private let disposeBag = DisposeBag()
+    private let sectionManager = MagnetListSectionManager()
+    private let dragEvent = PublishRelay<CGFloat>()
     
     init() {
         super.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -27,19 +29,57 @@ class MagnetListView: UICollectionView {
     
     func bind(_ viewModel: MagnetListViewModel, maxValue: CGFloat) {
         let dataSource = viewModel.dataSource()
-
+        let sectionOriginY = sectionManager.calculateSectionOriginY(data: viewModel.data)
+        
         Observable.just(viewModel.data)
             .bind(to: self.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+         
+        let scrollEvent = self.rx.didScroll
+            .map { _ -> CGFloat in
+                return self.contentOffset.y
+            }
+            .share()
         
-        self.rx.didScroll
-            .map { _ -> (CGFloat, CGFloat) in
-                let originY = self.contentOffset.y
+        scrollEvent
+            .map { originY -> (CGFloat, CGFloat) in
                 let value = originY <= maxValue ? -originY : -maxValue
                 return (value, maxValue)
             }
-            .share()
             .bind(to: viewModel.scrollEvent)
+            .disposed(by: disposeBag)
+        
+        scrollEvent
+            .map { originY -> Bool in
+                if (originY > self.sectionManager.stickyHeaderPositionY) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            .distinctUntilChanged()
+            .bind(to: viewModel.stickyHeaderOn)
+            .disposed(by: disposeBag)
+        
+        scrollEvent
+            .map { originY -> Int in
+                if (originY < self.sectionManager.stickyHeaderPositionY) {
+                    return 1
+                }
+                for (index, data) in sectionOriginY.enumerated() {
+                    if (originY < data - 1) {
+                        return index
+                    }
+                }
+                return 1
+            }
+            .bind(to: viewModel.changeSection)
+            .disposed(by: disposeBag)
+        
+        viewModel.slotChanged
+            .bind { [weak self] indexPath in
+                self?.setContentOffset(CGPoint(x: 0, y: sectionOriginY[indexPath.row]), animated: true)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -50,60 +90,10 @@ class MagnetListView: UICollectionView {
         self.register(cellType: MagnetInfoCell.self)
         self.register(cellType: MagnetBannerCell.self)
         self.register(supplementaryViewType: MagnetMenuHeaderCell.self, ofKind: UICollectionView.elementKindSectionHeader)
+        self.register(supplementaryViewType: MagnetStickyHeaderCell.self, ofKind: UICollectionView.elementKindSectionHeader)
     }
     
     private func layout() {
-        self.collectionViewLayout = createLayout()
-    }
-        
-    func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
-            switch sectionNumber {
-            case 0:
-                return self.bannerSection()
-            case 1:
-                return self.infoSecion()
-            default:
-                return self.menuSection()
-            }
-        }
-    }
-    
-    private func bannerSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(10/13)), subitem: item, count: 1)
-        let section = NSCollectionLayoutSection(group: group)
-        return section
-    }
-    
-    private func infoSecion() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(8/13)), subitem: item, count: 1)
-        let section = NSCollectionLayoutSection(group: group)
-        return section
-    }
-
-    private func menuSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.3)), subitem: item, count: 1)
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
-        // header
-        let globalHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
-        let globalHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: globalHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        globalHeader.pinToVisibleBounds = true
-        section.boundarySupplementaryItems = [globalHeader]
-        return section
-    }
-
-}
-
-struct Constants {
-    struct HeaderKind {
-        static let space = "SpaceCollectionReusableView"
-        static let globalSegmentedControl = "segmentedControlHeader"
+        self.collectionViewLayout = sectionManager.createLayout()
     }
 }

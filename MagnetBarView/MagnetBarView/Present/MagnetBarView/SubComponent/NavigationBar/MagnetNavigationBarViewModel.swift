@@ -20,6 +20,5 @@ struct MagnetNavigationBarViewModel {
     init(mainTitle: String) {
         self.mainTitle = mainTitle
         transItem = scrolled.asSignal()
-        
     }
 }

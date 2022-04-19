@@ -17,8 +17,8 @@ class MagnetHeaderView: UIView {
     let titleScaleRatio: CGFloat = 0.7
     var titleLabelX: CGFloat = 0
     var titleLabelY: CGFloat = 0
-    let titleLabelBottom: CGFloat = 45
-    let titleLabelLeading: CGFloat = 55
+    let titleLabelBottom: CGFloat = 50
+    let titleLabelLeading: CGFloat = 57
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,8 +36,9 @@ class MagnetHeaderView: UIView {
         viewModel.movingItem
             .emit { offset, maxOffset in
                 let offsetRatio = offset / maxOffset
-                self.titleLabel.frame.origin.x = offset <= 0 ? self.titleLabelX + offsetRatio * titleLabelXValue : self.titleLabelX
-                self.titleLabel.frame.origin.y = offset <= 0 ? self.titleLabelY - offsetRatio * offsetOriginY : self.titleLabelY
+                let userOffset:CGFloat = 1 // 시뮬레이터랑 비교해서 값을 조절하자 (네비게이션 타이틀과, 헤더 타이틀의 교차지점에서 y축 오차값), 폰트사이즈구하는 함수에서 나오는 오차..
+                self.titleLabel.frame.origin.x = offset < 0 ? self.titleLabelX + offsetRatio * titleLabelXValue : self.titleLabelX
+                self.titleLabel.frame.origin.y = offset < 0 ? self.titleLabelY - offsetRatio * offsetOriginY - userOffset - MagnetNavigationBar.titleBottomMargin : self.titleLabelY
                 let titleScale = min(max(1.0 + offsetRatio, self.titleScaleRatio), 1.0)
                 let headerScale = max(min(1.0 - offsetRatio*0.2, 1.2), 1.0)
                 self.transform = CGAffineTransform(scaleX: headerScale, y: 1)

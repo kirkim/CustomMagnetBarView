@@ -12,12 +12,13 @@ import SnapKit
 
 class MagnetNavigationBar: UIView {
     static let titleFontSize:CGFloat = 30
+    static let titleBottomMargin:CGFloat = 5
     private let disposeBag = DisposeBag()
     let backButton = UIButton()
     let titleLabel = UILabel()
     let shareButton = UIButton()
     let likeButton = UIButton()
-    
+        
     init() {
         super.init(frame: CGRect.zero)
         attribute()
@@ -41,14 +42,16 @@ class MagnetNavigationBar: UIView {
                 } else {
                     self.titleLabel.textColor = .black.withAlphaComponent(0)
                     self.backgroundColor = UIColor(white: 1, alpha: 0)
+                    self.layer.zPosition = 1
                 }
                 
             }
             .disposed(by: disposeBag)
+        
         self.titleLabel.text = viewModel.mainTitle
     }
     
-    private func attribute() {
+    private func attribute() {        
         backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         backButton.tintColor = .white
         
@@ -74,7 +77,7 @@ class MagnetNavigationBar: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(50)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-MagnetNavigationBar.titleBottomMargin)
         }
         
         likeButton.snp.makeConstraints {
