@@ -36,7 +36,8 @@ class MagnetMenuHeaderCell: UICollectionReusableView, Reusable {
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(30)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview()
         }
     }
 }

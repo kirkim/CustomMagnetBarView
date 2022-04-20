@@ -13,6 +13,7 @@ import SnapKit
 class MagnetNavigationBar: UIView {
     static let titleFontSize:CGFloat = 30
     static let titleBottomMargin:CGFloat = 5
+    static let titleLeftMargin:CGFloat = 50
     private let disposeBag = DisposeBag()
     let backButton = UIButton()
     let titleLabel = UILabel()
@@ -36,7 +37,7 @@ class MagnetNavigationBar: UIView {
                 self.backButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.shareButton.tintColor = UIColor(white: 1 - alpha, alpha: 1)
                 self.likeButton.tintColor = UIColor(red: 1 + alpha, green: 1 - alpha, blue: 1 - alpha, alpha: 1)
-                if (-value >= maxValue-3) {
+                if (-value >= maxValue) {
                     self.titleLabel.textColor = .black
                     self.backgroundColor = .white
                 } else {
@@ -62,7 +63,8 @@ class MagnetNavigationBar: UIView {
         likeButton.tintColor = .white
         
         titleLabel.textColor = .white.withAlphaComponent(0)
-        titleLabel.font = .systemFont(ofSize: MagnetNavigationBar.titleFontSize)
+        titleLabel.font = UIFont(name: "Helvetica", size: MagnetNavigationBar.titleFontSize)
+        titleLabel.textAlignment = .left
     }
     
     private func layout() {
@@ -76,7 +78,7 @@ class MagnetNavigationBar: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(50)
+            $0.leading.equalToSuperview().offset(MagnetNavigationBar.titleLeftMargin)
             $0.bottom.equalToSuperview().offset(-MagnetNavigationBar.titleBottomMargin)
         }
         

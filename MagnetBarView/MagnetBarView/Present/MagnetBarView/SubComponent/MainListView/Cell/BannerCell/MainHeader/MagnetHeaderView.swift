@@ -12,13 +12,15 @@ import SnapKit
 
 class MagnetHeaderView: UIView {
     private let disposeBag = DisposeBag()
+    private let backGroundView = UIView()
     private let titleLabel = UILabel()
     private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
+    let backGroundViewSideMargin: CGFloat = 20
     let titleScaleRatio: CGFloat = 0.7
     var titleLabelX: CGFloat = 0
     var titleLabelY: CGFloat = 0
     let titleLabelBottom: CGFloat = 50
-    let titleLabelLeading: CGFloat = 57
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,28 +32,36 @@ class MagnetHeaderView: UIView {
     }
     
     func bind(_ viewModel: MagnetHeaderViewModel) {
-        let offsetOriginY = self.calculateTitleSize(title: "s", fontSize: MagnetNavigationBar.titleFontSize/titleScaleRatio).height - self.calculateTitleSize(title: "s", fontSize: MagnetNavigationBar.titleFontSize).height + self.titleLabelBottom
-        let titleLabelXValue = titleLabelX - titleLabelLeading
-
+        let afterFontHeight = self.calculateTitleSize(title: "s", fontSize: MagnetNavigationBar.titleFontSize).height
+        let offsetOriginY = MagnetBannerCell.headerViewHeight - (afterFontHeight + MagnetNavigationBar.titleBottomMargin) - self.titleLabelY
+        let offsetOriginX = titleLabelX - MagnetNavigationBar.titleLeftMargin
+        let widthRatio = backGroundViewSideMargin*2/(self.windowWidth-backGroundViewSideMargin*2)
+        
         viewModel.movingItem
             .emit { offset, maxOffset in
                 let offsetRatio = offset / maxOffset
-                let userOffset:CGFloat = 1 // 시뮬레이터랑 비교해서 값을 조절하자 (네비게이션 타이틀과, 헤더 타이틀의 교차지점에서 y축 오차값), 폰트사이즈구하는 함수에서 나오는 오차..
-                self.titleLabel.frame.origin.x = offset < 0 ? self.titleLabelX + offsetRatio * titleLabelXValue : self.titleLabelX
-                self.titleLabel.frame.origin.y = offset < 0 ? self.titleLabelY - offsetRatio * offsetOriginY - userOffset - MagnetNavigationBar.titleBottomMargin : self.titleLabelY
-                let titleScale = min(max(1.0 + offsetRatio, self.titleScaleRatio), 1.0)
-                let headerScale = max(min(1.0 - offsetRatio*0.2, 1.2), 1.0)
-                self.transform = CGAffineTransform(scaleX: headerScale, y: 1)
-                self.titleLabel.transform = CGAffineTransform(scaleX: titleScale*(1/headerScale), y: titleScale) // 보정값
+                let titleScale = min(max(1.0 + (1-self.titleScaleRatio)*offsetRatio, self.titleScaleRatio), 1.0)
+                let headerScale = max(min(1.0 - offsetRatio*widthRatio, 1.0 + widthRatio), 1.0)
+                
+                self.titleLabel.frame.origin.x = offset < 0 ? self.titleLabelX + offsetRatio * offsetOriginX : self.titleLabelX
+                self.titleLabel.frame.origin.y = offset < 0 ? self.titleLabelY-1 - offsetRatio * offsetOriginY : self.titleLabelY
+                self.backGroundView.transform = CGAffineTransform(scaleX: headerScale, y: 1)
+                self.titleLabel.transform = CGAffineTransform(scaleX: titleScale, y: titleScale)
             }
             .disposed(by: disposeBag)
     }
     
     private func attribute() {
-        titleLabel.font = .systemFont(ofSize: MagnetNavigationBar.titleFontSize/titleScaleRatio)
+        self.backgroundColor = .clear
         titleLabel.textColor = .black
+        titleLabel.font = UIFont(name: "Helvetica", size: MagnetNavigationBar.titleFontSize/titleScaleRatio)
         
-        self.backgroundColor = .white
+        self.backGroundView.backgroundColor = .white
+        backGroundView.layer.shadowColor = UIColor.black.cgColor // 색깔
+        backGroundView.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
+        backGroundView.layer.shadowOffset = CGSize(width: 0, height: 4) // 위치조정
+        backGroundView.layer.shadowRadius = 5 // 반경
+        backGroundView.layer.shadowOpacity = 0.3 // alpha값
     }
     
     func setTitle(title: String) {
@@ -59,12 +69,18 @@ class MagnetHeaderView: UIView {
     }
     
     func layout() {
-        [titleLabel].forEach {
+        [backGroundView, titleLabel].forEach {
             self.addSubview($0)
         }
 
+        backGroundView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(backGroundViewSideMargin)
+            $0.trailing.equalToSuperview().inset(backGroundViewSideMargin)
+        }
+        
         let titleSize = calculateTitleSize(title: self.titleLabel.text!, fontSize: MagnetNavigationBar.titleFontSize/titleScaleRatio)
-        titleLabelX = (self.windowWidth - titleSize.width)/2 - 20
+        titleLabelX = (self.windowWidth - titleSize.width)/2
         titleLabelY = MagnetBannerCell.headerViewHeight - titleSize.height - titleLabelBottom
         titleLabel.frame = CGRect(x: titleLabelX, y: titleLabelY, width: titleSize.width, height: titleSize.height)
     }

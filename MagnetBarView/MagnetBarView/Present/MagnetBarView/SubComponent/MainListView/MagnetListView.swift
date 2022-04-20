@@ -27,9 +27,10 @@ class MagnetListView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(_ viewModel: MagnetListViewModel, maxValue: CGFloat) {
+    func bind(_ viewModel: MagnetListViewModel) {
         let dataSource = viewModel.dataSource()
         let sectionOriginY = sectionManager.calculateSectionOriginY(data: viewModel.data)
+        let maxValue = sectionManager.windowWidth*sectionManager.bannerCellHeightRatio - MagnetBarView.navigationHeight
         
         Observable.just(viewModel.data)
             .bind(to: self.rx.items(dataSource: dataSource))

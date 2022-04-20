@@ -13,7 +13,9 @@ class PresentHelper: UIViewController {
         let vc = MagnetBarView()
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
     }
 }

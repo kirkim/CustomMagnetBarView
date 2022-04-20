@@ -13,8 +13,10 @@ struct RemoteMainListBarViewModel {
     let data: [String]
     
     private let disposeBag = DisposeBag()
+    
     // TopBarLayoutView -> ViewModel
     let scrolledPage = PublishRelay<IndexPath>()
+    
     // View -> ViewModel -> listView
     let slotChanged = PublishRelay<IndexPath>()
     

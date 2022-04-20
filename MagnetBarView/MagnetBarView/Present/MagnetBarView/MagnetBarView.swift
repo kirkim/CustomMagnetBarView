@@ -13,24 +13,19 @@ import RxDataSources
 import Reusable
 
 class MagnetBarView: UIViewController {
-    private let disposeBag = DisposeBag()
+    static let navigationHeight:CGFloat = 80
+    static let stickyHeaderHeight:CGFloat = 70
+    
     private let mainListView = MagnetListView()
     private let mainNavigationBar = MagnetNavigationBar()
-    let viewModel = MagnetBarViewModel()
+    private let stickyHeader = RemoteMainListBar()
     
-    static let navigationHeight:CGFloat = 80
-    private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
-    
-    private var bannerViewHeight: CGFloat = 0
-    private var offsetStandard:CGFloat = 0
-    
-    let stickyHeader = RemoteMainListBar()
-    
+    private let viewModel = MagnetBarViewModel()
+    private let disposeBag = DisposeBag()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
-        setNumber()
         layout()
         bind()
     }
@@ -44,20 +39,11 @@ class MagnetBarView: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
-    private func setNumber() {
-        bannerViewHeight = self.windowWidth * 10/13
-        offsetStandard = bannerViewHeight - MagnetBarView.navigationHeight
-    }
-    
     private func bind() {
         mainNavigationBar.bind(viewModel.mainNavigationBarViewModel)
-        mainListView.bind(viewModel.mainListViewModel, maxValue: self.offsetStandard)
+        mainListView.bind(viewModel.mainListViewModel)
         stickyHeader.bind(viewModel.stickyHeaderViewModel)
+        
         viewModel.presentVC
             .subscribe(onNext: { vc in
                 self.present(vc, animated: true)
@@ -78,15 +64,18 @@ class MagnetBarView: UIViewController {
     }
     
     private func attribute() {
-        mainNavigationBar.layer.shadowColor = UIColor.black.cgColor // 색깔
+        mainNavigationBar.layer.shadowColor = UIColor.black.cgColor
         mainNavigationBar.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
-        mainNavigationBar.layer.shadowOffset = CGSize(width: 0, height: 3) // 위치조정
-        mainNavigationBar.layer.shadowRadius = 1 // 반경
-        mainNavigationBar.layer.shadowOpacity = 0.2 // alpha값
+        mainNavigationBar.layer.shadowOffset = CGSize(width: 0, height: 3)
+        mainNavigationBar.layer.shadowRadius = 1
+        mainNavigationBar.layer.shadowOpacity = 0.2
+        
+        self.stickyHeader.isUserInteractionEnabled = false
+        self.stickyHeader.alpha = 0
     }
     
     private func layout() {
-        [mainListView, mainNavigationBar].forEach {
+        [mainListView, mainNavigationBar, stickyHeader].forEach {
             self.view.addSubview($0)
         }
         
@@ -99,14 +88,10 @@ class MagnetBarView: UIViewController {
             $0.height.equalTo(MagnetBarView.navigationHeight)
         }
         
-        self.view.addSubview(stickyHeader)
-//        stickyHeader.backgroundColor = .red
         stickyHeader.snp.makeConstraints {
             $0.top.equalTo(mainNavigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(80)
+            $0.height.equalTo(MagnetBarView.stickyHeaderHeight)
         }
-        self.stickyHeader.isUserInteractionEnabled = false
-        self.stickyHeader.alpha = 0
     }
 }

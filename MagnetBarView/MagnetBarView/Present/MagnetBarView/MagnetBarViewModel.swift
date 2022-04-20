@@ -11,7 +11,6 @@ import RxSwift
 
 struct MagnetBarViewModel {
     private let disposeBag = DisposeBag()
-//    let mainHeaderViewModel = MagnetHeaderViewModel()
     let mainNavigationBarViewModel: MagnetNavigationBarViewModel
     let mainListViewModel: MagnetListViewModel
     let stickyHeaderViewModel: RemoteMainListBarViewModel

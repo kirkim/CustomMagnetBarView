@@ -35,11 +35,6 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     
     private func attribute() {
         self.backgroundColor = .white
-        headerView.layer.shadowColor = UIColor.black.cgColor // 색깔
-        headerView.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
-        headerView.layer.shadowOffset = CGSize(width: 0, height: 4) // 위치조정
-        headerView.layer.shadowRadius = 5 // 반경
-        headerView.layer.shadowOpacity = 0.3 // alpha값
     }
     
     func setData(title: String) {
@@ -62,8 +57,8 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
         
         headerView.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-4)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(MagnetBannerCell.headerViewHeight)
         }
         

@@ -105,7 +105,7 @@ struct MagnetListSectionManager {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)), subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
         // header
-        let globalHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
+        let globalHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(MagnetBarView.stickyHeaderHeight))
         let globalHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: globalHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         globalHeader.pinToVisibleBounds = true
         section.boundarySupplementaryItems = [globalHeader]
