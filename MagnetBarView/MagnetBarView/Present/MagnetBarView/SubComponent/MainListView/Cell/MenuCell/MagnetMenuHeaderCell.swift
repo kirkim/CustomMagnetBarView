@@ -10,7 +10,7 @@ import UIKit
 import Reusable
 
 class MagnetMenuHeaderCell: UICollectionReusableView, Reusable {
-    let titleLabel = UILabel()
+    private let titleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

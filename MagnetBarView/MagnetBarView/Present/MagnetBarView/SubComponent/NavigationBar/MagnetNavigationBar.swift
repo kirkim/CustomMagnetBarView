@@ -11,14 +11,11 @@ import RxCocoa
 import SnapKit
 
 class MagnetNavigationBar: UIView {
-    static let titleFontSize:CGFloat = 30
-    static let titleBottomMargin:CGFloat = 5
-    static let titleLeftMargin:CGFloat = 50
     private let disposeBag = DisposeBag()
-    let backButton = UIButton()
-    let titleLabel = UILabel()
-    let shareButton = UIButton()
-    let likeButton = UIButton()
+    private let backButton = UIButton()
+    private let titleLabel = UILabel()
+    private let shareButton = UIButton()
+    private let likeButton = UIButton()
         
     init() {
         super.init(frame: CGRect.zero)
@@ -63,7 +60,7 @@ class MagnetNavigationBar: UIView {
         likeButton.tintColor = .white
         
         titleLabel.textColor = .white.withAlphaComponent(0)
-        titleLabel.font = UIFont(name: "Helvetica", size: MagnetNavigationBar.titleFontSize)
+        titleLabel.font = UIFont(name: "Helvetica", size: MagnetBarViewMath.naviTitleFontSize)
         titleLabel.textAlignment = .left
     }
     
@@ -78,8 +75,8 @@ class MagnetNavigationBar: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(MagnetNavigationBar.titleLeftMargin)
-            $0.bottom.equalToSuperview().offset(-MagnetNavigationBar.titleBottomMargin)
+            $0.leading.equalToSuperview().offset(MagnetBarViewMath.naviTitleLeftMargin)
+            $0.bottom.equalToSuperview().offset(-MagnetBarViewMath.naviTitleBottomMargin)
         }
         
         likeButton.snp.makeConstraints {

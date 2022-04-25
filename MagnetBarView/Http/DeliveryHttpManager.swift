@@ -1,0 +1,41 @@
+//
+//  DeliveryHttpManager.swift
+//  MagnetBarView
+//
+//  Created by 김기림 on 2022/04/21.
+//
+
+import Foundation
+import RxSwift
+
+enum StoreType: String {
+    case cafe = "Cafe"
+    case korean = "Korean"
+    case japanese = "Japanese"
+    case chinese = "Chinese"
+    case soup = "Soup"
+    case fastFood = "FastFood"
+}
+
+enum DeliveryGetType: UrlType {
+    case summaryStores(type: StoreType)
+    case detailStore(storeCode: String)
+    
+    var url: String {
+        let BASE_URL: String = "http://localhost:8080"
+        switch self {
+        case .summaryStores(let type):
+            return "\(BASE_URL)/delivery/summary?type=\(type.rawValue)"
+        case .detailStore(let code):
+            return "\(BASE_URL)/delivery/detail?storeCode=\(code)"
+        }
+    }
+}
+
+struct DeliveryHttpManager {
+    private let httpClient = RxHttpClient()
+    
+    public func getFetch(type getType: DeliveryGetType) -> Single<Result<Data, CustomError>> {
+        return httpClient.getHttp(type: getType, headers: nil)
+    }
+}

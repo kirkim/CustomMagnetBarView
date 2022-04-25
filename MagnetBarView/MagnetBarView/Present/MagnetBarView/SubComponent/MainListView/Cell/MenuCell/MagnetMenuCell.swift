@@ -11,8 +11,7 @@ import Reusable
 
 class MagnetMenuCell: UICollectionViewCell, Reusable {
     private let titleLabel = UILabel()
-    private let descriptionLabel1 = UILabel()
-    private let descriptionLabel2 = UILabel()
+    private let descriptionLabel = UILabel()
     private let priceLabel = UILabel()
     private let thumbnailView = UIImageView()
     
@@ -29,8 +28,8 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
     private func attribute() {
         self.titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         
-        [descriptionLabel1, descriptionLabel2].forEach {
-            $0.numberOfLines = 1
+        [descriptionLabel].forEach {
+            $0.numberOfLines = 2
             $0.lineBreakMode = .byTruncatingTail
             $0.font = .systemFont(ofSize: 13, weight: .light)
             $0.textColor = .systemGray
@@ -38,17 +37,23 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .white
     }
     
-    func setData(data: Sample) {
+    func setData(data: MenuItem) {
         self.titleLabel.text = data.title
-        self.descriptionLabel1.text = data.description1
-        self.descriptionLabel2.text = data.description2
+        self.descriptionLabel.text = data.description
         self.priceLabel.text = data.price?.parsingToKoreanPrice()
-        let image = UIImage(named: data.thumbnail ?? "review1.jpeg")
-        self.thumbnailView.image = image
+        print(data.thumbnail!)
+//        DispatchQueue.global().async {
+//            let url = URL(string: data.thumbnail ?? "")
+//            let data = try? Data(contentsOf: url!)
+//            DispatchQueue.main.async {
+//                let image = UIImage(data: data!)
+//                self.thumbnailView.image = image
+//            }
+//        }
     }
     
     private func layout() {
-        [titleLabel, descriptionLabel1, descriptionLabel2, priceLabel, thumbnailView].forEach {
+        [titleLabel, descriptionLabel, priceLabel, thumbnailView].forEach {
             self.addSubview($0)
         }
         let topMargin:CGFloat = 15
@@ -73,16 +78,10 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
             $0.trailing.equalTo(thumbnailView.snp.leading)
         }
         
-        descriptionLabel1.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(priceLabel.snp.bottom).offset(10)
             $0.leading.equalTo(self.contentView).offset(leftMargin)
-            $0.trailing.equalTo(thumbnailView.snp.leading)
-        }
-        
-        descriptionLabel2.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel1.snp.bottom).offset(2)
-            $0.leading.equalTo(self.contentView).offset(leftMargin)
-            $0.trailing.equalTo(thumbnailView.snp.leading)
+            $0.trailing.equalTo(thumbnailView.snp.leading).offset(-15)
         }
     }
 }

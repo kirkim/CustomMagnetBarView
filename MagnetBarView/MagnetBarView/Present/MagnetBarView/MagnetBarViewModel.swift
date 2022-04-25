@@ -12,21 +12,24 @@ import RxSwift
 struct MagnetBarViewModel {
     private let disposeBag = DisposeBag()
     let mainNavigationBarViewModel: MagnetNavigationBarViewModel
-    let mainListViewModel: MagnetListViewModel
-    let stickyHeaderViewModel: RemoteMainListBarViewModel
+    let mainListViewModel = MagnetListViewModel()
+    let stickyHeaderViewModel = RemoteMainListBarViewModel()
+    
+//    let model: MagnetBarModel
     
     // viewModel -> View
     let presentVC = PublishRelay<UIViewController>()
     let stickyHeaderOn: Signal<Bool>
     
     init() {
+        MagnetBarModel()  // TODO: code넣을 변수만들기
         self.mainNavigationBarViewModel = MagnetNavigationBarViewModel(mainTitle: "aaaaa")
-        self.mainListViewModel = MagnetListViewModel(mainTitle: "aaaaa")
-        self.stickyHeaderViewModel = mainListViewModel.stickyViewModel
+//        self.stickyHeaderViewModel = mainListViewModel.stickyViewModel
+//        self.stickyHeaderViewModel.data = 
         
-        mainListViewModel.scrollEvent
-            .bind(to: mainListViewModel.bannerCellViewModel.scrolled)
-            .disposed(by: disposeBag)
+//        mainListViewModel.scrollEvent
+//            .bind(to: mainListViewModel.bannerCellViewModel.scrolled)
+//            .disposed(by: disposeBag)
         
         mainListViewModel.scrollEvent
             .bind(to: mainNavigationBarViewModel.scrolled)

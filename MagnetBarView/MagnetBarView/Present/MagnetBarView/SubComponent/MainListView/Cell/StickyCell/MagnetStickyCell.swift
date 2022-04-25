@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 import Reusable
 
-class MagnetStickyHeaderCell: UICollectionReusableView, Reusable {
+class MagnetStickyCell: UICollectionViewCell, Reusable {
     private let stickyHeaderView = RemoteMainListBar()
     
     override init(frame: CGRect) {

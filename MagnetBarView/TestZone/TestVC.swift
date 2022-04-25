@@ -11,12 +11,13 @@ import RxCocoa
 import RxSwift
 
 class TestVC: UIViewController {
-    let testView = MagnetInfoView()
+    let testView = UIButton()
+    let disposeBag = DisposeBag()
+    let model = MagnetBarModel()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setUI()
-//        testView.bind()
     }
     
     required init?(coder: NSCoder) {
@@ -25,6 +26,18 @@ class TestVC: UIViewController {
     
     private func setUI() {
         self.view.backgroundColor = .white
+        self.testView.backgroundColor = .yellow
+        self.testView.setTitle("open", for: .normal)
+        self.testView.setTitleColor(.black, for: .normal)
+        self.testView.rx.tap
+            .bind {
+                self.model.loadData(code: "11")
+                self.model.loadView { data in
+                    print(data)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         
         [testView].forEach {
             self.view.addSubview($0)

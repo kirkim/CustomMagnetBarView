@@ -14,7 +14,6 @@ class MagnetHeaderView: UIView {
     private let disposeBag = DisposeBag()
     private let backGroundView = UIView()
     private let titleLabel = UILabel()
-    private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
     let backGroundViewSideMargin: CGFloat = 20
     let titleScaleRatio: CGFloat = 0.7
     var titleLabelX: CGFloat = 0
@@ -32,10 +31,10 @@ class MagnetHeaderView: UIView {
     }
     
     func bind(_ viewModel: MagnetHeaderViewModel) {
-        let afterFontHeight = self.calculateTitleSize(title: "s", fontSize: MagnetNavigationBar.titleFontSize).height
-        let offsetOriginY = MagnetBannerCell.headerViewHeight - (afterFontHeight + MagnetNavigationBar.titleBottomMargin) - self.titleLabelY
-        let offsetOriginX = titleLabelX - MagnetNavigationBar.titleLeftMargin
-        let widthRatio = backGroundViewSideMargin*2/(self.windowWidth-backGroundViewSideMargin*2)
+        let afterFontHeight = self.calculateTitleSize(title: "s", fontSize: MagnetBarViewMath.naviTitleFontSize).height
+        let offsetOriginY = MagnetBarViewMath.headerViewHeight - (afterFontHeight + MagnetBarViewMath.naviTitleBottomMargin) - self.titleLabelY
+        let offsetOriginX = titleLabelX - MagnetBarViewMath.naviTitleLeftMargin
+        let widthRatio = backGroundViewSideMargin*2/(MagnetBarViewMath.windowWidth-backGroundViewSideMargin*2)
         
         viewModel.movingItem
             .emit { offset, maxOffset in
@@ -54,7 +53,7 @@ class MagnetHeaderView: UIView {
     private func attribute() {
         self.backgroundColor = .clear
         titleLabel.textColor = .black
-        titleLabel.font = UIFont(name: "Helvetica", size: MagnetNavigationBar.titleFontSize/titleScaleRatio)
+        titleLabel.font = UIFont(name: "Helvetica", size: MagnetBarViewMath.naviTitleFontSize/titleScaleRatio)
         
         self.backGroundView.backgroundColor = .white
         backGroundView.layer.shadowColor = UIColor.black.cgColor // 색깔
@@ -79,9 +78,9 @@ class MagnetHeaderView: UIView {
             $0.trailing.equalToSuperview().inset(backGroundViewSideMargin)
         }
         
-        let titleSize = calculateTitleSize(title: self.titleLabel.text!, fontSize: MagnetNavigationBar.titleFontSize/titleScaleRatio)
-        titleLabelX = (self.windowWidth - titleSize.width)/2
-        titleLabelY = MagnetBannerCell.headerViewHeight - titleSize.height - titleLabelBottom
+        let titleSize = calculateTitleSize(title: self.titleLabel.text!, fontSize: MagnetBarViewMath.naviTitleFontSize/titleScaleRatio)
+        titleLabelX = (MagnetBarViewMath.windowWidth - titleSize.width)/2
+        titleLabelY = MagnetBarViewMath.headerViewHeight - titleSize.height - titleLabelBottom
         titleLabel.frame = CGRect(x: titleLabelX, y: titleLabelY, width: titleSize.width, height: titleSize.height)
     }
     

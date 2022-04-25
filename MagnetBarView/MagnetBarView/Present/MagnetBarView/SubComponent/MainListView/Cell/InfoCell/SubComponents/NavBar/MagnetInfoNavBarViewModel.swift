@@ -9,7 +9,6 @@ import Foundation
 import RxCocoa
 
 struct MagnetInfoNavBarViewModel {
-    
     // View -> ViewModel
     let tappedButton = PublishRelay<MagnetInfoType>()
     

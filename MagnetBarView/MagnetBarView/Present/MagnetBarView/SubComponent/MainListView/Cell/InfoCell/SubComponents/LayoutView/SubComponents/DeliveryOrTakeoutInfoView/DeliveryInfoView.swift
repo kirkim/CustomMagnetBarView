@@ -8,10 +8,10 @@
 import UIKit
 
 class DelieveryInfoView: UIView {
-    let deliveryPriceLabel = UILabel()
-    let minPriceLabel = UILabel()
-    let section1 = UILabel()
-    let section2 = UILabel()
+    private let deliveryPriceLabel = UILabel()
+    private let minPriceLabel = UILabel()
+    private let section1 = UILabel()
+    private let section2 = UILabel()
     
     init() {
         super.init(frame: CGRect.zero)

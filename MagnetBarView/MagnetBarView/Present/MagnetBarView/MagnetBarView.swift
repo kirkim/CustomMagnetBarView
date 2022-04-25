@@ -12,10 +12,17 @@ import RxCocoa
 import RxDataSources
 import Reusable
 
-class MagnetBarView: UIViewController {
+struct MagnetBarViewMath {
+    static let windowWidth:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
     static let navigationHeight:CGFloat = 80
     static let stickyHeaderHeight:CGFloat = 70
-    
+    static let naviTitleFontSize:CGFloat = 30
+    static let naviTitleBottomMargin:CGFloat = 5
+    static let naviTitleLeftMargin:CGFloat = 50
+    static let headerViewHeight:CGFloat = 150
+}
+
+class MagnetBarView: UIViewController {
     private let mainListView = MagnetListView()
     private let mainNavigationBar = MagnetNavigationBar()
     private let stickyHeader = RemoteMainListBar()
@@ -85,13 +92,13 @@ class MagnetBarView: UIViewController {
         
         mainNavigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(MagnetBarView.navigationHeight)
+            $0.height.equalTo(MagnetBarViewMath.navigationHeight)
         }
         
         stickyHeader.snp.makeConstraints {
             $0.top.equalTo(mainNavigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(MagnetBarView.stickyHeaderHeight)
+            $0.height.equalTo(MagnetBarViewMath.stickyHeaderHeight)
         }
     }
 }

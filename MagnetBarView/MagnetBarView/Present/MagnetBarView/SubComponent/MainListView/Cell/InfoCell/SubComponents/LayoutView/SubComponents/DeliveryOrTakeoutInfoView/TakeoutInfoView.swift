@@ -8,9 +8,9 @@
 import UIKit
 
 class TakeoutInfoView: UIView {
-    let addressLabel = UILabel()
-    let distanceLabel = UILabel()
-    let section1 = UILabel()
+    private let addressLabel = UILabel()
+    private let distanceLabel = UILabel()
+    private let section1 = UILabel()
     
     init() {
         super.init(frame: CGRect.zero)

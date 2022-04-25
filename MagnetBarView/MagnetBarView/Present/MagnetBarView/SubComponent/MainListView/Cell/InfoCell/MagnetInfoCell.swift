@@ -10,7 +10,7 @@ import UIKit
 import Reusable
 
 class MagnetInfoCell: UICollectionViewCell, Reusable {
-    let infoView = MagnetInfoView()
+    private let infoView = MagnetInfoView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

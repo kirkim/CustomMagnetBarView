@@ -17,30 +17,26 @@ enum MagnetSectionType: Int {
     }
 }
 
-struct MagnetSectionOriginY {
-    
-}
-
 struct MagnetListSectionManager {
     let bannerCellHeightRatio:CGFloat = 10/13
-    let InfoCellHeightRatio:CGFloat = 8/13
-    let menuListCellHeightRatio:CGFloat = 0.3
+    private let InfoCellHeightRatio:CGFloat = 8/13
+    private let menuListCellHeightRatio:CGFloat = 0.3
     let stickyHeaderPositionY:CGFloat
-    let menuListHeaderHeight:CGFloat = 80
-    let sectionSpace:CGFloat = 15
-    let windowWidth:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
+    private let menuListHeaderHeight:CGFloat = 80
+    private let sectionSpace:CGFloat = 15
+    
     
     init() {
-        stickyHeaderPositionY = windowWidth * (self.bannerCellHeightRatio + self.InfoCellHeightRatio) - MagnetBarView.navigationHeight
+        stickyHeaderPositionY = MagnetBarViewMath.windowWidth * (self.bannerCellHeightRatio + self.InfoCellHeightRatio) - MagnetBarViewMath.navigationHeight
     }
     
-    func calculateSectionOriginY(data: [RxStaticSectionData]) -> [CGFloat] {
+    func calculateSectionOriginY(data: [MagnetSectionModel]) -> [CGFloat] {
         guard data.count >= 4 else { return [] }
         var sectionOriginY: [CGFloat] = []
         let validData = data[3...]
         var tempData:[CGFloat] = []
         validData.forEach { data in
-            let tempHeight = menuListHeaderHeight + CGFloat(data.items.count) * windowWidth * menuListCellHeightRatio
+            let tempHeight = menuListHeaderHeight + CGFloat(data.items.count) * MagnetBarViewMath.windowWidth * menuListCellHeightRatio
             tempData.append(tempHeight)
         }
         sectionOriginY.append(stickyHeaderPositionY)
@@ -62,7 +58,7 @@ struct MagnetListSectionManager {
             case MagnetSectionType.Info.section:
                 return self.infoSecion()
             case MagnetSectionType.stickHeader.section:
-                return self.stickyHeaderSection()
+                return self.stickyCellSection()
             default:
                 return self.menuSection()
             }
@@ -99,16 +95,11 @@ struct MagnetListSectionManager {
         return section
     }
     
-    private func stickyHeaderSection() -> NSCollectionLayoutSection {
+    private func stickyCellSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)), subitem: item, count: 1)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(MagnetBarViewMath.stickyHeaderHeight)), subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
-        // header
-        let globalHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(MagnetBarView.stickyHeaderHeight))
-        let globalHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: globalHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        globalHeader.pinToVisibleBounds = true
-        section.boundarySupplementaryItems = [globalHeader]
         return section
     }
 }

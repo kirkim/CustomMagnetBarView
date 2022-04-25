@@ -15,6 +15,9 @@ struct MagnetHeaderViewModel {
     // ViewModel -> View
     let movingItem: Signal<(CGFloat, CGFloat)>
     
+    // ParentViewModel -> ViewModel
+    let title = PublishRelay<String>()
+    
     init() {
         movingItem = scrolled.asSignal()
         

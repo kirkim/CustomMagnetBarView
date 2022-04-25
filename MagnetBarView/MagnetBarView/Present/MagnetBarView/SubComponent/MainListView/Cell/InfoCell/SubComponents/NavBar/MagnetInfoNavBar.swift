@@ -13,9 +13,9 @@ import RxCocoa
 class MagnetInfoNavBar: UIView {
     private let disposeBag = DisposeBag()
     
-    let deliveryButton = MagnetInfoButton(title: "배달 24-34분")
-    let takeoutButton = MagnetInfoButton(title: "포장 12-22분")
-    let bottomSlide = UIView()
+    private let deliveryButton = MagnetInfoButton(title: "배달 24-34분")
+    private let takeoutButton = MagnetInfoButton(title: "포장 12-22분")
+    private let bottomSlide = UIView()
     
     init() {
         super.init(frame: CGRect.zero)

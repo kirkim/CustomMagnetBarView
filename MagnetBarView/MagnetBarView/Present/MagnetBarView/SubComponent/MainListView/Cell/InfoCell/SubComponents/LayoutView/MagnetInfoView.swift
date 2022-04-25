@@ -11,18 +11,17 @@ import RxCocoa
 import RxSwift
 
 class MagnetInfoView: UIView {
-    let nav = MagnetInfoNavBar()
+    private let nav = MagnetInfoNavBar()
     
-    let infoContainer = UIView()
-    let deliveryInfo = DelieveryInfoView()
-    let takeoutInfo = TakeoutInfoView()
+    private let infoContainer = UIView()
+    private let deliveryInfo = DelieveryInfoView()
+    private let takeoutInfo = TakeoutInfoView()
 
-    let reviewCollectionView = MagnetInfoCollectionView()
+    private let reviewCollectionView = MagnetInfoCollectionView()
     
     private let disposeBag = DisposeBag()
-    
-    let windowWidth:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
-    let leftMargin:CGFloat = 20
+
+    private let leftMargin:CGFloat = 20
     
     init() {
         super.init(frame: CGRect.zero)
@@ -68,12 +67,12 @@ class MagnetInfoView: UIView {
 
         deliveryInfo.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
-            $0.width.equalTo(self.windowWidth)
+            $0.width.equalTo(MagnetBarViewMath.windowWidth)
         }
 
         takeoutInfo.snp.makeConstraints {
             $0.trailing.top.bottom.equalToSuperview()
-            $0.width.equalTo(self.windowWidth)
+            $0.width.equalTo(MagnetBarViewMath.windowWidth)
         }
 
         nav.snp.makeConstraints {
@@ -84,7 +83,7 @@ class MagnetInfoView: UIView {
         infoContainer.snp.makeConstraints {
             $0.top.equalTo(self.nav.snp.bottom).offset(30)
             $0.leading.equalToSuperview().offset(leftMargin)
-            $0.width.equalTo(self.windowWidth * 2)
+            $0.width.equalTo(MagnetBarViewMath.windowWidth * 2)
         }
         
         reviewCollectionView.snp.makeConstraints {

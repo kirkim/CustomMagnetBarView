@@ -10,18 +10,7 @@ import UIKit
 import Reusable
 
 class MagnetBannerCell: UICollectionViewCell, Reusable {
-    static let headerViewHeight:CGFloat = 150
-    private let windowWidth = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
-    private let banner = BeminBannerView(
-        data: BannerSources(
-            bannerType: .basic,
-            sources: [
-                BannerSource(bannerCellImageName: "space_bread1.jpeg", presentVC: UIViewController()),
-                BannerSource(bannerCellImageName: "space_bread2.jpeg", presentVC: UIViewController()),
-                BannerSource(bannerCellImageName: "space_bread3.jpeg", presentVC: UIViewController())
-            ]
-        )
-    )
+    private let banner = BeminBannerView()
     private let headerView = MagnetHeaderView()
     
     override init(frame: CGRect) {
@@ -43,6 +32,7 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     
     func bind(_ viewModel: MagnetBannerCellViewModel) {
         self.headerView.bind(viewModel.mainHeaderViewModel)
+        banner.bind(viewModel.bannerViewModel)
     }
     
     func layout() {
@@ -52,14 +42,14 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
         
         banner.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
-            $0.height.equalTo(windowWidth*8/13)
+            $0.height.equalTo(MagnetBarViewMath.windowWidth*8/13)
         }
         
         headerView.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-4)
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(MagnetBannerCell.headerViewHeight)
+            $0.height.equalTo(MagnetBarViewMath.headerViewHeight)
         }
         
         headerView.layout()

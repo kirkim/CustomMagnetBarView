@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 class MagnetReviewVC: UIViewController {
-    
-    let tempTitleLabel = UILabel()
+    private let tempTitleLabel = UILabel()
     
     init() {
         super.init(nibName: nil, bundle: nil)

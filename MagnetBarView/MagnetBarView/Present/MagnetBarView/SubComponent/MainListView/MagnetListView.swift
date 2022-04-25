@@ -30,7 +30,7 @@ class MagnetListView: UICollectionView {
     func bind(_ viewModel: MagnetListViewModel) {
         let dataSource = viewModel.dataSource()
         let sectionOriginY = sectionManager.calculateSectionOriginY(data: viewModel.data)
-        let maxValue = sectionManager.windowWidth*sectionManager.bannerCellHeightRatio - MagnetBarView.navigationHeight
+        let maxValue = MagnetBarViewMath.windowWidth*sectionManager.bannerCellHeightRatio - MagnetBarViewMath.navigationHeight
         
         Observable.just(viewModel.data)
             .bind(to: self.rx.items(dataSource: dataSource))
@@ -87,11 +87,11 @@ class MagnetListView: UICollectionView {
     private func attribute() {
         self.contentInsetAdjustmentBehavior = .never
         self.backgroundColor = .systemGray5
-        self.register(cellType: MagnetMenuCell.self)
-        self.register(cellType: MagnetInfoCell.self)
         self.register(cellType: MagnetBannerCell.self)
+        self.register(cellType: MagnetInfoCell.self)
+        self.register(cellType: MagnetStickyCell.self)
+        self.register(cellType: MagnetMenuCell.self)
         self.register(supplementaryViewType: MagnetMenuHeaderCell.self, ofKind: UICollectionView.elementKindSectionHeader)
-        self.register(supplementaryViewType: MagnetStickyHeaderCell.self, ofKind: UICollectionView.elementKindSectionHeader)
     }
     
     private func layout() {

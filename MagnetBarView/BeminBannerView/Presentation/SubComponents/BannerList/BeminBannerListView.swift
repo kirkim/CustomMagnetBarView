@@ -13,15 +13,13 @@ class BeminBannerListView: UICollectionView {
     private let disposeBag = DisposeBag()
     private var timer: Disposable?
     private let nowPage = BehaviorSubject<Int>(value: 0)
-    private let totalPageCount: Int
+    private var totalPageCount: Int = 0
     
     //MARK: RxBannerCollectionView: init
-    init(totalPageCount: Int) {
-        self.totalPageCount = totalPageCount
+    init() {
         super.init(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.attribute()
         self.layout()
-        self.startTimer()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +45,8 @@ class BeminBannerListView: UICollectionView {
         }
     }
     
-    func bind(_ viewModel: BeminBannerListViewModel) {
+    func bind(totalPageCount: Int, _ viewModel: BeminBannerListViewModel) {
+        self.dataSource = nil
         viewModel.cellImageName
             .drive(self.rx.items(cellIdentifier: "BeminBannerCell", cellType: BeminBannerCell.self)) { row, data, cell in
                 cell.setData(imageName: data)
@@ -62,6 +61,9 @@ class BeminBannerListView: UICollectionView {
             .distinctUntilChanged()
             .bind(to: viewModel.cellClicked)
             .disposed(by: disposeBag)
+        
+        self.totalPageCount = totalPageCount
+        self.startTimer()
     }
 }
 
