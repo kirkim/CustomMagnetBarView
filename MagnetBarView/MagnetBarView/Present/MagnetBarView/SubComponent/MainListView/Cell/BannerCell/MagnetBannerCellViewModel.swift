@@ -11,27 +11,14 @@ import RxSwift
 
 struct MagnetBannerCellViewModel {
     let mainHeaderViewModel = MagnetHeaderViewModel()
-    let bannerViewModel: BeminBannerViewModel
     private let disposeBag = DisposeBag()
     
     // ParentView -> ViewModel
-    let scrolled = PublishRelay<(CGFloat, CGFloat)>()
+    let movingHeaderView = PublishRelay<(CGFloat, CGFloat)>()
     
-    // ParentViewModel -> ViewModel
-    let title = PublishRelay<String>()
-    
-    init(imageName: [String]) {
-        var imageBundle: [BannerSource] = []
-        imageName.forEach { image in
-            imageBundle.append(BannerSource(bannerCellImageName: image, presentVC: UIViewController()))
-        }
-        bannerViewModel = BeminBannerViewModel(data: BannerSources(bannerType: .basic, sources: imageBundle))
-        scrolled
+    init() {
+        movingHeaderView
             .bind(to: mainHeaderViewModel.scrolled)
             .disposed(by: disposeBag)
-        title
-            .bind(to: mainHeaderViewModel.title)
-            .disposed(by: disposeBag)
-        
     }
 }

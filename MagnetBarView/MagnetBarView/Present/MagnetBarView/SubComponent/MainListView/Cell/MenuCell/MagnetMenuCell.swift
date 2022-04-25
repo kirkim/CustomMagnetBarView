@@ -14,6 +14,7 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
     private let descriptionLabel = UILabel()
     private let priceLabel = UILabel()
     private let thumbnailView = UIImageView()
+    private var MenuImageStorage: [IndexPath : UIImage] = [:]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,19 +38,12 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .white
     }
     
-    func setData(data: MenuItem) {
+    func setData(indexPath: IndexPath, data: MenuItem, image: UIImage) {
         self.titleLabel.text = data.title
         self.descriptionLabel.text = data.description
         self.priceLabel.text = data.price?.parsingToKoreanPrice()
-        print(data.thumbnail!)
-//        DispatchQueue.global().async {
-//            let url = URL(string: data.thumbnail ?? "")
-//            let data = try? Data(contentsOf: url!)
-//            DispatchQueue.main.async {
-//                let image = UIImage(data: data!)
-//                self.thumbnailView.image = image
-//            }
-//        }
+
+        self.thumbnailView.image = image
     }
     
     private func layout() {

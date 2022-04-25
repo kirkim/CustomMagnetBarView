@@ -17,17 +17,15 @@ class DelieveryInfoView: UIView {
         super.init(frame: CGRect.zero)
         attribute()
         layout()
-        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //TODO: 나중에 ViewModel에서 가격정보 얻어오도록 구현
-    func bind() {
-        deliveryPriceLabel.text = 2000.parsingToKoreanPrice()
-        minPriceLabel.text = 20000.parsingToKoreanPrice()
+    func setData(deliveryPrice: Int, minPrice: Int) {
+        deliveryPriceLabel.text = deliveryPrice.parsingToKoreanPrice()
+        minPriceLabel.text = minPrice.parsingToKoreanPrice()
     }
     
     private func attribute() {
@@ -66,10 +64,6 @@ class DelieveryInfoView: UIView {
         minPriceLabel.snp.makeConstraints {
             $0.leading.equalTo(section2.snp.trailing)
             $0.top.equalTo(section2)
-        }
-        
-        self.snp.makeConstraints {
-            $0.bottom.equalTo(section2)
         }
     }
 }

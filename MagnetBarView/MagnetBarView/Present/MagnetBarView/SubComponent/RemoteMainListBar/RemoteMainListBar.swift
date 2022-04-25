@@ -25,12 +25,13 @@ class RemoteMainListBar: UICollectionView {
     }
     
     func bind(_ viewModel: RemoteMainListBarViewModel) {
+        self.cellData = viewModel.data
         self.dataSource = nil
         self.visibleCells.forEach {
             $0.backgroundColor = .clear
         }
-        viewModel.data
-            .bind(to: self.rx.items(cellIdentifier: "RemoteMainListBarCell", cellType: RemoteMainListBarCell.self)) { row, data, cell in
+        Driver.just(viewModel.data)
+            .drive(self.rx.items(cellIdentifier: "RemoteMainListBarCell", cellType: RemoteMainListBarCell.self)) { row, data, cell in
                 cell.setData(title: data)
                 cell.layer.cornerRadius = 15
             }

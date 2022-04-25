@@ -30,6 +30,10 @@ class MagnetInfoCell: UICollectionViewCell, Reusable {
         
     }
     
+    func setData(data: InfoItem) {
+        self.infoView.setData(data: data)
+    }
+    
     private func layout() {
         self.addSubview(infoView)
         

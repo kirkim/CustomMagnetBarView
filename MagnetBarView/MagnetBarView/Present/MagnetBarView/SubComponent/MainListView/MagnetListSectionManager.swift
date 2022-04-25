@@ -19,7 +19,7 @@ enum MagnetSectionType: Int {
 
 struct MagnetListSectionManager {
     let bannerCellHeightRatio:CGFloat = 10/13
-    private let InfoCellHeightRatio:CGFloat = 8/13
+    private let InfoCellHeightRatio:CGFloat = 9/13
     private let menuListCellHeightRatio:CGFloat = 0.3
     let stickyHeaderPositionY:CGFloat
     private let menuListHeaderHeight:CGFloat = 80

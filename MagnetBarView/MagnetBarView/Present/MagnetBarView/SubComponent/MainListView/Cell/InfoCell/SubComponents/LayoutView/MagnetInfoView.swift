@@ -33,6 +33,11 @@ class MagnetInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setData(data: InfoItem) {
+        self.deliveryInfo.setData(deliveryPrice: data.deliveryPrice, minPrice: data.minPrice)
+        self.takeoutInfo.setData(address: data.address)
+    }
+    
     func bind(_ viewModel: MagnetInfoViewModel) {
         let navViewModel = viewModel.navViewModel
         let collectionViewModel = viewModel.infoCollectionViewModel

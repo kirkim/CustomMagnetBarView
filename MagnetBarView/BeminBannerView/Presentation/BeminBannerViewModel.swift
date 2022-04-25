@@ -23,14 +23,14 @@ class BeminBannerViewModel {
     let totalPageCount: Int
     
     init(data: BannerSources) {
-        let bannerImageNames = data.sources.map { $0.bannerCellImageName }
+        let bannerImageNames = data.sources.map { $0.bannerImageUrl }
         totalPageCount = data.sources.count
         self.bannerListViewModel = BeminBannerListViewModel(bannerImageNames: bannerImageNames)
         self.buttonViewModel = BeminBannerButtonViewModel(type: data.bannerType,nowPage: bannerListViewModel.nowPage, totalPageCount: totalPageCount)
         
         if (data.bannerType == .event) {
             let totalBannerListData = data.sources.map { source -> TotalBannerListData in
-                let totalViewCellImageName = source.totalViewCellImageName != nil ? source.totalViewCellImageName! : source.bannerCellImageName
+                let totalViewCellImageName = source.totalViewCellImageName != nil ? source.totalViewCellImageName! : source.bannerImageUrl
                 return TotalBannerListData(cellImage: totalViewCellImageName, presentVC: source.presentVC)
             }
             self.totalBannerListViewModel = TotalBannerListViewModel(data: totalBannerListData)

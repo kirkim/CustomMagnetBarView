@@ -48,7 +48,7 @@
 		FE49395A28057F9E0035820F /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE49395928057F9E0035820F /* CustomTitleView.swift */; };
 		FE49395C280583C30035820F /* MagnetBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE49395B280583C30035820F /* MagnetBarView.swift */; };
 		FE49395F280585610035820F /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = FE49395E280585610035820F /* RxDataSources */; };
-		FE4D91152811696E001B6B1B /* MagnetBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4D91142811696E001B6B1B /* MagnetBarModel.swift */; };
+		FE4D91152811696E001B6B1B /* MagnetBarHttpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4D91142811696E001B6B1B /* MagnetBarHttpModel.swift */; };
 		FE5231F82807AC4600200F02 /* PresentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231F72807AC4600200F02 /* PresentHelper.swift */; };
 		FE5231FB2807CBD900200F02 /* MagnetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231FA2807CBD900200F02 /* MagnetHeaderView.swift */; };
 		FE5231FD2807CE1100200F02 /* MagnetHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */; };
@@ -113,7 +113,7 @@
 		FE493949280564EC0035820F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE49395928057F9E0035820F /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		FE49395B280583C30035820F /* MagnetBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetBarView.swift; sourceTree = "<group>"; };
-		FE4D91142811696E001B6B1B /* MagnetBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetBarModel.swift; sourceTree = "<group>"; };
+		FE4D91142811696E001B6B1B /* MagnetBarHttpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetBarHttpModel.swift; sourceTree = "<group>"; };
 		FE5231F72807AC4600200F02 /* PresentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentHelper.swift; sourceTree = "<group>"; };
 		FE5231FA2807CBD900200F02 /* MagnetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetHeaderView.swift; sourceTree = "<group>"; };
 		FE5231FC2807CE1100200F02 /* MagnetHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -445,7 +445,7 @@
 			children = (
 				FE49395B280583C30035820F /* MagnetBarView.swift */,
 				FE5231FF2807CE4F00200F02 /* MagnetBarViewModel.swift */,
-				FE4D91142811696E001B6B1B /* MagnetBarModel.swift */,
+				FE4D91142811696E001B6B1B /* MagnetBarHttpModel.swift */,
 				FE5231F92807CBBE00200F02 /* SubComponent */,
 			);
 			path = MagnetBarView;
@@ -622,7 +622,7 @@
 				FE1A73F9280817DD006C24C3 /* BeminBannerListView.swift in Sources */,
 				FE9DF4E0280E5F5100FC24CF /* RemoteMainListBarCell.swift in Sources */,
 				FE7077BF2806FF02006F7980 /* MagnetSection.swift in Sources */,
-				FE4D91152811696E001B6B1B /* MagnetBarModel.swift in Sources */,
+				FE4D91152811696E001B6B1B /* MagnetBarHttpModel.swift in Sources */,
 				FE493940280564EB0035820F /* ViewController.swift in Sources */,
 				FE03E4C02811529B000A04D4 /* RxHttpClient.swift in Sources */,
 				FE9DF4E2280E75FB00FC24CF /* MagnetListSectionManager.swift in Sources */,

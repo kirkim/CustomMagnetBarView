@@ -33,21 +33,30 @@ struct DetailStore: Codable {
     let menuSection: [MenuSection]
 }
 
-class MagnetBarModel {
-    let data = PublishRelay<[MagnetSectionModel]>()
+class MagnetBarHttpModel {
+    static let shared = MagnetBarHttpModel()
+    
+    private init() { }
+    
+//    let data = PublishRelay<[MagnetSectionModel]>()
+    var data:[MagnetSectionModel]?
     let httpManager = DeliveryHttpManager()
     let disposeBag = DisposeBag()
-    let mainTitle = PublishRelay<String>()
+    var mainTitle: String?
+    var bannerPhotoUrl: [String]?
     let navData = PublishRelay<[String]>()
+    var menuTotalCount: Int?
     
-    func loadData(code: String) {
+    func loadData(code: String, completion: @escaping () -> ()) {
         httpManager.getFetch(type: .detailStore(storeCode: code))
             .subscribe(onSuccess: { [weak self] result in
                 switch result {
                 case .success(let data):
                     do {
                         let dataModel = try JSONDecoder().decode(DetailStore.self, from: data)
-                        self?.mainTitle.accept(dataModel.storeName)
+                        var menuCount: Int = 0
+                        self?.mainTitle = dataModel.storeName
+                        self?.bannerPhotoUrl = dataModel.bannerPhotoUrl
                         var data = [
                             MagnetSectionModel.SectionBanner(items: [BannerItem(imageUrl: dataModel.bannerPhotoUrl, mainTitle: dataModel.storeName)]),
                             MagnetSectionModel.SectionInfo(items: [InfoItem(deliveryPrice: dataModel.deliveryPrice, minPrice: dataModel.minPrice, address: dataModel.address, storeCode: dataModel.code)])
@@ -61,11 +70,15 @@ class MagnetBarModel {
                         dataModel.menuSection.forEach { section in
                             var items: [MenuItem] = []
                             section.menu.forEach { menu in
+                                menuCount += 1
                                 items.append(MenuItem(title: menu.menuName, description: menu.description, price: menu.price, thumbnail: menu.menuPhotoUrl))
                             }
                             data.append(MagnetSectionModel.SectionMenu(header: section.title, items: items))
                         }
-                        self?.data.accept(data)
+//                        self?.data.accept(data)
+                        self?.data = data
+                        self?.menuTotalCount = menuCount
+                        completion()
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -78,17 +91,37 @@ class MagnetBarModel {
             .disposed(by: disposeBag)
     }
     
-    func loadView(completion: @escaping ([MagnetSectionModel]) -> ()) {
-        self.data
-            .subscribe { data in
-                completion(data)
-            } onError: { error in
-                print(error.localizedDescription)
-            } onCompleted: {
-                print("completed!")
-            } onDisposed: {
-                print("dispoesed!")
+    func getTotalData() -> [MagnetSectionModel] {
+        guard let data = data else { return [] }
+        return data
+    }
+    
+    func getSectionTitles() -> [String] {
+        guard let data = data else { return [] }
+        var titles:[String] = []
+        data.forEach { sectionModel in
+            switch sectionModel {
+            case .SectionMenu(header: let header, items: _):
+                titles.append(header)
+            default:
+                return
             }
-            .disposed(by: disposeBag)
+        }
+        return titles
+    }
+    
+    func getStoreName() -> String {
+        guard let mainTitle = mainTitle else { return "" }
+        return mainTitle
+    }
+    
+    func getBannerImageUrls() -> [String] {
+        guard let bannerPhotoUrl = bannerPhotoUrl else { return [] }
+        return bannerPhotoUrl
+    }
+    
+    func getMenuTotalCount() -> Int {
+        guard let menuTotalCount = menuTotalCount else { return 0 }
+        return menuTotalCount
     }
 }

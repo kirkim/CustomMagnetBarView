@@ -16,7 +16,6 @@ class TakeoutInfoView: UIView {
         super.init(frame: CGRect.zero)
         attribute()
         layout()
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -25,9 +24,9 @@ class TakeoutInfoView: UIView {
     
     //TODO: 나중에 네비 API적용하여 실시간 거리측정한 후 거리텍스트 변경하는식으로 구현
     //TODO: ViewModel에서 주소를 얻어옴
-    private func bind() {
-        addressLabel.text = "서울특별시 종로구 명륜길 44 1층"
-        distanceLabel.text = "(주소지로부터 1.7km, 자동차 약 6분)"
+    func setData(address: String) {
+        addressLabel.text = address
+//        distanceLabel.text = "(주소지로부터 1.7km, 자동차 약 6분)"
     }
     
     private func attribute() {
@@ -59,10 +58,6 @@ class TakeoutInfoView: UIView {
         distanceLabel.snp.makeConstraints {
             $0.leading.equalTo(addressLabel)
             $0.top.equalTo(addressLabel.snp.bottom).offset(5)
-        }
-        
-        self.snp.makeConstraints {
-            $0.bottom.equalTo(distanceLabel)
         }
     }
 }

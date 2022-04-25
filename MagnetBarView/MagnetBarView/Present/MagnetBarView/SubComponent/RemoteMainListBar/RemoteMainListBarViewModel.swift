@@ -10,6 +10,8 @@ import RxCocoa
 import RxSwift
 
 struct RemoteMainListBarViewModel {
+    let data: [String]
+    
     private let disposeBag = DisposeBag()
     
     // TopBarLayoutView -> ViewModel
@@ -20,10 +22,10 @@ struct RemoteMainListBarViewModel {
     
     //ViewModel -> View
     let slotChanging = PublishRelay<IndexPath>()
-    let data = PublishRelay<[String]>()
     
-    
-    init() {
+    init(itemTitles: [String]) {
+        self.data = itemTitles
+        
         scrolledPage
             .bind(to: slotChanging)
             .disposed(by: disposeBag)

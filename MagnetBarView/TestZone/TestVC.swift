@@ -13,7 +13,7 @@ import RxSwift
 class TestVC: UIViewController {
     let testView = UIButton()
     let disposeBag = DisposeBag()
-    let model = MagnetBarModel()
+    let model = MagnetBarHttpModel.shared
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -29,11 +29,15 @@ class TestVC: UIViewController {
         self.testView.backgroundColor = .yellow
         self.testView.setTitle("open", for: .normal)
         self.testView.setTitleColor(.black, for: .normal)
+        
         self.testView.rx.tap
             .bind {
-                self.model.loadData(code: "11")
-                self.model.loadView { data in
-                    print(data)
+                self.model.loadData(code: "11") {
+                    DispatchQueue.main.async {
+                        let vc = MagnetBarView()
+//                        vc.modalPresentationStyle = .fullScreen
+                        self.present(vc,animated: true)
+                    }
                 }
             }
             .disposed(by: disposeBag)

@@ -64,12 +64,6 @@ struct StrickyItem: MagnetSectionItem {
     var slots: [String]
 }
 
-//enum MagnetSectionItem {
-//    case Banner(item: BannerItem)
-//    case Info(data: InfoData)
-//    case Menu(menu: MenuItem)
-//}
-
 extension MagnetSectionModel: SectionModelType {
     typealias Item = MagnetSectionItem
     

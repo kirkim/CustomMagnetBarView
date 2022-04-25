@@ -8,7 +8,7 @@
 import UIKit
 
 struct BannerSource {
-    let bannerCellImageName: String
+    let bannerImageUrl: String
     var totalViewCellImageName: String?
     let presentVC: UIViewController
 }

@@ -10,10 +10,21 @@ import UIKit
 import Reusable
 
 class MagnetBannerCell: UICollectionViewCell, Reusable {
-    private let banner = BeminBannerView()
+    private let httpManager = MagnetBarHttpModel.shared
+    private let banner: BeminBannerView
     private let headerView = MagnetHeaderView()
     
     override init(frame: CGRect) {
+        var bannerSources:[BannerSource] = []
+        httpManager.getBannerImageUrls().forEach { imageUrl in
+            bannerSources.append(BannerSource(bannerImageUrl: imageUrl, presentVC: UIViewController()))
+        }
+        self.banner = BeminBannerView(
+            data: BannerSources(
+                bannerType: .basic,
+                sources: bannerSources
+            )
+        )
         super.init(frame: frame)
         attribute()
     }
@@ -32,7 +43,6 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     
     func bind(_ viewModel: MagnetBannerCellViewModel) {
         self.headerView.bind(viewModel.mainHeaderViewModel)
-        banner.bind(viewModel.bannerViewModel)
     }
     
     func layout() {

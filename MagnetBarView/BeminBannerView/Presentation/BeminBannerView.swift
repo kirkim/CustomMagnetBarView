@@ -12,14 +12,16 @@ import RxCocoa
 
 class BeminBannerView: UIView {
     let disposeBag = DisposeBag()
-    private var bannerListView = BeminBannerListView()
+    private let bannerListView: BeminBannerListView
     private let bannerButton = BeminBannerButton()
-    private var viewModel: BeminBannerViewModel?
-
+    private let viewModel: BeminBannerViewModel
+    
     //MARK: - MyBannerUsingRxswift init
-    init() {
+    init(data: BannerSources) {
+        self.viewModel = BeminBannerViewModel(data: data)
+        self.bannerListView = BeminBannerListView(totalPageCount: viewModel.totalPageCount)
         super.init(frame: CGRect.zero)
-//        self.bind()
+        self.bind()
         self.layout()
         self.attribute()
     }
@@ -44,13 +46,11 @@ class BeminBannerView: UIView {
     }
     
     private func attribute() {
-   
+        
     }
     
-    func bind(_ viewModel: BeminBannerViewModel) {
-        self.viewModel = viewModel
-        
-        self.bannerListView.bind(totalPageCount: viewModel.totalPageCount, viewModel.bannerListViewModel)
+    private func bind() {
+        self.bannerListView.bind(viewModel.bannerListViewModel)
         self.bannerButton.bind(viewModel.buttonViewModel)
         
         self.bannerButton.rx.tap
@@ -59,7 +59,6 @@ class BeminBannerView: UIView {
     }
     
     func addTouchEvent(targetViewController: UIViewController) {
-        guard let viewModel = viewModel else { return }
         viewModel.presentVC
             .bind { vc in
                 targetViewController.navigationController?.pushViewController(vc, animated: true)
