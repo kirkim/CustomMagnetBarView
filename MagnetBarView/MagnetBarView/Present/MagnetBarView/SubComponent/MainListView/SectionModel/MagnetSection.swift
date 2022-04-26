@@ -7,13 +7,6 @@
 
 import RxDataSources
 
-//struct MenuItem {
-//    var title: String?
-//    var description: String?
-//    var price: Int?
-//    var thumbnail: String?
-//}
-
 // RxDataSources용 타입
 struct MagnetSection {
     var header: String

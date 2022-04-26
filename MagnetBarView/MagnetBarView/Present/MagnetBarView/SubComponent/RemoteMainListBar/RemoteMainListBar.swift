@@ -34,6 +34,8 @@ class RemoteMainListBar: UICollectionView {
             .drive(self.rx.items(cellIdentifier: "RemoteMainListBarCell", cellType: RemoteMainListBarCell.self)) { row, data, cell in
                 cell.setData(title: data)
                 cell.layer.cornerRadius = 15
+                cell.layer.borderColor = UIColor.systemMint.cgColor
+                cell.layer.borderWidth = 1
             }
             .disposed(by: disposeBag)
         
@@ -77,7 +79,9 @@ class RemoteMainListBar: UICollectionView {
 extension RemoteMainListBar: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let slot = self.cellData?[indexPath.row] else { return CGSize.zero }
-        let length = slot.count * 15 + 20
-        return CGSize(width: length , height: Int(self.frame.height)-20)
+        var length = slot.size(withAttributes: nil).width*1.5 + 20
+        length = length > 150 ? 150 : length
+        let height = MagnetBarViewMath.stickyHeaderHeight - 30
+        return CGSize(width: length, height: height)
     }
 }

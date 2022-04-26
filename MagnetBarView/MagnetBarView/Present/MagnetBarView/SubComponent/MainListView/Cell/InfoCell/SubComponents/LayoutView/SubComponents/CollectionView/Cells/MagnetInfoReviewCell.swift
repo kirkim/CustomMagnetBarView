@@ -47,29 +47,29 @@ class MagnetInfoReviewCell: UICollectionViewCell, Reusable {
         let image = resizeImage(image: UIImage(named: data.thumbnail)!, height: self.contentView.frame.height)
         self.thumbnailView.image = image
         self.reviewLabel.text = data.review
-        setStar(rating: data.rating)
+        self.ratingLabel.text = setStar(rating: data.rating)
     }
     
-    private func setStar(rating: Int = 5) {
+    private func setStar(rating: Int = 5) -> String {
         let totalRating:String = {
             switch rating {
             case 0:
                 return "☆☆☆☆☆"
             case 1:
-                return "☆☆☆☆★"
+                return "★☆☆☆☆"
             case 2:
-                return "☆☆☆★★"
+                return "★★☆☆☆"
             case 3:
-                return "☆☆★★★"
+                return "★★★☆☆"
             case 4:
-                return "☆★★★★"
+                return "★★★★☆"
             case 5:
                 return "★★★★★"
             default:
                 return "☆☆☆☆☆"
             }
         }()
-        self.ratingLabel.text = totalRating
+        return totalRating
     }
     
     func resizeImage(image: UIImage, height: CGFloat) -> UIImage {

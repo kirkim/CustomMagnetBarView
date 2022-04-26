@@ -35,7 +35,7 @@ class TestVC: UIViewController {
                 self.model.loadData(code: "11") {
                     DispatchQueue.main.async {
                         let vc = MagnetBarView()
-//                        vc.modalPresentationStyle = .fullScreen
+                        vc.modalPresentationStyle = .fullScreen
                         self.present(vc,animated: true)
                     }
                 }

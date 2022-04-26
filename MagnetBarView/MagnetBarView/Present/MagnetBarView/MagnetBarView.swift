@@ -16,7 +16,7 @@ struct MagnetBarViewMath {
     static let windowWidth:CGFloat = (UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate).windowWidth!
     static let navigationHeight:CGFloat = 80
     static let stickyHeaderHeight:CGFloat = 70
-    static let naviTitleFontSize:CGFloat = 30
+    static let naviTitleFontSize:CGFloat = 20
     static let naviTitleBottomMargin:CGFloat = 5
     static let naviTitleLeftMargin:CGFloat = 50
     static let headerViewHeight:CGFloat = 150

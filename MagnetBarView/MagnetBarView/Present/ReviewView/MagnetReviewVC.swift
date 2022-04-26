@@ -7,36 +7,82 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxDataSources
 
 class MagnetReviewVC: UIViewController {
-    private let tempTitleLabel = UILabel()
+    private let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    private let disposeBag = DisposeBag()
+    
     
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
+        bind(MagnetReviewViewModel())
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func bind(_ viewModel: MagnetReviewViewModel) {
+        let dataSource = viewModel.dataSource()
+        Observable.just(viewModel.data)
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
+    
     private func attribute() {
+        self.tableView.delegate = self
+        
         self.view.backgroundColor = .white
-        self.tempTitleLabel.text = "sample ReviewPage"
-        self.tempTitleLabel.font = .systemFont(ofSize: 40, weight: .bold)
-        self.tempTitleLabel.textColor = .green
-        self.tempTitleLabel.textAlignment = .center
+        let cellNib = UINib(nibName: "MagnetReviewCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "MagnetReviewCell")
+        tableView.register(headerFooterViewType: MagnetReviewHeaderCell.self)
+        tableView.register(cellType: MagnetReviewTotalRatingCell.self)
     }
     
     private func layout() {
-        [tempTitleLabel].forEach {
+        [tableView].forEach {
             self.view.addSubview($0)
         }
         
-        tempTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(50)
-            $0.leading.trailing.equalToSuperview()
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+}
+
+extension MagnetReviewVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if (section == 1) {
+            let header = tableView.dequeueReusableHeaderFooterView(MagnetReviewHeaderCell.self)
+            return header
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 1) {
+            return 50
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 0) {
+            return 100
+        } else {
+            return 500
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 0) {
+            return 100
+        } else {
+            return UITableView.automaticDimension
         }
     }
 }
