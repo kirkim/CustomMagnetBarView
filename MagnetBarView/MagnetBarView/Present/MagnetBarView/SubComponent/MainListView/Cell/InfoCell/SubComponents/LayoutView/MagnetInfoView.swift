@@ -17,7 +17,7 @@ class MagnetInfoView: UIView {
     private let deliveryInfo = DelieveryInfoView()
     private let takeoutInfo = TakeoutInfoView()
 
-    private let reviewCollectionView = MagnetInfoCollectionView()
+    private let reviewCollectionView = MagnetSummaryReviewView()
     
     private let disposeBag = DisposeBag()
 

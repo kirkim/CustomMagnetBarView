@@ -12,12 +12,13 @@ protocol MagnetReviewItem {
     
 }
 
-struct ReviewItem: MagnetReviewItem {
-    var userName: String
+struct ReviewItem: MagnetReviewItem, Codable {
+    var reviewId: Int
+    var userId: String
     var rating: Int
-    var data: Date
     var description: String
-    var imageUrl: String?
+    var photoUrl: String?
+    var createAt: String
 }
 
 struct TotalRatingItem: MagnetReviewItem {

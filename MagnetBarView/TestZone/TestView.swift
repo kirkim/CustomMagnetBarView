@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TestView: UIView {
-    let testView = MagnetInfoCollectionView()
+    let testView = MagnetSummaryReviewView()
     
     init() {
         super.init(frame: CGRect.zero)

@@ -24,7 +24,7 @@ class MagnetReviewCell: UITableViewCell {
     }
     
     func setData(data: ReviewItem) {
-        self.nameLabel.text = data.userName
+        self.nameLabel.text = data.userId
         self.ratingLabel.text = setStar(rating: data.rating)
         self.dateLabel.text = "오늘"
         self.photoImageView.image = UIImage(named: "space_bread1.jpeg")

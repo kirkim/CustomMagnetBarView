@@ -9,7 +9,7 @@ import Foundation
 import RxCocoa
 
 struct MagnetInfoViewModel {
-    let infoCollectionViewModel = MagnetInfoCollectionViewModel()
+    let infoCollectionViewModel = MagnetSummaryReviewViewModel()
     let navViewModel = MagnetInfoNavBarViewModel()
     
     //ChildViewModel -> ViewModel -> ParentViewModel

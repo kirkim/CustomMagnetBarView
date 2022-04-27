@@ -14,7 +14,7 @@ enum MagnetInfoCellType {
     case popReviewVC
 }
 
-struct MagnetInfoCollectionViewModel {
+struct MagnetSummaryReviewViewModel {
     // View -> ViewModel
     let cellClicked = PublishRelay<IndexPath>()
     

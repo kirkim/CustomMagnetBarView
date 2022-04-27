@@ -10,12 +10,6 @@ import UIKit
 import SnapKit
 import Reusable
 
-struct InfoCollectionCellData {
-    let thumbnail: String
-    let review: String
-    let rating: Int
-}
-
 class MagnetInfoReviewCell: UICollectionViewCell, Reusable {
     private let thumbnailView = UIImageView()
     private let reviewLabel = UILabel()
@@ -43,11 +37,12 @@ class MagnetInfoReviewCell: UICollectionViewCell, Reusable {
         self.layer.borderColor = UIColor.black.cgColor
     }
     
-    func setData(data: InfoCollectionCellData) {
-        let image = resizeImage(image: UIImage(named: data.thumbnail)!, height: self.contentView.frame.height)
-        self.thumbnailView.image = image
+    func setData(data: SummaryReviewData, image: UIImage) {
         self.reviewLabel.text = data.review
         self.ratingLabel.text = setStar(rating: data.rating)
+        
+        let parsedImage = resizeImage(image: image, height: self.contentView.frame.height)
+        self.thumbnailView.image = parsedImage
     }
     
     private func setStar(rating: Int = 5) -> String {

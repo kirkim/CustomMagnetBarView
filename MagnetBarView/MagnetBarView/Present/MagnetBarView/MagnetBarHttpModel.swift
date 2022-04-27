@@ -40,12 +40,13 @@ class MagnetBarHttpModel {
     
 //    let data = PublishRelay<[MagnetSectionModel]>()
     var data:[MagnetSectionModel]?
-    let httpManager = DeliveryHttpManager()
+    let httpManager = DeliveryHttpManager.shared
     let disposeBag = DisposeBag()
     var mainTitle: String?
     var bannerPhotoUrl: [String]?
     let navData = PublishRelay<[String]>()
     var menuTotalCount: Int?
+    var storeCode: String?
     
     func loadData(code: String, completion: @escaping () -> ()) {
         httpManager.getFetch(type: .detailStore(storeCode: code))
@@ -55,6 +56,7 @@ class MagnetBarHttpModel {
                     do {
                         let dataModel = try JSONDecoder().decode(DetailStore.self, from: data)
                         var menuCount: Int = 0
+                        self?.storeCode = dataModel.code
                         self?.mainTitle = dataModel.storeName
                         self?.bannerPhotoUrl = dataModel.bannerPhotoUrl
                         var data = [
@@ -80,7 +82,7 @@ class MagnetBarHttpModel {
                         self?.menuTotalCount = menuCount
                         completion()
                     } catch {
-                        print(error.localizedDescription)
+                        print("decoding error: ", error.localizedDescription)
                     }
                 case .failure(let error):
                     print("fail: ", error.localizedDescription)
@@ -123,5 +125,12 @@ class MagnetBarHttpModel {
     func getMenuTotalCount() -> Int {
         guard let menuTotalCount = menuTotalCount else { return 0 }
         return menuTotalCount
+    }
+    
+    func getStoreCode() -> String {
+        guard let storeCode = storeCode else {
+            return ""
+        }
+        return storeCode
     }
 }

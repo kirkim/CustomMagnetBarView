@@ -12,9 +12,9 @@ struct MagnetReviewViewModel {
     let data = [
         MagnetReviewSectionModel.totalRatingSection(items: [ TotalRatingItem(totalCount: 10, averageRating: 4)]),
         MagnetReviewSectionModel.reviewSection(items: [
-            ReviewItem(userName: "제니", rating: 5, data: Date.now, description: "sdfds", imageUrl: "space_bread1.jpeg"),
-            ReviewItem(userName: "제니", rating: 5, data: Date.now, description: "sdfds", imageUrl: "space_bread2.jpeg"),
-            ReviewItem(userName: "제니", rating: 5, data: Date.now, description: "sdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssd\nfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfds", imageUrl: "space_bread3.jpeg")
+            ReviewItem(reviewId: 1, userId: "제니", rating: 5, description: "sdfds", photoUrl: "space_bread1.jpeg", createAt: "1231"),
+            ReviewItem(reviewId: 2, userId: "제니", rating: 5, description: "sdfds", photoUrl: "space_bread2.jpeg", createAt: "123"),
+            ReviewItem(reviewId: 3, userId: "제니", rating: 5, description: "sdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssd\nfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfds", photoUrl: "space_bread3.jpeg", createAt: "123123")
         ])
     ]
     

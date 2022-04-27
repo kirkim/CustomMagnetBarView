@@ -11,7 +11,7 @@ class PresentHelper: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let vc = MagnetReviewVC()
+        let vc = TestVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -32,7 +32,7 @@ class TestVC: UIViewController {
         
         self.testView.rx.tap
             .bind {
-                self.model.loadData(code: "11") {
+                self.model.loadData(code: "1") {
                     DispatchQueue.main.async {
                         let vc = MagnetBarView()
                         vc.modalPresentationStyle = .fullScreen
