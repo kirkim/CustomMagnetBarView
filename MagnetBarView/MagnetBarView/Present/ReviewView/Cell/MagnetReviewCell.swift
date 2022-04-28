@@ -23,15 +23,14 @@ class MagnetReviewCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
-    func setData(data: ReviewItem) {
+    func setData(data: ReviewItem, image: UIImage) {
         self.nameLabel.text = data.userId
         self.ratingLabel.text = setStar(rating: data.rating)
         self.dateLabel.text = "오늘"
-        self.photoImageView.image = UIImage(named: "space_bread1.jpeg")
+        self.photoImageView.image = image
         photoImageView.contentMode = .scaleAspectFill
         self.reviewLabel.text = data.description
         self.reviewLabel.numberOfLines = 0
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

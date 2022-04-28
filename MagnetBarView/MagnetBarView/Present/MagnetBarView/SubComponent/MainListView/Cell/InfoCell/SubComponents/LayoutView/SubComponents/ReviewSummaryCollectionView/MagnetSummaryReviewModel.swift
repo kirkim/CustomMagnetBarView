@@ -13,12 +13,12 @@ class MagnetSummaryReviewModel {
     let data = PublishRelay<[SummaryReviewData?]>()
 
     private let httpManager = DeliveryHttpManager.shared
-    private let httpModel = MagnetBarHttpModel.shared
+    private let storeHttpManager = MagnetBarHttpModel.shared
     private let disposeBag = DisposeBag()
-    private var MenuImageStorage: [Int : UIImage] = [:]
+    private var summaryReviewImageStorage: [Int : UIImage] = [:]
     
     init() {
-        httpManager.getFetch(type: .summaryReviews(storeCode: httpModel.getStoreCode(), count: 3))
+        httpManager.getFetch(type: .summaryReviews(storeCode: storeHttpManager.getStoreCode(), count: 3))
             .subscribe { [weak self] result in
                 switch result {
                 case .success(let data):
@@ -52,21 +52,21 @@ class MagnetSummaryReviewModel {
                 } else {
                     let cell = collectionView.dequeueReusableCell(for: IndexPath(row: row, section: 0), cellType: MagnetInfoReviewCell.self)
                     guard let data = data else { return cell }
-                    cell.setData(data: data, image: self.makeMenuImage(index: row, url: data.thumbnail))
+                    cell.setData(data: data, image: self.makeSummryReviewImage(index: row, url: data.thumbnail))
                     return cell
                 }
             }
             .disposed(by: disposeBag)
     }
 
-    private func makeMenuImage(index: Int, url: String) -> UIImage {
-        if (MenuImageStorage[index] != nil) {
-            return MenuImageStorage[index]!
+    private func makeSummryReviewImage(index: Int, url: String) -> UIImage {
+        if (summaryReviewImageStorage[index] != nil) {
+            return summaryReviewImageStorage[index]!
         } else {
             let url = URL(string: url)
             let data = try? Data(contentsOf: url!)
             let image = UIImage(data: data!)
-            if let image = image { self.MenuImageStorage.updateValue(image, forKey: index) }
+            if let image = image { self.summaryReviewImageStorage.updateValue(image, forKey: index) }
             return image ?? UIImage()
         }
     }

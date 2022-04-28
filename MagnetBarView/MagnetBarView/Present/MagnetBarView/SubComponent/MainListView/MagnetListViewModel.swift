@@ -48,9 +48,9 @@ class MagnetListViewModel {
             .map { type -> UIViewController in
                 switch type {
                 case .popReviewVC:
-                    return MagnetReviewVC()
-                case .review(indexPath: _):
-                    return MagnetReviewVC()
+                    return MagnetReviewVC(indexPath: nil)
+                case .review(indexPath: let indexPath):
+                    return MagnetReviewVC(indexPath: indexPath)
                 }
             }
             .asSignal()

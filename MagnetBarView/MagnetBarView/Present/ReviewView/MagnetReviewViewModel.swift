@@ -7,17 +7,15 @@
 
 import UIKit
 import RxDataSources
+import RxCocoa
 
 struct MagnetReviewViewModel {
-    let data = [
-        MagnetReviewSectionModel.totalRatingSection(items: [ TotalRatingItem(totalCount: 10, averageRating: 4)]),
-        MagnetReviewSectionModel.reviewSection(items: [
-            ReviewItem(reviewId: 1, userId: "제니", rating: 5, description: "sdfds", photoUrl: "space_bread1.jpeg", createAt: "1231"),
-            ReviewItem(reviewId: 2, userId: "제니", rating: 5, description: "sdfds", photoUrl: "space_bread2.jpeg", createAt: "123"),
-            ReviewItem(reviewId: 3, userId: "제니", rating: 5, description: "sdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssd\nfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfdssdfds", photoUrl: "space_bread3.jpeg", createAt: "123123")
-        ])
-    ]
+    let model = MagnetReviewModel()
+    let data: Driver<[MagnetReviewSectionModel]>
     
+    init() {
+        data = model.data.asDriver(onErrorJustReturn: [])
+    }
     
     func dataSource() -> RxTableViewSectionedReloadDataSource<MagnetReviewSectionModel> {
         let dataSource = RxTableViewSectionedReloadDataSource<MagnetReviewSectionModel>(
@@ -28,7 +26,7 @@ struct MagnetReviewViewModel {
                     return cell
                 case .reviewSection(items: let items):
                     let cell = tableView.dequeueReusableCell(withIdentifier: "MagnetReviewCell", for: indexPath) as! MagnetReviewCell
-                    cell.setData(data: items[indexPath.row])
+                    cell.setData(data: items[indexPath.row], image: self.model.makeReviewImage(index: indexPath.row, url: items[indexPath.row].photoUrl!))
                     return cell
                 }
                 

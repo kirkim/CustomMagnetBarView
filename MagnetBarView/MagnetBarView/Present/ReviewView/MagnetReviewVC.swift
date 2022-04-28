@@ -13,13 +13,17 @@ import RxDataSources
 class MagnetReviewVC: UIViewController {
     private let tableView = UITableView(frame: CGRect.zero, style: .plain)
     private let disposeBag = DisposeBag()
+    private let viewModel = MagnetReviewViewModel()
     
-    
-    init() {
+    init(indexPath: IndexPath?) {
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
-        bind(MagnetReviewViewModel())
+        bind(viewModel)
+        if (indexPath != nil) {
+            let row = indexPath!.row
+            self.tableView.scrollToRow(at: IndexPath(row: row, section: 1), at: .top, animated: false)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -28,8 +32,8 @@ class MagnetReviewVC: UIViewController {
     
     func bind(_ viewModel: MagnetReviewViewModel) {
         let dataSource = viewModel.dataSource()
-        Observable.just(viewModel.data)
-            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+        viewModel.data
+            .drive(self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
     
