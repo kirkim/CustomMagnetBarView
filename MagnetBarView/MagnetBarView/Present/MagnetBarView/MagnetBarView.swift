@@ -28,14 +28,14 @@ class MagnetBarView: UIViewController {
     private let mainNavigationBar = MagnetNavigationBar()
     private let stickyHeader = RemoteMainListBar()
     
-    private let viewModel = MagnetBarViewModel()
+//    private let viewModel = MagnetBarViewModel()
     private let disposeBag = DisposeBag()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
-        bind()
+        bind(MagnetBarViewModel())
     }
     
     required init?(coder: NSCoder) {
@@ -47,14 +47,14 @@ class MagnetBarView: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    private func bind() {
+    private func bind(_ viewModel: MagnetBarViewModel) {
         mainNavigationBar.bind(viewModel.mainNavigationBarViewModel)
         mainListView.bind(viewModel.mainListViewModel)
         stickyHeader.bind(viewModel.stickyHeaderViewModel)
         
         viewModel.presentVC
             .subscribe(onNext: { vc in
-                self.present(vc, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
         

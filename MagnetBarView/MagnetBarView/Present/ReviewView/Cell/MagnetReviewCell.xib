@@ -36,13 +36,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W4A-2h-PTK">
-                        <rect key="frame" x="20" y="62" width="417" height="417"/>
+                        <rect key="frame" x="20" y="62" width="417" height="557.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="W4A-2h-PTK" secondAttribute="height" multiplier="1:1" id="LWx-jO-E5s"/>
+                            <constraint firstAttribute="height" constant="557.5" id="MQU-We-PEC"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xwR-b9-rUZ">
-                        <rect key="frame" x="20" y="484" width="417" height="20.5"/>
+                        <rect key="frame" x="20" y="624.5" width="417" height="20.5"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="154" id="Bxs-qV-Xl3"/>
                         </constraints>
@@ -70,6 +70,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="dateLabel" destination="Ip0-1T-vkN" id="lYt-8J-u7y"/>
+                <outlet property="imageViewHeightConstraint" destination="MQU-We-PEC" id="spK-Cl-KQq"/>
                 <outlet property="nameLabel" destination="SXZ-vj-L98" id="ERw-KI-lOe"/>
                 <outlet property="photoImageView" destination="W4A-2h-PTK" id="CHR-hj-Z90"/>
                 <outlet property="ratingLabel" destination="Gdd-cc-PaB" id="oLm-fz-VED"/>

@@ -8,10 +8,13 @@
 import SnapKit
 import UIKit
 import Reusable
+import RxCocoa
+import RxSwift
 
 class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
-    private let checkPhotoLabel = UILabel()
+    private let checkPhotoButton = UIButton()
     private let sortLabel = UILabel()
+    private let disposeBag = DisposeBag()
     
     
     override init(reuseIdentifier: String?) {
@@ -24,27 +27,45 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func bind(_ viewModel: MagnetReviewHeaderCellViewModel) {
+        self.checkPhotoButton.rx.tap
+            .map { _ -> Bool in
+                if (self.checkPhotoButton.isSelected == false) {
+                    self.checkPhotoButton.isSelected = true
+                    return true
+                } else {
+                    self.checkPhotoButton.isSelected = false
+                    return false
+                }
+            }
+            .bind(to: viewModel.hasPhoto)
+            .disposed(by: disposeBag)
+        
+    }
+    
     private func attribute() {
         self.contentView.backgroundColor = .white
         self.sortLabel.font = .systemFont(ofSize: 20, weight: .medium)
         self.sortLabel.text = "최신순  "
-        self.checkPhotoLabel.font = .systemFont(ofSize: 20, weight: .medium)
-        self.checkPhotoLabel.textColor = .systemBlue
-        self.checkPhotoLabel.text = "☑ 포토리뷰"
+        self.checkPhotoButton.setTitle("포토리뷰", for: .normal)
+        self.checkPhotoButton.setTitleColor(.systemBlue, for: .normal)
+        self.checkPhotoButton.setTitleColor(.black, for: .selected)
+        self.checkPhotoButton.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
+        self.checkPhotoButton.setImage(UIImage(systemName: "square"), for: .selected)
     }
     
     private func layout() {
-        [checkPhotoLabel, sortLabel].forEach {
+        [checkPhotoButton, sortLabel].forEach {
             self.contentView.addSubview($0)
         }
         
-        checkPhotoLabel.snp.makeConstraints {
+        checkPhotoButton.snp.makeConstraints {
             $0.top.equalTo(self.contentView).offset(10)
             $0.leading.equalTo(self.contentView).offset(20)
         }
         
         sortLabel.snp.makeConstraints {
-            $0.top.equalTo(checkPhotoLabel)
+            $0.top.equalTo(checkPhotoButton)
             $0.trailing.equalTo(self.contentView).inset(20)
         }
     }

@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 
 enum MagnetInfoCellType {
-    case review(indexPath: IndexPath)
+    case review(row: Int)
     case popReviewVC
 }
 
@@ -27,7 +27,7 @@ struct MagnetSummaryReviewViewModel {
                 if (indexPath.row == 3) {
                     return MagnetInfoCellType.popReviewVC
                 } else {
-                    return MagnetInfoCellType.review(indexPath: indexPath)
+                    return MagnetInfoCellType.review(row: indexPath.row)
                 }
             })
             .asSignal(onErrorJustReturn: .popReviewVC)

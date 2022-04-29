@@ -24,15 +24,42 @@ class MagnetReviewTotalRatingCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setData(data: TotalRatingItem) {
+        self.totalRatingLabel.text = "\(floor(data.averageRating*100)/100)"
+        self.countDescription.text = "리뷰 \(data.totalCount)개"
+        self.starLabel.text = setStar(rating: data.averageRating)
+    }
+    
     private func attribute() {
         self.selectionStyle = .none
         self.totalRatingLabel.font = .systemFont(ofSize: 60, weight: .bold)
-        self.totalRatingLabel.text = "5.0"
-        self.starLabel.text = "★★★★★"
         self.starLabel.font = .systemFont(ofSize: 25, weight: .bold)
         self.starLabel.textColor = .systemYellow
-        self.countDescription.text = "리뷰 290개"
     }
+    
+    private func setStar(rating: CGFloat) -> String {
+        let value = Int(round(rating))
+        let totalRating:String = {
+            switch value {
+            case 0:
+                return "☆☆☆☆☆"
+            case 1:
+                return "★☆☆☆☆"
+            case 2:
+                return "★★☆☆☆"
+            case 3:
+                return "★★★☆☆"
+            case 4:
+                return "★★★★☆"
+            case 5:
+                return "★★★★★"
+            default:
+                return "☆☆☆☆☆"
+            }
+        }()
+        return totalRating
+    }
+
     
     private func layout() {
         [totalRatingLabel, starLabel, countDescription].forEach {

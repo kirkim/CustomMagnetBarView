@@ -20,22 +20,33 @@ class MagnetReviewModel {
     private let disposeBag = DisposeBag()
     
     let data = PublishRelay<[MagnetReviewSectionModel]>()
+    let reviewData = PublishRelay<MagnetReviewSectionModel>()
+    let totalRatingData = PublishRelay<MagnetReviewSectionModel>()
+//    var reviewData: MagnetReviewSectionModel?
+//    var totalRatingData: MagnetReviewSectionModel?
+//
+//    let complete = PublishRelay<Bool>()
+    
     private var reviewImageStorage: [Int : UIImage] = [:]
     
     init() {
-        httpmanager.getFetch(type: .allReviews(storeCode: "1"))
+        httpmanager.getFetch(type: .allReviews(storeCode: storeHttpManager.getStoreCode()))
             .subscribe(
                 onSuccess: { [weak self] result in
                     switch result {
                     case .success(let data):
                         do {
                             let dataModel = try JSONDecoder().decode(ReviewJSONData.self, from: data)
-                            let data = [
-                                MagnetReviewSectionModel.totalRatingSection(items: [TotalRatingItem(totalCount: dataModel.reviews.count, averageRating: dataModel.averageRating)]),
-                                MagnetReviewSectionModel.reviewSection(items: dataModel.reviews)
-                            ]
-                            print(data)
-                            self?.data.accept(data)
+//                            let data = [
+//                                MagnetReviewSectionModel.totalRatingSection(items: [TotalRatingItem(totalCount: dataModel.reviews.count, averageRating: dataModel.averageRating)]),
+//                                MagnetReviewSectionModel.reviewSection(items: dataModel.reviews)
+//                            ]
+//                            self?.data.accept(data)
+                            self?.totalRatingData.accept(MagnetReviewSectionModel.totalRatingSection(items: [TotalRatingItem(totalCount: dataModel.reviews.count, averageRating: dataModel.averageRating)]))
+                            self?.reviewData.accept(MagnetReviewSectionModel.reviewSection(items: dataModel.reviews))
+//                            self?.totalRatingData = MagnetReviewSectionModel.totalRatingSection(items: [TotalRatingItem(totalCount: dataModel.reviews.count, averageRating: dataModel.averageRating)])
+//                            self?.reviewData = MagnetReviewSectionModel.reviewSection(items: dataModel.reviews)
+//                            self?.complete.accept(true)
                         } catch {
                             print("decoding error: ", error.localizedDescription)
                         }
@@ -49,7 +60,11 @@ class MagnetReviewModel {
             .disposed(by: disposeBag)
     }
     
-    func makeReviewImage(index: Int, url: String) -> UIImage {
+    func makeReviewImage(index: Int, url: String?) -> UIImage? {
+        guard let url = url else {
+            return nil
+        }
+        
         if (reviewImageStorage[index] != nil) {
             return reviewImageStorage[index]!
         } else {
