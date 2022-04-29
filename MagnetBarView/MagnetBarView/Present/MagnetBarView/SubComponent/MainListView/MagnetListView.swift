@@ -31,7 +31,6 @@ class MagnetListView: UICollectionView {
         let dataSource = viewModel.dataSource()
         let sectionOriginY = sectionManager.calculateSectionOriginY(data: viewModel.data)
         let maxValue = MagnetBarViewMath.windowWidth*sectionManager.bannerCellHeightRatio - MagnetBarViewMath.navigationHeight
-        
         Observable.just(viewModel.data)
             .bind(to: self.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)

@@ -20,7 +20,7 @@ class MagnetListViewModel {
     let changeSection = PublishRelay<Int>()
     
     // ViewModel -> ParentViewModel
-    let presentVC: Signal<UIViewController>
+    let presentReviewVC: Signal<MagnetReviewVC>
     
     let data: [MagnetSectionModel]
     
@@ -44,12 +44,12 @@ class MagnetListViewModel {
         self.mainTitle = httpModel.getStoreName()
         stickyViewModel = RemoteMainListBarViewModel(itemTitles: httpModel.getSectionTitles())
         
-        presentVC = infoCellViewModel.popVC
-            .map { type -> UIViewController in
+        presentReviewVC = infoCellViewModel.popVC
+            .map { type -> MagnetReviewVC in
                 switch type {
                 case .popReviewVC:
                     return MagnetReviewVC(row: nil)
-                case .review(row: let row):
+                case .review(let row):
                     return MagnetReviewVC(row: row)
                 }
             }

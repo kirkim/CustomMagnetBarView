@@ -77,6 +77,7 @@
 		FE9DF4DE280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4DD280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift */; };
 		FE9DF4E0280E5F5100FC24CF /* RemoteMainListBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4DF280E5F5100FC24CF /* RemoteMainListBarCell.swift */; };
 		FE9DF4E2280E75FB00FC24CF /* MagnetListSectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9DF4E1280E75FB00FC24CF /* MagnetListSectionManager.swift */; };
+		FEDA8612281C19640091EFC7 /* MagnetReviewHttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA8611281C19640091EFC7 /* MagnetReviewHttpManager.swift */; };
 		FEDF4A0A281A2A6A00CA7FD7 /* MagnetReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDF4A09281A2A6A00CA7FD7 /* MagnetReviewModel.swift */; };
 		FEE927832818F2100027631E /* SummaryReviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE927822818F2100027631E /* SummaryReviewData.swift */; };
 		FEEFA6912816D7B4000549DD /* MagnetReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEFA6902816D7B4000549DD /* MagnetReviewViewModel.swift */; };
@@ -151,6 +152,7 @@
 		FE9DF4DD280E5F1B00FC24CF /* RemoteMainListBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMainListBarViewModel.swift; sourceTree = "<group>"; };
 		FE9DF4DF280E5F5100FC24CF /* RemoteMainListBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMainListBarCell.swift; sourceTree = "<group>"; };
 		FE9DF4E1280E75FB00FC24CF /* MagnetListSectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetListSectionManager.swift; sourceTree = "<group>"; };
+		FEDA8611281C19640091EFC7 /* MagnetReviewHttpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetReviewHttpManager.swift; sourceTree = "<group>"; };
 		FEDF4A09281A2A6A00CA7FD7 /* MagnetReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetReviewModel.swift; sourceTree = "<group>"; };
 		FEE927822818F2100027631E /* SummaryReviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryReviewData.swift; sourceTree = "<group>"; };
 		FEEFA6902816D7B4000549DD /* MagnetReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetReviewViewModel.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				FE6A20D6280D3E5D00AEC9DF /* MagnetReviewVC.swift */,
 				FEEFA6902816D7B4000549DD /* MagnetReviewViewModel.swift */,
 				FEDF4A09281A2A6A00CA7FD7 /* MagnetReviewModel.swift */,
+				FEDA8611281C19640091EFC7 /* MagnetReviewHttpManager.swift */,
 				FEEFA6922816D8C8000549DD /* Cell */,
 				FEEFA6972816DFC8000549DD /* SectionModel */,
 			);
@@ -706,6 +709,7 @@
 				FE9DF4D7280E452800FC24CF /* TestCollectionVC.swift in Sources */,
 				FE5232022807D48500200F02 /* MagnetNavigationBar.swift in Sources */,
 				FEEFA6912816D7B4000549DD /* MagnetReviewViewModel.swift in Sources */,
+				FEDA8612281C19640091EFC7 /* MagnetReviewHttpManager.swift in Sources */,
 				FE9884C32809695000A0BD1A /* MagnetInfoReviewCell.swift in Sources */,
 				FE9884C92809AE1D00A0BD1A /* TestView.swift in Sources */,
 				FE49395C280583C30035820F /* MagnetBarView.swift in Sources */,

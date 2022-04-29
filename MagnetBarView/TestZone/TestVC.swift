@@ -14,7 +14,6 @@ class TestVC: UIViewController {
     let testView = UIButton()
     let disposeBag = DisposeBag()
     let model = MagnetBarHttpModel.shared
-    let vc = MagnetBarView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -35,7 +34,8 @@ class TestVC: UIViewController {
             .bind {
                 self.model.loadData(code: "1") {
                     DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(self.vc, animated: true)
+                        let vc = MagnetBarView()
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
             }

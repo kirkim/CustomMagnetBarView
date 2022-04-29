@@ -16,7 +16,7 @@ struct MagnetBarViewModel {
     let stickyHeaderViewModel: RemoteMainListBarViewModel
     
     // viewModel -> View
-    let presentVC = PublishRelay<UIViewController>()
+    let presentReviewVC: Signal<MagnetReviewVC>
     let stickyHeaderOn: Signal<Bool>
     
     init() {
@@ -30,9 +30,7 @@ struct MagnetBarViewModel {
             .bind(to: mainNavigationBarViewModel.scrolled)
             .disposed(by: disposeBag)
         
-        mainListViewModel.presentVC
-            .emit(to: presentVC)
-            .disposed(by: disposeBag)
+        presentReviewVC = mainListViewModel.presentReviewVC
         
         stickyHeaderOn = mainListViewModel.stickyHeaderOn.asSignal()
         

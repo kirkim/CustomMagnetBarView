@@ -20,9 +20,9 @@ class MagnetReviewVC: UIViewController {
     init(row: Int?) {
         self.row = row
         super.init(nibName: nil, bundle: nil)
-        attribute()
-        layout()
-        bind()
+        self.attribute()
+        self.layout()
+        self.bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,12 +30,12 @@ class MagnetReviewVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        if (row != nil) {
-//            self.tableView.scrollToRow(at: IndexPath(row: row!, section: 1), at: .top, animated: true)
-//        }
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if (row != nil) {
+            self.tableView.scrollToRow(at: IndexPath(row: row!, section: 1), at: .top, animated: true)
+        }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -44,7 +44,7 @@ class MagnetReviewVC: UIViewController {
     func bind() {
         let dataSource = viewModel.dataSource()
         viewModel.data
-            .drive(self.tableView.rx.items(dataSource: dataSource))
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
     

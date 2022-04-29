@@ -28,14 +28,14 @@ class MagnetBarView: UIViewController {
     private let mainNavigationBar = MagnetNavigationBar()
     private let stickyHeader = RemoteMainListBar()
     
-//    private let viewModel = MagnetBarViewModel()
+    private let viewModel = MagnetBarViewModel()
     private let disposeBag = DisposeBag()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
-        bind(MagnetBarViewModel())
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -47,16 +47,22 @@ class MagnetBarView: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    private func bind(_ viewModel: MagnetBarViewModel) {
+    private func bind() {
         mainNavigationBar.bind(viewModel.mainNavigationBarViewModel)
         mainListView.bind(viewModel.mainListViewModel)
         stickyHeader.bind(viewModel.stickyHeaderViewModel)
         
-        viewModel.presentVC
-            .subscribe(onNext: { vc in
-                self.navigationController?.pushViewController(vc, animated: true)
-            })
+        viewModel.presentReviewVC
+            .emit { vc in
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
             .disposed(by: disposeBag)
+//            .subscribe(onNext: { vc in
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            })
+//            .disposed(by: disposeBag)
         
         viewModel.stickyHeaderOn
             .emit { isOn in
@@ -72,6 +78,7 @@ class MagnetBarView: UIViewController {
     }
     
     private func attribute() {
+        mainListView.backgroundColor = .yellow
         mainNavigationBar.layer.shadowColor = UIColor.black.cgColor
         mainNavigationBar.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
         mainNavigationBar.layer.shadowOffset = CGSize(width: 0, height: 3)
