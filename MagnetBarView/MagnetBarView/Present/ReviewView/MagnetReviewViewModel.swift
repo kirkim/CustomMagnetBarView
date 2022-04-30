@@ -13,12 +13,12 @@ import RxSwift
 class MagnetReviewViewModel {
     let model = MagnetReviewModel()
     let headerViewModel = MagnetReviewHeaderCellViewModel()
-    let data = PublishRelay<[MagnetReviewSectionModel]>()
+    let data = BehaviorRelay<[MagnetReviewSectionModel]>(value: [])
     
     let disposeBag = DisposeBag()
     
     init() {
-        MagnetReviewHttpManager.shared.load { a in
+        MagnetReviewHttpManager.shared.load {
             self.headerViewModel.hasPhoto
                 .map(self.model.getData)
                 .bind(to: self.data)

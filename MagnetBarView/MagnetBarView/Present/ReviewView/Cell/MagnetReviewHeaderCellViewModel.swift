@@ -9,6 +9,6 @@ import RxCocoa
 import Foundation
 
 struct MagnetReviewHeaderCellViewModel {
-    let hasPhoto = BehaviorRelay<Bool>(value: false)
-    
+    let hasPhoto = BehaviorRelay<Bool>(value: true)
 }
+

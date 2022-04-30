@@ -25,7 +25,7 @@ class MagnetReviewHttpManager {
     var totalRatingData: MagnetReviewSectionModel?
     
     
-    func load(completion: @escaping (MagnetReviewSectionModel) -> ()) {
+    func load(completion: @escaping () -> ()) {
         httpmanager.getFetch(type: .allReviews(storeCode: storeHttpManager.getStoreCode()))
             .subscribe(
                 onSuccess: { [weak self] result in
@@ -35,7 +35,7 @@ class MagnetReviewHttpManager {
                             let dataModel = try JSONDecoder().decode(ReviewJSONData.self, from: data)
                             self?.totalRatingData = MagnetReviewSectionModel.totalRatingSection(items: [TotalRatingItem(totalCount: dataModel.reviews.count, averageRating: dataModel.averageRating)])
                             self?.reviewData = MagnetReviewSectionModel.reviewSection(items: dataModel.reviews)
-                            completion(MagnetReviewSectionModel.reviewSection(items: dataModel.reviews))
+                            completion()
                         } catch {
                             print("decoding error: ", error.localizedDescription)
                         }

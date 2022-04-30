@@ -14,7 +14,7 @@ import RxCocoa
 class MagnetReviewModel {
     private let disposeBag = DisposeBag()
     private let httpManager = MagnetReviewHttpManager.shared
-    private var reviewImageStorage: [Int : UIImage] = [:]
+    private var reviewImageStorage: [String : UIImage] = [:]
     
     init() {
     }
@@ -24,13 +24,13 @@ class MagnetReviewModel {
             return nil
         }
         
-        if (reviewImageStorage[index] != nil) {
-            return reviewImageStorage[index]!
+        if (reviewImageStorage[url] != nil) {
+            return reviewImageStorage[url]!
         } else {
-            let url = URL(string: url)
-            let data = try? Data(contentsOf: url!)
+            let imageUrl = URL(string: url)
+            let data = try? Data(contentsOf: imageUrl!)
             let image = UIImage(data: data!)
-            if let image = image { self.reviewImageStorage.updateValue(image, forKey: index) }
+            if let image = image { self.reviewImageStorage.updateValue(image, forKey: url) }
             return image ?? UIImage()
         }
     }
@@ -38,7 +38,7 @@ class MagnetReviewModel {
     func getData(hasPhoto: Bool) -> [MagnetReviewSectionModel] {
         guard let totalRatingData = self.httpManager.totalRatingData,
               let reviewData = self.httpManager.reviewData else { return [] }
-        guard hasPhoto == false else { return [totalRatingData, reviewData] }
+        guard hasPhoto == true else { return [totalRatingData, reviewData] }
         let items = (reviewData.items as! [ReviewItem]).filter { item in
             return item.photoUrl != nil
         }

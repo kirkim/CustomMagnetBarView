@@ -15,7 +15,7 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
     private let checkPhotoButton = UIButton()
     private let sortLabel = UILabel()
     private let disposeBag = DisposeBag()
-    
+    private var flag:Bool = false
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -28,19 +28,22 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
     }
     
     func bind(_ viewModel: MagnetReviewHeaderCellViewModel) {
-        self.checkPhotoButton.rx.tap
-            .map { _ -> Bool in
-                if (self.checkPhotoButton.isSelected == false) {
-                    self.checkPhotoButton.isSelected = true
-                    return true
-                } else {
-                    self.checkPhotoButton.isSelected = false
-                    return false
+        if (self.flag == false) {
+            self.flag = true
+            
+            self.checkPhotoButton.rx.tap
+                .map { _ -> Bool in
+                    if (self.checkPhotoButton.isSelected == false) {
+                        self.checkPhotoButton.isSelected = true
+                        return false
+                    } else {
+                        self.checkPhotoButton.isSelected = false
+                        return true
+                    }
                 }
-            }
-            .bind(to: viewModel.hasPhoto)
-            .disposed(by: disposeBag)
-        
+                .bind(to: viewModel.hasPhoto)
+                .disposed(by: disposeBag)
+        }
     }
     
     private func attribute() {
