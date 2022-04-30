@@ -28,6 +28,12 @@ class MagnetSummaryReviewView: UICollectionView {
         
     func bind(_ viewModel: MagnetSummaryReviewViewModel) {
         self.rx.itemSelected
+            .map { [weak self] indexPath -> Int? in
+                if (indexPath.row == self?.model.dataCount) {
+                    return nil
+                }
+                return indexPath.row
+            }
             .bind(to: viewModel.cellClicked)
             .disposed(by: disposeBag)
     }
@@ -50,7 +56,7 @@ class MagnetSummaryReviewView: UICollectionView {
 
 extension MagnetSummaryReviewView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = indexPath.row == 3 ? self.frame.height - 20 : self.frame.width*3/4
+        let width = indexPath.row == (model.dataCount ?? 0) ? self.frame.height - 20 : self.frame.width*3/4
         let height:CGFloat = self.frame.height - 20
         return CGSize(width: width, height: height)
     }

@@ -13,7 +13,7 @@ struct MagnetInfoViewModel {
     let navViewModel = MagnetInfoNavBarViewModel()
     
     //ChildViewModel -> ViewModel -> ParentViewModel
-    let popVC: Signal<MagnetInfoCellType>
+    let popVC: Signal<Int?>
     
     init() {
         popVC = infoCollectionViewModel.popVC

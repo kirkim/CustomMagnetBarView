@@ -11,26 +11,18 @@ import RxSwift
 
 enum MagnetInfoCellType {
     case review(row: Int)
-    case popReviewVC
 }
 
 struct MagnetSummaryReviewViewModel {
     // View -> ViewModel
-    let cellClicked = PublishRelay<IndexPath>()
+    let cellClicked = PublishRelay<Int?>()
     
     // ViewMoel -> ParentViewModel
-    let popVC: Signal<MagnetInfoCellType>
+    let popVC: Signal<Int?>
     
     init() {
         popVC = cellClicked
-            .map({ indexPath -> MagnetInfoCellType in
-                if (indexPath.row == 3) {
-                    return MagnetInfoCellType.popReviewVC
-                } else {
-                    return MagnetInfoCellType.review(row: indexPath.row)
-                }
-            })
-            .asSignal(onErrorJustReturn: .popReviewVC)
+            .asSignal(onErrorJustReturn: nil)
     }
 }
 

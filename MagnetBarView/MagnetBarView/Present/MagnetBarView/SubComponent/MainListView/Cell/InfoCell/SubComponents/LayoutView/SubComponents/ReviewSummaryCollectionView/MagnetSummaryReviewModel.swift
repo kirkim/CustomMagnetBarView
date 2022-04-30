@@ -16,6 +16,7 @@ class MagnetSummaryReviewModel {
     private let storeHttpManager = MagnetBarHttpModel.shared
     private let disposeBag = DisposeBag()
     private var summaryReviewImageStorage: [Int : UIImage] = [:]
+    var dataCount: Int?
     
     init() {
         httpManager.getFetch(type: .summaryReviews(storeCode: storeHttpManager.getStoreCode(), count: 3))
@@ -30,6 +31,7 @@ class MagnetSummaryReviewModel {
                             summaryReviews.append(summaryReview)
                         }
                         summaryReviews.append(nil)
+                        self?.dataCount = summaryReviews.count - 1
                         self?.data.accept(summaryReviews)
                     } catch {
                         print("decoding error: ", error.localizedDescription)
@@ -46,7 +48,7 @@ class MagnetSummaryReviewModel {
     func setData(coView: UICollectionView) {
         self.data
             .bind(to: coView.rx.items) { collectionView, row, data in
-                if (row == 3) {
+                if (row == self.dataCount ?? 0) {
                     let cell = collectionView.dequeueReusableCell(for: IndexPath(row: row, section: 0), cellType: MagnetInfoMoreButtonCell.self)
                     return cell
                 } else {

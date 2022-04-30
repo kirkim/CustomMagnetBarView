@@ -59,10 +59,6 @@ class MagnetBarView: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
-//            .subscribe(onNext: { vc in
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            })
-//            .disposed(by: disposeBag)
         
         viewModel.stickyHeaderOn
             .emit { isOn in

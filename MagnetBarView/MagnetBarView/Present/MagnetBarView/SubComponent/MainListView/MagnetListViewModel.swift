@@ -45,13 +45,8 @@ class MagnetListViewModel {
         stickyViewModel = RemoteMainListBarViewModel(itemTitles: httpModel.getSectionTitles())
         
         presentReviewVC = infoCellViewModel.popVC
-            .map { type -> MagnetReviewVC in
-                switch type {
-                case .popReviewVC:
-                    return MagnetReviewVC(row: nil)
-                case .review(let row):
-                    return MagnetReviewVC(row: row)
-                }
+            .map { row -> MagnetReviewVC in
+                return MagnetReviewVC(row: row)
             }
             .asSignal()
     }
