@@ -12,7 +12,7 @@ class PresentHelper: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        let vc = MagnetReviewVC(indexPath: nil)
-        let vc = TestVC()
+        let vc = MagnetPresentMenuVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
