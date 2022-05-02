@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class CountCheckerView: UIView {
     private let minusButton = UIButton()
     private let plusButton = UIButton()
     private let countLabel = UILabel()
+    private let disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,6 +23,24 @@ class CountCheckerView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(_ viewModel: CountCheckerViewModel) {
+        self.plusButton.rx.tap
+            .map { 1 }
+            .bind(to: viewModel.buttonClicked)
+            .disposed(by: disposeBag)
+        
+        self.minusButton.rx.tap
+            .map { -1 }
+            .bind(to: viewModel.buttonClicked)
+            .disposed(by: disposeBag)
+        
+        viewModel.totalCount
+            .emit { value in
+                self.countLabel.text = "\(value)개"
+            }
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {

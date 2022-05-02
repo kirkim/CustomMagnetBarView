@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		FE03E4C02811529B000A04D4 /* RxHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE03E4BF2811529B000A04D4 /* RxHttpClient.swift */; };
 		FE03E4C2281152C2000A04D4 /* DeliveryHttpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE03E4C1281152C2000A04D4 /* DeliveryHttpManager.swift */; };
+		FE1582BE281FE9A7001E360B /* MagnetPresentCountSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1582BD281FE9A7001E360B /* MagnetPresentCountSelectViewModel.swift */; };
+		FE1582C0281FEE69001E360B /* CountCheckerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1582BF281FEE69001E360B /* CountCheckerViewModel.swift */; };
+		FE1582C228200AC8001E360B /* PopupLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1582C128200AC8001E360B /* PopupLabel.swift */; };
 		FE1A73F0280817DD006C24C3 /* BeminBannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1A73DE280817DD006C24C3 /* BeminBannerViewModel.swift */; };
 		FE1A73F1280817DD006C24C3 /* BeminBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1A73DF280817DD006C24C3 /* BeminBannerView.swift */; };
 		FE1A73F2280817DD006C24C3 /* BeminBannerButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1A73E2280817DD006C24C3 /* BeminBannerButtonViewModel.swift */; };
@@ -100,6 +103,9 @@
 /* Begin PBXFileReference section */
 		FE03E4BF2811529B000A04D4 /* RxHttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxHttpClient.swift; sourceTree = "<group>"; };
 		FE03E4C1281152C2000A04D4 /* DeliveryHttpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryHttpManager.swift; sourceTree = "<group>"; };
+		FE1582BD281FE9A7001E360B /* MagnetPresentCountSelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetPresentCountSelectViewModel.swift; sourceTree = "<group>"; };
+		FE1582BF281FEE69001E360B /* CountCheckerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCheckerViewModel.swift; sourceTree = "<group>"; };
+		FE1582C128200AC8001E360B /* PopupLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupLabel.swift; sourceTree = "<group>"; };
 		FE1A73DE280817DD006C24C3 /* BeminBannerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeminBannerViewModel.swift; sourceTree = "<group>"; };
 		FE1A73DF280817DD006C24C3 /* BeminBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeminBannerView.swift; sourceTree = "<group>"; };
 		FE1A73E2280817DD006C24C3 /* BeminBannerButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeminBannerButtonViewModel.swift; sourceTree = "<group>"; };
@@ -503,6 +509,7 @@
 			children = (
 				FE53A1CF281EBFF000889CFC /* MagnetSubmitTapView.swift */,
 				FE6002AF281F7EC200752C15 /* MagnetSubmitTapViewModel.swift */,
+				FE1582C128200AC8001E360B /* PopupLabel.swift */,
 			);
 			path = SubComponent;
 			sourceTree = "<group>";
@@ -511,7 +518,9 @@
 			isa = PBXGroup;
 			children = (
 				FE53A1CC281EBDB300889CFC /* MagnetPresentCountSelectCell.swift */,
+				FE1582BD281FE9A7001E360B /* MagnetPresentCountSelectViewModel.swift */,
 				FE53A1D2281EC48900889CFC /* CountChecker.swift */,
+				FE1582BF281FEE69001E360B /* CountCheckerViewModel.swift */,
 			);
 			path = CountSelectCell;
 			sourceTree = "<group>";
@@ -769,13 +778,16 @@
 				FE4D91152811696E001B6B1B /* MagnetBarHttpModel.swift in Sources */,
 				FEEFA69E2817A461000549DD /* CalculateTest.swift in Sources */,
 				FEEFA69B2816E32B000549DD /* MagnetReviewHeaderCell.swift in Sources */,
+				FE1582C228200AC8001E360B /* PopupLabel.swift in Sources */,
 				FE493940280564EB0035820F /* ViewController.swift in Sources */,
 				FE03E4C02811529B000A04D4 /* RxHttpClient.swift in Sources */,
 				FE9DF4E2280E75FB00FC24CF /* MagnetListSectionManager.swift in Sources */,
 				FE76FB92280D5F59008BAA17 /* MagnetSummaryReviewModel.swift in Sources */,
 				FE300BF0280911DE00952AA8 /* TakeoutInfoView.swift in Sources */,
 				FE300BD32808F90100952AA8 /* MagnetInfoNavBar.swift in Sources */,
+				FE1582BE281FE9A7001E360B /* MagnetPresentCountSelectViewModel.swift in Sources */,
 				FE7077BD2806FB73006F7980 /* MagnetMenuCell.swift in Sources */,
+				FE1582C0281FEE69001E360B /* CountCheckerViewModel.swift in Sources */,
 				FE9DF4D9280E504D00FC24CF /* MagnetStickyCell.swift in Sources */,
 				FE1A73F2280817DD006C24C3 /* BeminBannerButtonViewModel.swift in Sources */,
 				FE1A73FA280817DD006C24C3 /* BannerSources.swift in Sources */,

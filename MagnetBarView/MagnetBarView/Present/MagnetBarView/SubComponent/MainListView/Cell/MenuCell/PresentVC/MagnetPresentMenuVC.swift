@@ -17,6 +17,8 @@ class MagnetPresentMenuVC: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel =  MagnetPresentMenuViewModel()
     
+    private let popupLabel = PopupLabel()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         attribute()
@@ -65,11 +67,28 @@ class MagnetPresentMenuVC: UIViewController {
             })
             .bind(to: viewModel.itemSelect)
             .disposed(by: disposeBag)
+        
+        viewModel.warningAlert
+            .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
+            .bind { message in
+                self.popupLabel.text = message
+                self.popupLabel.alpha = 1
+                self.popupLabel.isHidden = false
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    UIView.animate(withDuration: 0.4) {
+                        self.popupLabel.alpha = 0
+                    } completion: { _ in
+                        self.popupLabel.isHidden = true
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+            
+
     }
     
     private func attribute() {
-
-
+        self.popupLabel.isHidden = true
         self.title = "[가성비갑]모듬초밥10p"
         self.collectionView.backgroundColor = .systemGray4
         self.collectionView.contentInsetAdjustmentBehavior = .never
@@ -80,7 +99,7 @@ class MagnetPresentMenuVC: UIViewController {
     }
     
     private func layout() {
-        [collectionView, submitView].forEach {
+        [collectionView, submitView, popupLabel].forEach {
             self.view.addSubview($0)
         }
         
@@ -94,5 +113,9 @@ class MagnetPresentMenuVC: UIViewController {
             $0.bottom.equalTo(submitView.snp.top)
         }
         
+        popupLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
     }
 }

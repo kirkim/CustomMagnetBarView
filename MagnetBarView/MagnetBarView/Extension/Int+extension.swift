@@ -12,6 +12,9 @@ extension Int {
         let frontValue = self / 1000
         let backValue = self % 1000
         
+        if (frontValue == 0) {
+            return String(backValue) + "원"
+        }
         let front = frontValue != 0 ? String(frontValue) + "," : ""
         let back = { () -> String in
             if (backValue < 10) {

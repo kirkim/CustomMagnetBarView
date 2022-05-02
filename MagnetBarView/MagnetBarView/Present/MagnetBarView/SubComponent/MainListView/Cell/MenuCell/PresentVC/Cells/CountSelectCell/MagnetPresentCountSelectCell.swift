@@ -14,6 +14,7 @@ class MagnetPresentCountSelectCell: UICollectionViewCell, Reusable {
     private let titleLabel = UILabel()
     private let countCheckerView = CountCheckerView()
     private let guideLabel = UILabel()
+    private var flag:Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,6 +24,13 @@ class MagnetPresentCountSelectCell: UICollectionViewCell, Reusable {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(_ viewModel: MagnetPresentCountSelectViewModel) {
+        if (self.flag == false) {
+            self.flag = true
+            self.countCheckerView.bind(viewModel.countCheckerViewModel)
+        }
     }
     
     private func attribute() {

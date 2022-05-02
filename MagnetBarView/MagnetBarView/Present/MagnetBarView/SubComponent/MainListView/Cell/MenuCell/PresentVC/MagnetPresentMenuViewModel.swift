@@ -60,36 +60,42 @@ struct SelectChecker {
 class MagnetPresentMenuViewModel {
     private let disposeBag = DisposeBag()
     private let sectionManager = MagnetPresentMenuSectionManager()
+    private let countSelectViewModel = MagnetPresentCountSelectViewModel()
+    let submitTapViewModel = MagnetSubmitTapViewModel()
+    
+    //View -> ViewModel
     let itemSelect = PublishRelay<(IndexPath, UICollectionView)>()
+    
+    //ViewModel -> View
+    let warningAlert = PublishRelay<String>()
+    let inputPrice = BehaviorRelay<Int>(value: 0)
+    
+    // checker Manager
     private var selectChecker:[SelectChecker] = []
     private var initMustOneCell: [Int] = []
     
-    let submitTapViewModel = MagnetSubmitTapViewModel()
-    let inputPrice = BehaviorRelay<Int>(value: 0)
-    
     let data:[PresentMenuSectionModel] = [
         PresentMenuSectionModel.SectionMainTitle(items: [PresentMenuTitleItem(imageUrl: nil, mainTitle: "hi")]),
-        PresentMenuSectionModel.SectionMenu(header: "가격", selecType: .custom(min: 0, max: 4), items: [
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: "")
-        ]),
         PresentMenuSectionModel.SectionMenu(header: "가격", selecType: .mustOne, items: [
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: "")
+            PresentMenuItem(title: "소", price: 13000),
+            PresentMenuItem(title: "중", price: 16000),
+            PresentMenuItem(title: "대", price: 20000),
+            PresentMenuItem(title: "특대", price: 30000),
         ]),
-        PresentMenuSectionModel.SectionMenu(header: "가격", selecType: .custom(min: 2, max: 4), items: [
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: ""),
-            PresentMenuItem(title: "", description: "", price: 3, thumbnail: "")
+        PresentMenuSectionModel.SectionMenu(header: "사리추가", selecType: .custom(min: 0, max: 3), items: [
+            PresentMenuItem(title: "라면사리", price: 1000),
+            PresentMenuItem(title: "우동사리", price: 2000),
+            PresentMenuItem(title: "중국당면", price: 3000),
+            PresentMenuItem(title: "치즈사리", price: 2500),
+            PresentMenuItem(title: "깻잎추가", price: 1500),
+            PresentMenuItem(title: "돈까스토핑추가", price: 5500),
         ]),
-
+        PresentMenuSectionModel.SectionMenu(header: "서비스", selecType: .custom(min: 1, max: 2), items: [
+            PresentMenuItem(title: "콜라", price: 0),
+            PresentMenuItem(title: "사이다", price: 0),
+            PresentMenuItem(title: "제로콜라", price: 0),
+            PresentMenuItem(title: "트레비", price: 0),
+        ]),
         PresentMenuSectionModel.SectionSelectCount(items: [PresentSelectCountItem(title: "s")]),
     ]
     
@@ -98,19 +104,24 @@ class MagnetPresentMenuViewModel {
             return a + b
         })
         
-        totalPrice
-            .bind(to: submitTapViewModel.currentPrice)
+        Observable
+            .combineLatest(totalPrice, countSelectViewModel.totalCount.asObservable()) { a, b in
+                return a * b
+            }
+            .subscribe(onNext: {value in
+                self.submitTapViewModel.currentPrice.accept(value)
+            })
             .disposed(by: disposeBag)
-        
         
         self.selectChecker.append(SelectChecker(selectType: .mustOne, selectCells: [])) // 첫번째 섹션이 메인타이틀로 사용한 것에 대한 보정값
         var i = -1 // section인덱스
         self.data.forEach { dat in
             i += 1
             switch dat {
-            case .SectionMenu(header: _, selecType: let selectType, items: _):
+            case .SectionMenu(header: _, selecType: let selectType, items: let items):
                 self.selectChecker.append(SelectChecker(selectType: selectType, selectCells: []))
                 if (selectType == .mustOne) {
+                    self.inputPrice.accept(items[0].price!) // 초기에 자동선택되어있는 아이템이므로 값을 추가해준다
                     self.initMustOneCell.append(i)
                 }
             case .SectionMainTitle(items: _):
@@ -119,7 +130,7 @@ class MagnetPresentMenuViewModel {
                 return
             }
         }
-
+        
         itemSelect
             .filter { indexPath, collectionView in
                 let cell = collectionView.cellForItem(at: indexPath) as? MagnetPresentMenuCell
@@ -133,7 +144,12 @@ class MagnetPresentMenuViewModel {
                     self.selectChecker[indexPath.section].remove(row: indexPath.row)
                     self.inputPrice.accept(cell.clickedItem())
                 } else if (self.selectChecker[indexPath.section].canSelectCell() == false) {
-                    print("can't clicked!")
+                    switch self.selectChecker[indexPath.section].selectType {
+                    case .custom(min: _, max: let max):
+                        self.warningAlert.accept("\(max)개까지 선택 가능합니다.")
+                    case .mustOne:
+                        fatalError() // .mustOne 타입인데 이곳으로 오면 안됨
+                    }
                 } else {
                     self.selectChecker[indexPath.section].add(row: indexPath.row)
                     self.inputPrice.accept(cell.clickedItem())
@@ -180,7 +196,7 @@ class MagnetPresentMenuViewModel {
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetPresentMainTitleCell.self)
                     
                     return cell
-                case .SectionMenu(header: _, selecType: _, items: _):
+                case .SectionMenu(header: _, selecType: _, items: let items):
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetPresentMenuCell.self)
                     if (self.selectChecker[indexPath.section].isSelectCell(row: indexPath.row)) {
                         cell.clickedItem()
@@ -190,22 +206,27 @@ class MagnetPresentMenuViewModel {
                         }
                         cell.clickedItem()
                     }
+                    cell.setData(data: items[indexPath.row])
                     return cell
                 case .SectionSelectCount(items: _):
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetPresentCountSelectCell.self)
                     //   let image = self.makeMenuImage(indexPath: indexPath, url: items[indexPath.row].thumbnail ?? "")
-                    
+                    cell.bind(self.countSelectViewModel)
                     return cell
                 }
             })
         
         dataSource.configureSupplementaryView = {(dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
-//            switch dataSource[indexPath.section] {
-//            default:
+            switch dataSource[indexPath.section] {
+            case .SectionMenu(header: let headerString, selecType: let type, items: let items):
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, for: indexPath, viewType: MagnetPresentMenuHeaderView.self)
-                    return header
+                header.setData(header: headerString, type: type, itemCount: items.count)
+                return header
+            default:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, for: indexPath, viewType: MagnetPresentMenuHeaderView.self)
+                return header
             }
-//        }
+        }
         return dataSource
     }
 }

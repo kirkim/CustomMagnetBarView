@@ -23,13 +23,29 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setData(header: String, type: SelectType, itemCount: Int) {
+        self.titleLabel.text = header
+        switch type {
+        case .mustOne:
+            break;
+        case .custom(min: let min, max: let max):
+            let maxValue = max <= itemCount ? max : itemCount
+            var minValue = min < 0 ? 0 : min
+            minValue = minValue > maxValue ? maxValue : minValue
+            if (minValue == 0) {
+                self.checkCountLabel.text = "[최대 \(maxValue)개까지 선택가능]"
+            } else {
+                self.checkCountLabel.text = "[최소 \(minValue)개 이상, \(maxValue)개까지 선택가능]"
+            }
+        }
+    }
+    
     private func attribute() {
         self.backgroundColor = .white
         //Temp
         self.titleLabel.text = "가격"
         self.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
-        self.checkCountLabel.text = "2개 선택가능"
-        self.checkCountLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        self.checkCountLabel.font = .systemFont(ofSize: 18, weight: .light)
     }
     
     private func layout() {
@@ -43,8 +59,7 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
         }
         
         checkCountLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(20)
-            $0.trailing.equalToSuperview().inset(10)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(15)
             $0.centerY.equalToSuperview()
         }
     }

@@ -26,10 +26,8 @@ protocol PresentMenuSectionItem {
 }
 
 struct PresentMenuItem: PresentMenuSectionItem {
-    var title: String?
-    var description: String?
+    var title: String
     var price: Int?
-    var thumbnail: String?
 }
 
 struct PresentMenuTitleItem: PresentMenuSectionItem {
