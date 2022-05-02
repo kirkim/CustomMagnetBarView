@@ -26,7 +26,7 @@ class MagnetPresentCountSelectCell: UICollectionViewCell, Reusable {
     }
     
     private func attribute() {
-        self.backgroundColor = .systemGray4
+        self.backgroundColor = .clear
         self.container.backgroundColor = .white
         
         self.titleLabel.text = "수량"
@@ -62,12 +62,12 @@ class MagnetPresentCountSelectCell: UICollectionViewCell, Reusable {
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(15)
         }
         
         countCheckerView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(15)
             $0.height.equalTo(45)
             $0.width.equalTo(140)
         }

@@ -14,6 +14,7 @@ class PresentHelper: UIViewController {
 //        let vc = MagnetReviewVC(indexPath: nil)
         let vc = MagnetPresentMenuVC()
         self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationItem.backButtonTitle = ""
     }
     
     override func viewDidLoad() {

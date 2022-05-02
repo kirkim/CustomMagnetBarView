@@ -13,6 +13,7 @@ class MagnetPresentMenuCell: UICollectionViewCell, Reusable {
     private let checkBoxImageView = UIImageView()
     private let titleLabel = UILabel()
     private let priceLabel = UILabel()
+    var isClicked: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,9 +25,26 @@ class MagnetPresentMenuCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        self.isClicked = false
+        self.checkBoxImageView.image = UIImage(systemName: "circle")
+    }
+    
+    func clickedItem() -> Int {
+        isClicked.toggle()
+        if (isClicked == true) {
+            self.checkBoxImageView.image = UIImage(systemName: "circle.circle")
+            return 2000
+        } else {
+            self.checkBoxImageView.image = UIImage(systemName: "circle")
+            return -2000
+        }
+    }
+    
     private func attribute() {
+        self.backgroundColor = .white
         //Temp
-        self.checkBoxImageView.image = UIImage(systemName: "circle.circle")
+        self.checkBoxImageView.image = UIImage(systemName: "circle")
         self.titleLabel.text = "소"
         self.priceLabel.text = 25000.parsingToKoreanPrice()
     }
@@ -38,7 +56,7 @@ class MagnetPresentMenuCell: UICollectionViewCell, Reusable {
         
         checkBoxImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(10)
         }
         
         titleLabel.snp.makeConstraints {
@@ -48,7 +66,7 @@ class MagnetPresentMenuCell: UICollectionViewCell, Reusable {
         
         priceLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(10)
         }
     }
 }

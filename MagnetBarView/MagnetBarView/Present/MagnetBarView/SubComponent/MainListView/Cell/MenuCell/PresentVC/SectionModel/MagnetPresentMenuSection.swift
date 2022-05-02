@@ -8,10 +8,16 @@
 import Foundation
 import RxDataSources
 
+enum SelectType: Equatable {
+    case mustOne
+    case custom(min: Int, max: Int)
+}
+
+
 ///After Refactoring
 enum PresentMenuSectionModel {
     case SectionMainTitle(items: [PresentMenuTitleItem])
-    case SectionMenu(header: String, canSelectCount: Int?, items: [PresentMenuItem])
+    case SectionMenu(header: String, selecType: SelectType, items: [PresentMenuItem])
     case SectionSelectCount(items: [PresentSelectCountItem])
 }
 
@@ -50,16 +56,7 @@ extension PresentMenuSectionModel: SectionModelType {
             return nil
         }
     }
-    
-    var canSelectCount: Int? {
-        switch self {
-        case .SectionMenu(_, let count, _):
-            return count
-        default:
-            return nil
-        }
-    }
-    
+        
   var items: [Item] {
       switch self {
       case .SectionMainTitle(let items):

@@ -24,6 +24,7 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
     }
     
     private func attribute() {
+        self.backgroundColor = .white
         //Temp
         self.titleLabel.text = "가격"
         self.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
@@ -38,11 +39,12 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(10)
         }
         
         checkCountLabel.snp.makeConstraints {
             $0.leading.equalTo(titleLabel.snp.trailing).offset(20)
+            $0.trailing.equalToSuperview().inset(10)
             $0.centerY.equalToSuperview()
         }
     }

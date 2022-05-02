@@ -11,8 +11,9 @@ import Reusable
 
 class MagnetPresentMainTitleCell: UICollectionViewCell, Reusable {
     private let mainPhotoView = UIImageView()
-    private let headerLabelShadow = UIView()
-    private let headerLabel = UILabel()
+    private let headerLayer = UIView()
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,27 +26,31 @@ class MagnetPresentMainTitleCell: UICollectionViewCell, Reusable {
     }
     
     private func attribute() {
+        self.backgroundColor = .white
         //Temp
-        mainPhotoView.backgroundColor = .blue
-        headerLabelShadow.backgroundColor = .clear
-        headerLabel.backgroundColor = .red
+        headerLayer.backgroundColor = .white
         mainPhotoView.image = UIImage(named: "review1")
         
-        headerLabel.text = "hello"
-        headerLabel.textAlignment = .center
-        headerLabel.font = .systemFont(ofSize: 30, weight: .medium)
-        headerLabel.layer.cornerRadius = 10
-        headerLabel.layer.masksToBounds = true
+        titleLabel.text = "[가성비갑]모듬초밥10p"
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 23, weight: .medium)
+        titleLabel.numberOfLines = 1
         
-        headerLabelShadow.layer.shadowColor = UIColor.black.cgColor // 색깔
-        headerLabelShadow.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
-        headerLabelShadow.layer.shadowOffset = CGSize(width: 2, height: 4) // 위치조정
-        headerLabelShadow.layer.shadowRadius = 2 // 반경
-        headerLabelShadow.layer.shadowOpacity = 0.5 // alpha값
+        descriptionLabel.text = "초밥 재료는 그날 재료에 따라 달라집니다\n찜&후기약속 꼭 해주세요~~~~"
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.font = .systemFont(ofSize: 16, weight: .light)
+        descriptionLabel.numberOfLines = 0
+
+        headerLayer.layer.cornerRadius = 10
+        headerLayer.layer.shadowColor = UIColor.black.cgColor
+        headerLayer.layer.shadowOffset = CGSize(width: 2, height: 4)
+        headerLayer.layer.shadowRadius = 2
+        headerLayer.layer.shadowOpacity = 0.5
+        headerLayer.layer.masksToBounds = false
     }
     
     private func layout() {
-        [mainPhotoView, headerLabelShadow].forEach {
+        [mainPhotoView, headerLayer, titleLabel, descriptionLabel].forEach {
             self.addSubview($0)
         }
         
@@ -56,18 +61,22 @@ class MagnetPresentMainTitleCell: UICollectionViewCell, Reusable {
             $0.height.equalTo(windowWidth)
         }
         
-        let headerViewHeight = 60
-        
-        headerLabelShadow.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(mainPhotoView.snp.bottom).offset(-30)
             $0.width.equalTo(windowWidth*0.9)
-            $0.height.equalTo(headerViewHeight)
-            $0.bottom.equalTo(mainPhotoView).offset(headerViewHeight/2)
+            $0.centerX.equalToSuperview()
         }
         
-        headerLabelShadow.addSubview(headerLabel)
-        headerLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.width.equalTo(windowWidth*0.9)
+            $0.centerX.equalToSuperview()
+        }
+        
+        headerLayer.snp.makeConstraints {
+            $0.top.equalTo(titleLabel).offset(-30)
+            $0.leading.trailing.equalTo(titleLabel)
+            $0.bottom.equalTo(descriptionLabel).offset(20)
         }
     }
 }
