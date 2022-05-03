@@ -13,6 +13,7 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     private let httpManager = MagnetBarHttpModel.shared
     private let banner: BeminBannerView
     private let headerView = MagnetHeaderView()
+    private var flag: Bool = false
     
     override init(frame: CGRect) {
         var bannerSources:[BannerSource] = []
@@ -42,7 +43,10 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     }
     
     func bind(_ viewModel: MagnetBannerCellViewModel) {
-        self.headerView.bind(viewModel.mainHeaderViewModel)
+        if (flag == false) {
+            flag = true
+            self.headerView.bind(viewModel.mainHeaderViewModel)
+        }
     }
     
     func layout() {

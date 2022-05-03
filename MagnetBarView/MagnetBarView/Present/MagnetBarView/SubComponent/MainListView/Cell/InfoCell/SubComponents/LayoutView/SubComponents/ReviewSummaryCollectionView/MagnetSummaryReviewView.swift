@@ -34,7 +34,7 @@ class MagnetSummaryReviewView: UICollectionView {
                 }
                 return indexPath.row
             }
-            .bind(to: viewModel.cellClicked)
+            .bind(to: viewModel.itemSelected)
             .disposed(by: disposeBag)
     }
     

@@ -81,6 +81,10 @@ class MagnetListView: UICollectionView {
                 self?.setContentOffset(CGPoint(x: 0, y: sectionOriginY[indexPath.row]), animated: true)
             }
             .disposed(by: disposeBag)
+        
+        self.rx.itemSelected
+            .bind(to: viewModel.itemSelected)
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {

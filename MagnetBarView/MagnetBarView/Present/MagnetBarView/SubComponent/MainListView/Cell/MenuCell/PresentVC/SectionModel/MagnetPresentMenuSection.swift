@@ -5,14 +5,13 @@
 //  Created by 김기림 on 2022/05/01.
 //
 
-import Foundation
+import UIKit
 import RxDataSources
 
 enum SelectType: Equatable {
     case mustOne
     case custom(min: Int, max: Int)
 }
-
 
 ///After Refactoring
 enum PresentMenuSectionModel {
@@ -31,8 +30,9 @@ struct PresentMenuItem: PresentMenuSectionItem {
 }
 
 struct PresentMenuTitleItem: PresentMenuSectionItem {
-    var imageUrl: String?
+    var image: UIImage?
     var mainTitle: String
+    var description: String?
 }
 
 struct PresentSelectCountItem: PresentMenuSectionItem {

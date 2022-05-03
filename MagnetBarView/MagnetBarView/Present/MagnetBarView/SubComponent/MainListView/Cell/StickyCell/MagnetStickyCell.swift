@@ -11,6 +11,7 @@ import Reusable
 
 class MagnetStickyCell: UICollectionViewCell, Reusable {
     private let stickyHeaderView = RemoteMainListBar()
+    private var flag: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,7 +24,10 @@ class MagnetStickyCell: UICollectionViewCell, Reusable {
     }
     
     func bind(_ viewModel: RemoteMainListBarViewModel) {
-        self.stickyHeaderView.bind(viewModel)
+        if (flag == false) {
+            flag = true
+            self.stickyHeaderView.bind(viewModel)
+        }
     }
     
     private func attribute() {

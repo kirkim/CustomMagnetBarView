@@ -17,6 +17,7 @@ struct MagnetBarViewModel {
     
     // viewModel -> View
     let presentReviewVC: Signal<MagnetReviewVC>
+    let presentMenuVC: Signal<MagnetPresentMenuVC>
     let stickyHeaderOn: Signal<Bool>
     
     init() {
@@ -31,6 +32,7 @@ struct MagnetBarViewModel {
             .disposed(by: disposeBag)
         
         presentReviewVC = mainListViewModel.presentReviewVC
+        presentMenuVC = mainListViewModel.presentMenuVC.asSignal()
         
         stickyHeaderOn = mainListViewModel.stickyHeaderOn.asSignal()
         

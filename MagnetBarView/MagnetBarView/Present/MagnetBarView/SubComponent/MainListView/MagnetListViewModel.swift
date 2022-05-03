@@ -7,6 +7,7 @@
 
 import UIKit
 import RxCocoa
+import RxSwift
 import RxDataSources
 
 class MagnetListViewModel {
@@ -18,24 +19,20 @@ class MagnetListViewModel {
     let scrollEvent = PublishRelay<(CGFloat, CGFloat)>()
     let stickyHeaderOn = PublishRelay<Bool>()
     let changeSection = PublishRelay<Int>()
+    let itemSelected = PublishRelay<IndexPath>()
     
     // ViewModel -> ParentViewModel
     let presentReviewVC: Signal<MagnetReviewVC>
+    let presentMenuVC = PublishRelay<MagnetPresentMenuVC>()
     
     let data: [MagnetSectionModel]
     
     private let httpModel = HttpModel.shared
     private let mainTitle: String
-    //////////
-    // View -> ViewModel
-//    let pageChanging = PublishRelay<Int>()
-    
-    // ViewModel -> View
-    //    let scrolledPage: Signal<IndexPath>
+    private let disposeBag = DisposeBag()
     
     // TabBarView -> ViewModel -> View
     let slotChanged = PublishRelay<IndexPath>()
-    ////////
     
     private var MenuImageStorage: [IndexPath : UIImage] = [:]
     
@@ -49,6 +46,11 @@ class MagnetListViewModel {
                 return MagnetReviewVC(row: row)
             }
             .asSignal()
+        
+        self.itemSelected
+            .map { MagnetPresentMenuVC(indexPath: $0, image: self.MenuImageStorage[$0]) }
+            .bind(to: presentMenuVC)
+            .disposed(by: disposeBag)
     }
 
     func dataSource() -> RxCollectionViewSectionedReloadDataSource<MagnetSectionModel> {
@@ -74,9 +76,9 @@ class MagnetListViewModel {
                 case .SectionMenu(header: _, items: let items):
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetMenuCell.self)
                     
-                    let image = self.makeMenuImage(indexPath: indexPath, url: items[indexPath.row].thumbnail ?? "")
+                    let image = self.makeMenuImage(indexPath: indexPath, url: items[indexPath.row].thumbnail )
                     
-                    cell.setData(indexPath: indexPath, data: items[indexPath.row], image: image)
+                    cell.setData(data: items[indexPath.row], image: image)
                     return cell
                 }
             })

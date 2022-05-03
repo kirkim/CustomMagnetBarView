@@ -9,12 +9,30 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+struct OptionMenu: Codable {
+    let title: String
+    var price: Int?
+}
+
+struct OptionSection: Codable {
+    let title: String
+    var min: Int?
+    var max: Int?
+    let optionMenu: [OptionMenu]
+}
+
+struct MenuDetail: Codable {
+    var description: String?
+    let optionSection: [OptionSection]
+}
+
 struct Menu: Codable {
-    let menuCode: Int
+    let menuCode: String
     let menuName: String
     let description: String
     let menuPhotoUrl: String
     let price: Int
+    let menuDetail: MenuDetail
 }
 
 struct MenuSection: Codable {
@@ -47,6 +65,7 @@ class MagnetBarHttpModel {
     let navData = PublishRelay<[String]>()
     var menuTotalCount: Int?
     var storeCode: String?
+    var minPrice: Int?
     
     func loadData(code: String, completion: @escaping () -> ()) {
         httpManager.getFetch(type: .detailStore(storeCode: code))
@@ -59,6 +78,7 @@ class MagnetBarHttpModel {
                         self?.storeCode = dataModel.code
                         self?.mainTitle = dataModel.storeName
                         self?.bannerPhotoUrl = dataModel.bannerPhotoUrl
+                        self?.minPrice = dataModel.minPrice
                         var data = [
                             MagnetSectionModel.SectionBanner(items: [BannerItem(imageUrl: dataModel.bannerPhotoUrl, mainTitle: dataModel.storeName)]),
                             MagnetSectionModel.SectionInfo(items: [InfoItem(deliveryPrice: dataModel.deliveryPrice, minPrice: dataModel.minPrice, address: dataModel.address, storeCode: dataModel.code)])
@@ -73,7 +93,7 @@ class MagnetBarHttpModel {
                             var items: [MenuItem] = []
                             section.menu.forEach { menu in
                                 menuCount += 1
-                                items.append(MenuItem(title: menu.menuName, description: menu.description, price: menu.price, thumbnail: menu.menuPhotoUrl))
+                                items.append(MenuItem(menuCode: menu.menuCode, title: menu.menuName, description: menu.description, price: menu.price, thumbnail: menu.menuPhotoUrl, menuDetail: menu.menuDetail))
                             }
                             data.append(MagnetSectionModel.SectionMenu(header: section.title, items: items))
                         }
@@ -132,5 +152,36 @@ class MagnetBarHttpModel {
             return ""
         }
         return storeCode
+    }
+    
+    func getMenuCode(indexPath: IndexPath) -> String {
+        guard let data = data,
+              let menuData = data[indexPath.section].items as? [MenuItem] else {
+            return ""
+        }
+        return menuData[indexPath.row].menuCode
+    }
+    
+    func getMenuDetail(indexPath: IndexPath) -> MenuDetail? {
+        guard let data = data,
+              let menuData = data[indexPath.section].items as? [MenuItem] else {
+            return nil
+        }
+        return menuData[indexPath.row].menuDetail
+    }
+    
+    func getMinPrice() -> Int {
+        guard let minPrice = minPrice else {
+            return 0
+        }
+        return minPrice
+    }
+    
+    func getMenuTitle(indexPath: IndexPath) -> String {
+        guard let data = data,
+              let menuData = data[indexPath.section].items as? [MenuItem] else {
+            return ""
+        }
+        return menuData[indexPath.row].title
     }
 }

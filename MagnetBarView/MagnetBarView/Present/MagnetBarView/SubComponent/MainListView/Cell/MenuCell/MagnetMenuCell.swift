@@ -10,11 +10,11 @@ import UIKit
 import Reusable
 
 class MagnetMenuCell: UICollectionViewCell, Reusable {
+    var code: String = ""
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let priceLabel = UILabel()
     private let thumbnailView = UIImageView()
-    private var MenuImageStorage: [IndexPath : UIImage] = [:]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,10 +38,11 @@ class MagnetMenuCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .white
     }
     
-    func setData(indexPath: IndexPath, data: MenuItem, image: UIImage) {
+    func setData(data: MenuItem, image: UIImage) {
         self.titleLabel.text = data.title
         self.descriptionLabel.text = data.description
-        self.priceLabel.text = data.price?.parsingToKoreanPrice()
+        self.priceLabel.text = data.price.parsingToKoreanPrice()
+        self.code = data.menuCode
 
         self.thumbnailView.image = image
     }

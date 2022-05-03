@@ -25,18 +25,23 @@ class MagnetPresentMainTitleCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setData(image: UIImage?, title: String, description: String?) {
+        self.titleLabel.text = title
+        self.descriptionLabel.text = description ?? ""
+        mainPhotoView.image = image ?? UIImage(systemName: "x.circle")!
+    }
+    
     private func attribute() {
         self.backgroundColor = .white
         //Temp
         headerLayer.backgroundColor = .white
-        mainPhotoView.image = UIImage(named: "review1")
         
-        titleLabel.text = "[가성비갑]모듬초밥10p"
+        
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 23, weight: .medium)
         titleLabel.numberOfLines = 1
         
-        descriptionLabel.text = "초밥 재료는 그날 재료에 따라 달라집니다\n찜&후기약속 꼭 해주세요~~~~"
+//        descriptionLabel.text = "초밥 재료는 그날 재료에 따라 달라집니다\n찜&후기약속 꼭 해주세요~~~~"
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = .systemFont(ofSize: 16, weight: .light)
         descriptionLabel.numberOfLines = 0

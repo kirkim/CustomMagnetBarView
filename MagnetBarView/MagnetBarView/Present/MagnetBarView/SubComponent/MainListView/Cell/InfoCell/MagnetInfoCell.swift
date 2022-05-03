@@ -11,6 +11,7 @@ import Reusable
 
 class MagnetInfoCell: UICollectionViewCell, Reusable {
     private let infoView = MagnetInfoView()
+    private var flag: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,7 +24,10 @@ class MagnetInfoCell: UICollectionViewCell, Reusable {
     }
     
     func bind(_ viewModel: MagnetInfoViewModel) {
-        self.infoView.bind(viewModel)
+        if (flag == false) {
+            flag = true
+            self.infoView.bind(viewModel)
+        }
     }
     
     private func attribute() {

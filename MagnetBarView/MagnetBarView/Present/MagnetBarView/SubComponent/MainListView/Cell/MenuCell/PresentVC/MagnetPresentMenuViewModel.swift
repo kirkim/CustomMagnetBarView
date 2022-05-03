@@ -19,6 +19,9 @@ struct SelectChecker {
             return true
         case .custom(let min, let max):
             let cellCount = selectCells.count
+            if (cellCount >= min && max == 0) {
+                return true
+            }
             if (cellCount >= min && cellCount <= max) {
                 return true
             } else {
@@ -65,6 +68,7 @@ class MagnetPresentMenuViewModel {
     
     //View -> ViewModel
     let itemSelect = PublishRelay<(IndexPath, UICollectionView)>()
+    let validateSubmitButton = BehaviorRelay<Int>(value: 0)
     
     //ViewModel -> View
     let warningAlert = PublishRelay<String>()
@@ -74,36 +78,17 @@ class MagnetPresentMenuViewModel {
     private var selectChecker:[SelectChecker] = []
     private var initMustOneCell: [Int] = []
     
-    let data:[PresentMenuSectionModel] = [
-        PresentMenuSectionModel.SectionMainTitle(items: [PresentMenuTitleItem(imageUrl: nil, mainTitle: "hi")]),
-        PresentMenuSectionModel.SectionMenu(header: "가격", selecType: .mustOne, items: [
-            PresentMenuItem(title: "소", price: 13000),
-            PresentMenuItem(title: "중", price: 16000),
-            PresentMenuItem(title: "대", price: 20000),
-            PresentMenuItem(title: "특대", price: 30000),
-        ]),
-        PresentMenuSectionModel.SectionMenu(header: "사리추가", selecType: .custom(min: 0, max: 3), items: [
-            PresentMenuItem(title: "라면사리", price: 1000),
-            PresentMenuItem(title: "우동사리", price: 2000),
-            PresentMenuItem(title: "중국당면", price: 3000),
-            PresentMenuItem(title: "치즈사리", price: 2500),
-            PresentMenuItem(title: "깻잎추가", price: 1500),
-            PresentMenuItem(title: "돈까스토핑추가", price: 5500),
-        ]),
-        PresentMenuSectionModel.SectionMenu(header: "서비스", selecType: .custom(min: 1, max: 2), items: [
-            PresentMenuItem(title: "콜라", price: 0),
-            PresentMenuItem(title: "사이다", price: 0),
-            PresentMenuItem(title: "제로콜라", price: 0),
-            PresentMenuItem(title: "트레비", price: 0),
-        ]),
-        PresentMenuSectionModel.SectionSelectCount(items: [PresentSelectCountItem(title: "s")]),
-    ]
+    let data:[PresentMenuSectionModel]
+    let title: String
     
-    init() {
+    init(model: MagnetPresentMenuModel) {
+        self.data = model.data
+        self.title = model.title
         let totalPrice = inputPrice.scan(0, accumulator: { a, b in
             return a + b
         })
         
+        // 최종 가격 결정 옵저버
         Observable
             .combineLatest(totalPrice, countSelectViewModel.totalCount.asObservable()) { a, b in
                 return a * b
@@ -121,7 +106,7 @@ class MagnetPresentMenuViewModel {
             case .SectionMenu(header: _, selecType: let selectType, items: let items):
                 self.selectChecker.append(SelectChecker(selectType: selectType, selectCells: []))
                 if (selectType == .mustOne) {
-                    self.inputPrice.accept(items[0].price!) // 초기에 자동선택되어있는 아이템이므로 값을 추가해준다
+                    self.inputPrice.accept(items[0].price ?? 0) // 초기에 자동선택되어있는 아이템이므로 값을 추가해준다
                     self.initMustOneCell.append(i)
                 }
             case .SectionMainTitle(items: _):
@@ -157,16 +142,23 @@ class MagnetPresentMenuViewModel {
             }
             .disposed(by: disposeBag)
         
-        itemSelect.bind { _, _ in
-            var canSubmit: Bool = true
-            self.selectChecker.forEach { checker in
-                if (checker.isValid == false) {
-                    canSubmit = false
+        // 제출버튼 유효성 검사
+        itemSelect.map { _ in 1 }
+            .bind(to: validateSubmitButton)
+            .disposed(by: disposeBag)
+        
+        validateSubmitButton
+            .bind {_ in
+                var canSubmit: Bool = true
+                self.selectChecker.forEach { checker in
+                    if (checker.isValid == false) {
+                        canSubmit = false
+                    }
                 }
+                self.submitTapViewModel.canSubmit.accept(canSubmit)
             }
-            self.submitTapViewModel.canSubmit.accept(canSubmit)
-        }
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
+        
     }
     
     func manageOnlyOneSelectSection(collectionView: UICollectionView, indexPath: IndexPath) {
@@ -192,9 +184,10 @@ class MagnetPresentMenuViewModel {
         let dataSource = RxCollectionViewSectionedReloadDataSource<PresentMenuSectionModel>(
             configureCell: { dataSource, collectionView, indexPath, item in
                 switch dataSource[indexPath.section] {
-                case .SectionMainTitle(items: let item):
+                case .SectionMainTitle(items: let items):
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetPresentMainTitleCell.self)
-                    
+                    let item = items[indexPath.row]
+                    cell.setData(image: item.image, title: item.mainTitle, description: item.description)
                     return cell
                 case .SectionMenu(header: _, selecType: _, items: let items):
                     let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: MagnetPresentMenuCell.self)

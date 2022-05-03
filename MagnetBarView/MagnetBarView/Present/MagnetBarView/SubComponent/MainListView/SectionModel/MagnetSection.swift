@@ -42,10 +42,12 @@ struct InfoItem: MagnetSectionItem {
 }
 
 struct MenuItem: MagnetSectionItem {
-    var title: String?
+    var menuCode: String
+    var title: String
     var description: String?
-    var price: Int?
-    var thumbnail: String?
+    var price: Int
+    var thumbnail: String
+    var menuDetail: MenuDetail
 }
 
 struct BannerItem: MagnetSectionItem {

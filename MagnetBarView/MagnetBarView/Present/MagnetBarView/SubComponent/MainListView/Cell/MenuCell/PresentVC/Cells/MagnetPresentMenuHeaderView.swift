@@ -30,12 +30,13 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
             break;
         case .custom(min: let min, max: let max):
             let maxValue = max <= itemCount ? max : itemCount
-            var minValue = min < 0 ? 0 : min
-            minValue = minValue > maxValue ? maxValue : minValue
-            if (minValue == 0) {
-                self.checkCountLabel.text = "[최대 \(maxValue)개까지 선택가능]"
+            let minValue = min < 0 ? 0 : min
+            if (maxValue == 0) {
+                self.checkCountLabel.text = "[최소 \(maxValue)개이상 선택]"
+            } else if (minValue == 0) {
+                self.checkCountLabel.text = "[최대 \(maxValue)개까지 선택]"
             } else {
-                self.checkCountLabel.text = "[최소 \(minValue)개 이상, \(maxValue)개까지 선택가능]"
+                self.checkCountLabel.text = "[최소 \(minValue)개 이상, \(maxValue)개까지 선택]"
             }
         }
     }
@@ -43,7 +44,6 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
     private func attribute() {
         self.backgroundColor = .white
         //Temp
-        self.titleLabel.text = "가격"
         self.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         self.checkCountLabel.font = .systemFont(ofSize: 18, weight: .light)
     }

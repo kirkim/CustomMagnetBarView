@@ -15,11 +15,14 @@ class MagnetPresentMenuVC: UIViewController {
     
     private let sectionManager = MagnetPresentMenuSectionManager()
     private let disposeBag = DisposeBag()
-    private let viewModel =  MagnetPresentMenuViewModel()
+    private let viewModel: MagnetPresentMenuViewModel
+    private let model: MagnetPresentMenuModel
     
     private let popupLabel = PopupLabel()
     
-    init() {
+    init(indexPath: IndexPath, image: UIImage?) {
+        self.model = MagnetPresentMenuModel(indexPath: indexPath, image: image)
+        self.viewModel = MagnetPresentMenuViewModel(model: self.model)
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
@@ -36,10 +39,12 @@ class MagnetPresentMenuVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    private func bind(_ viewModel: MagnetPresentMenuViewModel = MagnetPresentMenuViewModel()) {
+    private func bind(_ viewModel: MagnetPresentMenuViewModel) {
+        self.title = viewModel.title
         self.collectionView.collectionViewLayout = viewModel.createLayout()
         self.submitView.bind(viewModel.submitTapViewModel)
         let dataSource = viewModel.dataSource()
+        
         Observable.just(viewModel.data)
             .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -83,13 +88,10 @@ class MagnetPresentMenuVC: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
-            
-
     }
     
     private func attribute() {
         self.popupLabel.isHidden = true
-        self.title = "[가성비갑]모듬초밥10p"
         self.collectionView.backgroundColor = .systemGray4
         self.collectionView.contentInsetAdjustmentBehavior = .never
         self.collectionView.register(cellType: MagnetPresentMainTitleCell.self)

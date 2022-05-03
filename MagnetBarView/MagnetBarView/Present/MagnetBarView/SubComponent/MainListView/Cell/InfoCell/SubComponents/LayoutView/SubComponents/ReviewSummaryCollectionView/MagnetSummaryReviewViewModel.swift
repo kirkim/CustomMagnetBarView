@@ -15,13 +15,13 @@ enum MagnetInfoCellType {
 
 struct MagnetSummaryReviewViewModel {
     // View -> ViewModel
-    let cellClicked = PublishRelay<Int?>()
+    let itemSelected = PublishRelay<Int?>()
     
     // ViewMoel -> ParentViewModel
     let popVC: Signal<Int?>
     
     init() {
-        popVC = cellClicked
+        popVC = itemSelected
             .asSignal(onErrorJustReturn: nil)
     }
 }
