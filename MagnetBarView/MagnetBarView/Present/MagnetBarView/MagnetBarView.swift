@@ -82,7 +82,7 @@ class MagnetBarView: UIViewController {
     }
     
     private func attribute() {
-
+        self.navigationItem.backButtonTitle = ""
         mainNavigationBar.layer.shadowColor = UIColor.black.cgColor
         mainNavigationBar.layer.masksToBounds = false  // 내부에 속한 요소들이 UIView 밖을 벗어날 때, 잘라낼 것인지. 그림자는 밖에 그려지는 것이므로 false 로 설정
         mainNavigationBar.layer.shadowOffset = CGSize(width: 0, height: 3)

@@ -20,6 +20,8 @@ class MagnetPresentMenuVC: UIViewController {
     
     private let popupLabel = PopupLabel()
     
+    private let navigationBarAppearace = UINavigationBarAppearance()
+    
     init(indexPath: IndexPath, image: UIImage?) {
         self.model = MagnetPresentMenuModel(indexPath: indexPath, image: image)
         self.viewModel = MagnetPresentMenuViewModel(model: self.model)
@@ -32,15 +34,14 @@ class MagnetPresentMenuVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     private func bind(_ viewModel: MagnetPresentMenuViewModel) {
-        self.title = viewModel.title
         self.collectionView.collectionViewLayout = viewModel.createLayout()
         self.submitView.bind(viewModel.submitTapViewModel)
         let dataSource = viewModel.dataSource()
@@ -56,13 +57,14 @@ class MagnetPresentMenuVC: UIViewController {
             .share()
         
         scrollEvent.bind { offsetY in
-            if (offsetY >= MagnetBarViewMath.windowWidth - 200) {
-                let alphaValue = MagnetBarViewMath.windowWidth - 200
-                self.navigationController?.navigationBar.isHidden = false
-                self.navigationController?.navigationBar.alpha = (offsetY - alphaValue)/100
+            if (offsetY <= MagnetBarViewMath.windowWidth - 100) {
+                self.navigationBarAppearace.configureWithTransparentBackground()
+                self.title = ""
             } else {
-                self.navigationController?.navigationBar.isHidden = true
+                self.navigationBarAppearace.configureWithDefaultBackground()
+                self.title = viewModel.title
             }
+            self.navigationController?.navigationBar.standardAppearance = self.navigationBarAppearace
         }
         .disposed(by: disposeBag)
         

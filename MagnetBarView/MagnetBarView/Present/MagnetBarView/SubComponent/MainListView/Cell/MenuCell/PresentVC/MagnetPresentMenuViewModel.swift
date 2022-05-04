@@ -45,7 +45,7 @@ struct SelectChecker {
         case .mustOne:
             return true
         case .custom(_, let max):
-            if (selectCells.count < max) {
+            if (selectCells.count < max || max == 0) {
                 return true
             }
             return false
@@ -197,6 +197,7 @@ class MagnetPresentMenuViewModel {
                         if let index = self.initMustOneCell.firstIndex(of: indexPath.section) {
                             self.initMustOneCell.remove(at: index)
                         }
+                        self.selectChecker[indexPath.section].add(row: indexPath.row)
                         cell.clickedItem()
                     }
                     cell.setData(data: items[indexPath.row])

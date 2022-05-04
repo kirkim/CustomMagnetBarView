@@ -29,10 +29,14 @@ class MagnetPresentMenuHeaderView: UICollectionReusableView, Reusable {
         case .mustOne:
             break;
         case .custom(min: let min, max: let max):
-            let maxValue = max <= itemCount ? max : itemCount
+            let maxValue = max < itemCount ? max : 0
             let minValue = min < 0 ? 0 : min
             if (maxValue == 0) {
-                self.checkCountLabel.text = "[최소 \(maxValue)개이상 선택]"
+                if (minValue == 0) {
+                    self.checkCountLabel.text = "[여러개 선택 가능]"
+                } else {
+                    self.checkCountLabel.text = "[최소 \(minValue)개이상 선택]"
+                }
             } else if (minValue == 0) {
                 self.checkCountLabel.text = "[최대 \(maxValue)개까지 선택]"
             } else {

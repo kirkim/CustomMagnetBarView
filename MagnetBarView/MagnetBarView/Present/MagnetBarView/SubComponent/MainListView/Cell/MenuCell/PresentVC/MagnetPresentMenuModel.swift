@@ -8,7 +8,7 @@
 import UIKit
 
 struct MagnetPresentMenuModel {
-    private let httpManager = MagnetBarHttpModel.shared
+    private let httpManager = HttpModel.shared
     var data:[PresentMenuSectionModel] = []
     let title: String
     
