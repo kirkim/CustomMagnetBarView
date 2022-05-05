@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 class TotalBannerListCell: UICollectionViewCell {
-    
     private let thumbNail = UIImageView()
     
     override init(frame: CGRect) {
@@ -44,8 +43,29 @@ class TotalBannerListCell: UICollectionViewCell {
         }
     }
     
-    func setData(imageName: String) {
+    func setData(imageData: BeminCellImage) {
+        switch imageData {
+        case .storedImage(name: let name):
+            self.setImageName(imageName: name)
+        case .urlImage(url: let url):
+            self.setImageUrl(imageUrl: url)
+        }
+    }
+    
+    private func setImageName(imageName: String) {
         let image = UIImage(named: imageName)
         self.thumbNail.image = image
     }
+    
+    private func setImageUrl(imageUrl: String) {
+        DispatchQueue.global().async {
+            let url = URL(string: imageUrl)
+            let data = try? Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                let image = UIImage(data: data!)
+                self.thumbNail.image = image
+            }
+        }
+    }
+
 }

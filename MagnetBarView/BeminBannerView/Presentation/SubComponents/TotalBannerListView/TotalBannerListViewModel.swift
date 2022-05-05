@@ -8,11 +8,6 @@
 import UIKit
 import RxCocoa
 
-struct TotalBannerListData {
-    let cellImage: String
-    let presentVC: UIViewController
-}
-
 struct TotalBannerListViewModel {
     let cellDataSource: Driver<[TotalBannerListData]>
     

@@ -21,7 +21,7 @@ class MagnetPresentMenuVC: UIViewController {
     private let popupLabel = PopupLabel()
     
     private let navigationBarAppearace = UINavigationBarAppearance()
-    
+
     init(indexPath: IndexPath, image: UIImage?) {
         self.model = MagnetPresentMenuModel(indexPath: indexPath, image: image)
         self.viewModel = MagnetPresentMenuViewModel(model: self.model)

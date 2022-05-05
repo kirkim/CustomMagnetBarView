@@ -13,7 +13,7 @@ import RxSwift
 
 class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
     private let checkPhotoButton = UIButton()
-    private let sortLabel = UILabel()
+    private let sortButton = UIButton()
     private let disposeBag = DisposeBag()
     private var flag:Bool = false
     
@@ -43,13 +43,22 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
                 }
                 .bind(to: viewModel.hasPhoto)
                 .disposed(by: disposeBag)
+            
+            sortButton.rx.tap
+                .bind(to: viewModel.sortButtonTapped)
+                .disposed(by: disposeBag)
+            
+            viewModel.selectedSortType
+                .bind { self.sortButton.setTitle($0.title, for: .normal) }
+                .disposed(by: disposeBag)
         }
     }
     
     private func attribute() {
         self.contentView.backgroundColor = .white
-        self.sortLabel.font = .systemFont(ofSize: 20, weight: .medium)
-        self.sortLabel.text = "최신순  "
+//        self.sortButton.font = .systemFont(ofSize: 20, weight: .medium)
+        self.sortButton.setTitle("최신순", for: .normal)
+        self.sortButton.setTitleColor(.black, for: .normal)
         self.checkPhotoButton.setTitle("포토리뷰", for: .normal)
         self.checkPhotoButton.setTitleColor(.systemBlue, for: .normal)
         self.checkPhotoButton.setTitleColor(.black, for: .selected)
@@ -58,7 +67,7 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
     }
     
     private func layout() {
-        [checkPhotoButton, sortLabel].forEach {
+        [checkPhotoButton, sortButton].forEach {
             self.contentView.addSubview($0)
         }
         
@@ -67,9 +76,9 @@ class MagnetReviewHeaderCell: UITableViewHeaderFooterView, Reusable {
             $0.leading.equalTo(self.contentView).offset(20)
         }
         
-        sortLabel.snp.makeConstraints {
+        sortButton.snp.makeConstraints {
             $0.top.equalTo(checkPhotoButton)
-            $0.trailing.equalTo(self.contentView).inset(20)
+            $0.trailing.equalTo(self.contentView).inset(30)
         }
     }
 }

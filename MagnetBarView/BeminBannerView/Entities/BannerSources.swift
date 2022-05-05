@@ -7,9 +7,14 @@
 
 import UIKit
 
+enum BeminCellImage {
+    case urlImage(url: String)
+    case storedImage(name: String)
+}
+
 struct BannerSource {
-    let bannerImageUrl: String
-    var totalViewCellImageName: String?
+    let bannerImage: BeminCellImage
+    var totalViewCellImage: BeminCellImage?
     let presentVC: UIViewController
 }
 
@@ -19,4 +24,9 @@ struct BannerSources {
     var subTitle: String = ""
     var totalViewCellRatio: CGFloat = 0
     let sources: [BannerSource]
+}
+
+struct TotalBannerListData {
+    let cellImage: BeminCellImage
+    let presentVC: UIViewController
 }

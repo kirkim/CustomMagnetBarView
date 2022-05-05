@@ -32,7 +32,7 @@ class TotalBannerListView: UIViewController {
     func bind(_ viewModel: TotalBannerListViewModel) {
         viewModel.cellDataSource
             .drive(self.collectionView.rx.items(cellIdentifier: "TotalBannerListCell", cellType: TotalBannerListCell.self)) { row, data, cell in
-                cell.setData(imageName: data.cellImage)
+                cell.setData(imageData: data.cellImage)
             }
             .disposed(by: disposeBag)
                 

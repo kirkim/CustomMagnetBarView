@@ -21,16 +21,18 @@ class BeminBannerViewModel {
     // ViewModel -> View
     let presentVC = PublishRelay<UIViewController>()
     let totalPageCount: Int
+    let bannerButtonType: BannerButtonType?
     
     init(data: BannerSources) {
-        let bannerImageNames = data.sources.map { $0.bannerImageUrl }
+        self.bannerButtonType = data.bannerType
+        let bannerImage = data.sources.map { $0.bannerImage }
         totalPageCount = data.sources.count
-        self.bannerListViewModel = BeminBannerListViewModel(bannerImageNames: bannerImageNames)
+        self.bannerListViewModel = BeminBannerListViewModel(bannerImage: bannerImage)
         self.buttonViewModel = BeminBannerButtonViewModel(type: data.bannerType,nowPage: bannerListViewModel.nowPage, totalPageCount: totalPageCount)
         
         if (data.bannerType == .event) {
             let totalBannerListData = data.sources.map { source -> TotalBannerListData in
-                let totalViewCellImageName = source.totalViewCellImageName != nil ? source.totalViewCellImageName! : source.bannerImageUrl
+                let totalViewCellImageName = source.totalViewCellImage != nil ? source.totalViewCellImage! : BeminCellImage.storedImage(name: "")
                 return TotalBannerListData(cellImage: totalViewCellImageName, presentVC: source.presentVC)
             }
             self.totalBannerListViewModel = TotalBannerListViewModel(data: totalBannerListData)

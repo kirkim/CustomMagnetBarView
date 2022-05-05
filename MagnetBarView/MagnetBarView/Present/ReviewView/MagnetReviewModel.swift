@@ -15,8 +15,10 @@ class MagnetReviewModel {
     private let disposeBag = DisposeBag()
     private let httpManager = MagnetReviewHttpManager.shared
     private var reviewImageStorage: [String : UIImage] = [:]
+    let storeName: String
     
     init() {
+        storeName = httpManager.storeName
     }
     
     func makeReviewImage(index: Int, url: String?) -> UIImage? {
@@ -35,13 +37,38 @@ class MagnetReviewModel {
         }
     }
     
-    func getData(hasPhoto: Bool) -> [MagnetReviewSectionModel] {
+    func getData(hasPhoto: Bool, sortType: ReViewSortType) -> [MagnetReviewSectionModel] {
         guard let totalRatingData = self.httpManager.totalRatingData,
               let reviewData = self.httpManager.reviewData else { return [] }
-        guard hasPhoto == true else { return [totalRatingData, reviewData] }
-        let items = (reviewData.items as! [ReviewItem]).filter { item in
+        var items = (reviewData.items as! [ReviewItem])
+        items.sort(by: sortLatest(a:b:))
+        switch sortType {
+        case .latestOrder:
+            break;
+        case .highStarRating:
+            items.sort(by: self.sortHighRating(a:b:))
+        case .lowStarRating:
+            items.sort(by: self.sortLowRating(a:b:))
+        }
+        
+        guard hasPhoto == true else { return [totalRatingData, MagnetReviewSectionModel.reviewSection(items: items)] }
+        
+        let photoItems = items.filter { item in
             return item.photoUrl != nil
         }
-        return [totalRatingData, MagnetReviewSectionModel.reviewSection(items: items)]
+        
+        return [totalRatingData, MagnetReviewSectionModel.reviewSection(items: photoItems)]
+    }
+    
+    func sortLatest(a: ReviewItem, b: ReviewItem) -> Bool {
+        return a.createAt > b.createAt
+    }
+    
+    func sortHighRating(a: ReviewItem, b: ReviewItem) -> Bool {
+        return a.rating > b.rating
+    }
+    
+    func sortLowRating(a: ReviewItem, b: ReviewItem) -> Bool {
+        return a.rating < b.rating
     }
 }

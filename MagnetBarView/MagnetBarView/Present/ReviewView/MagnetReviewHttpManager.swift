@@ -16,14 +16,16 @@ struct ReviewJSONData: Codable {
 
 class MagnetReviewHttpManager {
     static let shared = MagnetReviewHttpManager()
-    private init() { }
+    private init() {
+        storeName = storeHttpManager.getStoreName()
+    }
     
     private let httpmanager = DeliveryHttpManager.shared
-    private let storeHttpManager = MagnetBarHttpModel.shared
+    private let storeHttpManager = HttpModel.shared
     private let disposeBag = DisposeBag()
     var reviewData: MagnetReviewSectionModel?
     var totalRatingData: MagnetReviewSectionModel?
-    
+    let storeName: String
     
     func load(completion: @escaping () -> ()) {
         httpmanager.getFetch(type: .allReviews(storeCode: storeHttpManager.getStoreCode()))

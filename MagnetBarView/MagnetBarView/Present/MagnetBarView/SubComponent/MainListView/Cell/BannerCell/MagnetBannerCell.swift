@@ -10,7 +10,7 @@ import UIKit
 import Reusable
 
 class MagnetBannerCell: UICollectionViewCell, Reusable {
-    private let httpManager = MagnetBarHttpModel.shared
+    private let httpManager = HttpModel.shared
     private let banner: BeminBannerView
     private let headerView = MagnetHeaderView()
     private var flag: Bool = false
@@ -18,7 +18,7 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
     override init(frame: CGRect) {
         var bannerSources:[BannerSource] = []
         httpManager.getBannerImageUrls().forEach { imageUrl in
-            bannerSources.append(BannerSource(bannerImageUrl: imageUrl, presentVC: UIViewController()))
+            bannerSources.append(BannerSource(bannerImage: BeminCellImage.urlImage(url: imageUrl), presentVC: UIViewController()))
         }
         self.banner = BeminBannerView(
             data: BannerSources(
@@ -58,6 +58,10 @@ class MagnetBannerCell: UICollectionViewCell, Reusable {
             $0.leading.top.trailing.equalToSuperview()
             $0.height.equalTo(MagnetBarViewMath.windowWidth*8/13)
         }
+        let windowWidth = MagnetBarViewMath.windowWidth
+        let buttonWidth = 60.0
+        let buttonheight = 20.0
+        banner.setButtonFrame(frame: CGRect(x: windowWidth-buttonWidth-20 , y: windowWidth*(8/13)-120, width: buttonWidth, height: buttonheight))
         
         headerView.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-4)

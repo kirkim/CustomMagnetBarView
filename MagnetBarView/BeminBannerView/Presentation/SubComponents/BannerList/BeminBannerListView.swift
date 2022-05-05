@@ -50,7 +50,7 @@ class BeminBannerListView: UICollectionView {
     func bind(_ viewModel: BeminBannerListViewModel) {
         viewModel.cellImageName
             .drive(self.rx.items(cellIdentifier: "BeminBannerCell", cellType: BeminBannerCell.self)) { row, data, cell in
-                cell.setData(row: row, imageUrl: data)
+                cell.setData(imageData: data)
             }
             .disposed(by: disposeBag)
         

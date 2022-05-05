@@ -16,6 +16,10 @@ class MagnetReviewVC: UIViewController {
     private let disposeBag = DisposeBag()
     private let row: Int?
     private let viewModel = MagnetReviewViewModel()
+    private let pickerSortTypeView = PickSortTypeView()
+    
+    private let PICKERVIEW_HEIGHT = 200.0
+    private let tapBackgroundView = UIButton()
     
     init(row: Int?) {
         self.row = row
@@ -28,6 +32,10 @@ class MagnetReviewVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
+        let navigationBarAppearace = UINavigationBarAppearance()
+        navigationBarAppearace.backgroundColor = .white
+        self.navigationController?.navigationBar.standardAppearance = navigationBarAppearace
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,31 +50,66 @@ class MagnetReviewVC: UIViewController {
     }
     
     func bind() {
+        pickerSortTypeView.bind(viewModel.pickSortTypeViewModel)
         let dataSource = viewModel.dataSource()
         viewModel.data
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.movingSortTypeView
+            .bind { isPop in
+                if (isPop == true) {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.pickerSortTypeView.frame.origin.y = self.view.frame.height - self.PICKERVIEW_HEIGHT
+                    }, completion: { _ in
+                        self.tapBackgroundView.isHidden = false
+                    })
+                } else {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.tapBackgroundView.isHidden = true
+                        self.pickerSortTypeView.frame.origin.y = self.view.frame.height
+                    }, completion: nil)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        tapBackgroundView.rx.tap
+            .bind {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.tapBackgroundView.isHidden = true
+                    self.pickerSortTypeView.frame.origin.y = self.view.frame.height
+                }, completion: nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {
-        self.tableView.delegate = self
         self.view.backgroundColor = .white
+        self.title = "\(viewModel.storeName) 리뷰"
+        self.tableView.delegate = self
         let cellNib = UINib(nibName: "MagnetReviewCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "MagnetReviewCell")
         let noImageCellNib = UINib(nibName: "MagnetReviewNoImageCell", bundle: nil)
         tableView.register(noImageCellNib, forCellReuseIdentifier: "MagnetReviewNoImageCell")
         tableView.register(headerFooterViewType: MagnetReviewHeaderCell.self)
         tableView.register(cellType: MagnetReviewTotalRatingCell.self)
+        
+        self.tapBackgroundView.isHidden = true
+        self.tapBackgroundView.backgroundColor = .gray
     }
 
     private func layout() {
-        [tableView].forEach {
+        [tableView, pickerSortTypeView, tapBackgroundView].forEach {
             self.view.addSubview($0)
         }
         
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        pickerSortTypeView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: PICKERVIEW_HEIGHT)
+        
+        tapBackgroundView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height-PICKERVIEW_HEIGHT)
     }
 }
 

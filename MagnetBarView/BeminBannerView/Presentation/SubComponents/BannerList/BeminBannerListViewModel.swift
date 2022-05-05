@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 struct BeminBannerListViewModel {
-    let cellImageName: Driver<[String]>
+    let cellImageName: Driver<[BeminCellImage]>
     let nowPage = BehaviorSubject<Int>(value: 0)
     
     // View -> ViewModel
@@ -19,8 +19,8 @@ struct BeminBannerListViewModel {
     // ViewModel -> parentView
     let presentVC: Signal<IndexPath>
     
-    init(bannerImageNames: [String]) {
-        self.cellImageName = BehaviorSubject<[String]>(value: bannerImageNames)
+    init(bannerImage: [BeminCellImage]) {
+        self.cellImageName = BehaviorSubject<[BeminCellImage]>(value: bannerImage)
         .asDriver(onErrorJustReturn: [])
         
         presentVC = cellClicked

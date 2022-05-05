@@ -97,7 +97,8 @@ class MagnetInfoReviewCell: UICollectionViewCell, Reusable {
         
         ratingLabel.snp.makeConstraints {
             $0.leading.equalTo(reviewLabel)
-            $0.top.equalTo(reviewLabel.snp.bottom).offset(10)
+//            $0.top.equalTo(reviewLabel.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
 }

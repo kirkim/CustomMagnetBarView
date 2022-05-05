@@ -9,6 +9,16 @@ import RxCocoa
 import Foundation
 
 struct MagnetReviewHeaderCellViewModel {
+    
+    // View(MagnetReviewHeaderCell) -> ViewModel -> ParentViewModel
     let hasPhoto = BehaviorRelay<Bool>(value: true)
+    let sortButtonTapped = PublishRelay<Void>()
+    
+    // ParentViewModel -> ViewModel -> View
+    let selectedSortType = BehaviorRelay<ReViewSortType>(value: .latestOrder)
+    
+    init() {
+        
+    }
 }
 

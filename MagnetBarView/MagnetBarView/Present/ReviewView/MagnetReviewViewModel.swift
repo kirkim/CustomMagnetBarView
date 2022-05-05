@@ -13,18 +13,40 @@ import RxSwift
 class MagnetReviewViewModel {
     let model = MagnetReviewModel()
     let headerViewModel = MagnetReviewHeaderCellViewModel()
+    let pickSortTypeViewModel = PickSortTypeViewModel()
     let data = BehaviorRelay<[MagnetReviewSectionModel]>(value: [])
     
-    let disposeBag = DisposeBag()
+    // childViewModel -> ViewModel -> View
+    let movingSortTypeView = PublishRelay<Bool>()
+    
+    private let disposeBag = DisposeBag()
+    
+    let storeName: String
     
     init() {
+        storeName = model.storeName
+        let pickSortTypeButton = pickSortTypeViewModel.selectedSortType.share()
+        
         MagnetReviewHttpManager.shared.load {
-            self.headerViewModel.hasPhoto
+            Observable.combineLatest(self.headerViewModel.hasPhoto, self.pickSortTypeViewModel.selectedSortType) { ($0, $1) }
                 .map(self.model.getData)
                 .bind(to: self.data)
                 .disposed(by: self.disposeBag)
         }
+    
+        headerViewModel.sortButtonTapped
+            .map { true }
+            .bind(to: movingSortTypeView)
+            .disposed(by: disposeBag)
         
+        pickSortTypeButton
+            .bind(to: headerViewModel.selectedSortType)
+            .disposed(by: disposeBag)
+        
+        pickSortTypeButton
+            .map { _ in false }
+            .bind(to: self.movingSortTypeView)
+            .disposed(by: disposeBag)
     }
     
     func dataSource() -> RxTableViewSectionedReloadDataSource<MagnetReviewSectionModel> {
