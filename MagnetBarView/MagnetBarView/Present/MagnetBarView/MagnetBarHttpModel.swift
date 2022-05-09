@@ -80,7 +80,7 @@ class MagnetBarHttpModel {
                         self?.bannerPhotoUrl = dataModel.bannerPhotoUrl
                         self?.minPrice = dataModel.minPrice
                         var data = [
-                            MagnetSectionModel.SectionBanner(items: [BannerItem(imageUrl: dataModel.bannerPhotoUrl, mainTitle: dataModel.storeName)]),
+                            MagnetSectionModel.SectionBanner(items: [DetailBannerItem(imageUrl: dataModel.bannerPhotoUrl, mainTitle: dataModel.storeName)]),
                             MagnetSectionModel.SectionInfo(items: [InfoItem(deliveryPrice: dataModel.deliveryPrice, minPrice: dataModel.minPrice, address: dataModel.address, storeCode: dataModel.code)])
                         ]
                         var titles: [String] = []

@@ -48,14 +48,18 @@ class PickSortTypeView: UIStackView {
             .bind { type in
                 [self.latestOrderBtn, self.highStarRatingBtn, self.lowStarRatingBtn].forEach {
                     $0.backgroundColor = .white
+                    $0.setTitleColor(.black, for: .normal)
                 }
                 switch type {
                 case .latestOrder:
-                    self.latestOrderBtn.backgroundColor = .yellow
+                    self.latestOrderBtn.backgroundColor = .brown
+                    self.latestOrderBtn.setTitleColor(.white, for: .normal)
                 case .highStarRating:
-                    self.highStarRatingBtn.backgroundColor = .yellow
+                    self.highStarRatingBtn.backgroundColor = .brown
+                    self.highStarRatingBtn.setTitleColor(.white, for: .normal)
                 case .lowStarRating:
-                    self.lowStarRatingBtn.backgroundColor = .yellow
+                    self.lowStarRatingBtn.backgroundColor = .brown
+                    self.lowStarRatingBtn.setTitleColor(.white, for: .normal)
                 }
             }
             .disposed(by: disposeBag)
@@ -65,17 +69,18 @@ class PickSortTypeView: UIStackView {
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 20
         self.layer.masksToBounds = true
-        self.backgroundColor = .darkGray
+        self.backgroundColor = .systemGray5
         self.distribution = .fillEqually
         self.axis = .vertical
         self.spacing = 5
         self.addArrangedSubview(self.pickTitle)
         self.pickTitle.text = "리뷰정렬"
-        self.pickTitle.backgroundColor = .systemGray3
+        self.pickTitle.backgroundColor = .systemGray5
         self.pickTitle.font = .systemFont(ofSize: 25, weight: .bold)
         self.pickTitle.textAlignment = .center
         [latestOrderBtn, highStarRatingBtn, lowStarRatingBtn].forEach {
             $0.setTitleColor(.black, for: .normal)
+            $0.layer.cornerRadius = 10
             $0.backgroundColor = .white
             self.addArrangedSubview($0)
         }

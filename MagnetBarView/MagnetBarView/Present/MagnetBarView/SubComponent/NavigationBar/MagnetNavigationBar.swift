@@ -47,6 +47,10 @@ class MagnetNavigationBar: UIView {
             .disposed(by: disposeBag)
         
         self.titleLabel.text = viewModel.mainTitle
+        
+        backButton.rx.tap
+            .bind(to: viewModel.backButtonTapped)
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {        

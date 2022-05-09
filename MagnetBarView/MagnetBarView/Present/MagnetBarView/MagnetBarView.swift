@@ -79,6 +79,12 @@ class MagnetBarView: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        viewModel.backButtonTapped
+            .emit(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {

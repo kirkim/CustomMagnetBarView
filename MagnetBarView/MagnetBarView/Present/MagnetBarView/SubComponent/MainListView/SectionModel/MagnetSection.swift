@@ -24,7 +24,7 @@ extension MagnetSection: SectionModelType {
 
 ///After Refactoring
 enum MagnetSectionModel {
-    case SectionBanner(items: [BannerItem])
+    case SectionBanner(items: [DetailBannerItem])
     case SectionInfo(items: [InfoItem])
     case SectionSticky(items: [StrickyItem])
     case SectionMenu(header: String, items: [MenuItem])
@@ -50,7 +50,7 @@ struct MenuItem: MagnetSectionItem {
     var menuDetail: MenuDetail
 }
 
-struct BannerItem: MagnetSectionItem {
+struct DetailBannerItem: MagnetSectionItem {
     var imageUrl: [String]
     var mainTitle: String
 }

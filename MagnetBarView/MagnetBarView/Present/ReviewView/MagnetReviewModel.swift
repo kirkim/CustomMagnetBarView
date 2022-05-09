@@ -41,6 +41,7 @@ class MagnetReviewModel {
         guard let totalRatingData = self.httpManager.totalRatingData,
               let reviewData = self.httpManager.reviewData else { return [] }
         var items = (reviewData.items as! [ReviewItem])
+        
         items.sort(by: sortLatest(a:b:))
         switch sortType {
         case .latestOrder:

@@ -14,6 +14,7 @@ struct MagnetNavigationBarViewModel {
     
     // ViewModel -> View
     let transItem: Signal<(CGFloat, CGFloat)>
+    let backButtonTapped = PublishRelay<Void>()
     
     let mainTitle:String
     

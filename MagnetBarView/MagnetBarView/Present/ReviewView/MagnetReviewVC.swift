@@ -95,7 +95,7 @@ class MagnetReviewVC: UIViewController {
         tableView.register(cellType: MagnetReviewTotalRatingCell.self)
         
         self.tapBackgroundView.isHidden = true
-        self.tapBackgroundView.backgroundColor = .gray
+        self.tapBackgroundView.backgroundColor = .clear
     }
 
     private func layout() {

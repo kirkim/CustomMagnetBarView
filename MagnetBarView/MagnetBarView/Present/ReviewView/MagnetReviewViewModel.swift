@@ -28,7 +28,11 @@ class MagnetReviewViewModel {
         let pickSortTypeButton = pickSortTypeViewModel.selectedSortType.share()
         
         MagnetReviewHttpManager.shared.load {
-            Observable.combineLatest(self.headerViewModel.hasPhoto, self.pickSortTypeViewModel.selectedSortType) { ($0, $1) }
+            Observable.combineLatest(
+                self.headerViewModel.hasPhoto,
+                self.pickSortTypeViewModel.selectedSortType) {
+                    ($0, $1)
+                }
                 .map(self.model.getData)
                 .bind(to: self.data)
                 .disposed(by: self.disposeBag)

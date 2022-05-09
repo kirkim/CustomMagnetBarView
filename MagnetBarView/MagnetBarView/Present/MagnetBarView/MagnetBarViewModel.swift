@@ -19,8 +19,10 @@ struct MagnetBarViewModel {
     let presentReviewVC: Signal<MagnetReviewVC>
     let presentMenuVC: Signal<MagnetPresentMenuVC>
     let stickyHeaderOn: Signal<Bool>
+    let backButtonTapped: Signal<Void>
     
     init() {
+        backButtonTapped = mainNavigationBarViewModel.backButtonTapped.asSignal()
         self.stickyHeaderViewModel = mainListViewModel.stickyViewModel
         
         mainListViewModel.scrollEvent
